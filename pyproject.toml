@@ -1,0 +1,16 @@
+[project]
+name = "flight-analyst"
+version = "0.1.0"
+description = "Draft self-grading analyst for US DOT flight delays"
+requires-python = ">=3.11"
+dependencies = ["duckdb>=1.1.0,<2"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

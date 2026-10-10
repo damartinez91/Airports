@@ -218,3 +218,10 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Flight-delay downloads and local databases. Do not commit raw or processed data.
+data/
+*.duckdb
+*.duckdb.wal
+*.parquet
+*.csv

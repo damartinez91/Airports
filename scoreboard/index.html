@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flight delay analyst, draft scoreboard</title>
+<style>
+  :root { color-scheme: light; }
+  body { margin: 0; background: #f4f1ea; color: #1c1915; font: 18px/1.45 "Iowan Old Style", Palatino, Georgia, serif; }
+  main { max-width: 1100px; margin: 0 auto; padding: 40px 24px 80px; }
+  h1 { font-weight: 600; font-size: 34px; letter-spacing: -0.02em; margin-bottom: 8px; }
+  h2 { font-size: 22px; margin-top: 36px; }
+  .banner { background: #efe6d2; border: 1px solid #d9cba8; padding: 12px 14px; margin: 18px 0 28px; }
+  .overall { font-size: 64px; line-height: 1; margin: 8px 0; font-variant-numeric: tabular-nums; }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .cards section { background: white; border: 1px solid #e2dccd; padding: 12px 14px; }
+  .big { font-size: 28px; margin: 4px 0; font-variant-numeric: tabular-nums; }
+  table { width: 100%; border-collapse: collapse; background: white; font-size: 15px; }
+  th, td { border-bottom: 1px solid #e2dccd; text-align: left; vertical-align: top; padding: 8px; }
+  th { font: 13px/1.3 ui-sans-serif, sans-serif; letter-spacing: 0.04em; text-transform: uppercase; color: #5c564c; }
+  pre { white-space: pre-wrap; font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; margin: 0; }
+  .detail { color: #5c564c; margin: 6px 0 0; }
+  .meta { color: #5c564c; font: 15px/1.4 ui-sans-serif, sans-serif; }
+  @media (max-width: 800px) { .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<main>
+  <p class="meta">US DOT on-time performance, draft analyst</p>
+  <h1>Scoreboard</h1>
+  <div class="banner">
+    <strong>DRAFT.</strong> candidate answers pending Daniel's review
+    This page scores the analyst against candidate answers that are still pending review.
+  </div>
+  <p class="meta">Provider stub · 2026-10-10T20:13:20+00:00</p>
+  <p class="meta">Window 2025-08-01 to 2026-07-31 · 2025-08, 2025-09, 2025-10, 2025-11, 2025-12, 2026-01, 2026-02, 2026-03, 2026-04, 2026-05, 2026-06, 2026-07</p>
+  <p class="overall">94.6%</p>
+  <p class="meta">105 of 111 questions matched the candidate answer.</p>
+  <div class="cards">
+    <section><h3>easy</h3><p class='big'>100.0%</p><p>32 / 32</p></section><section><h3>medium</h3><p class='big'>98.0%</p><p>50 / 51</p></section><section><h3>hard</h3><p class='big'>82.1%</p><p>23 / 28</p></section>
+  </div>
+  <h2>Failure categories</h2>
+  <ul><li>misread_question: 6</li></ul>
+  <p class="meta">wrong_sql: the statement did not run. wrong_aggregation: the entities lined up and a figure did not. misread_question: the shape or the entities differed. refused: the analyst declined a question that has a candidate answer. error: the run broke before a SQL result.</p>
+  <h2>Misses</h2>
+  <table>
+    <thead><tr><th>Id</th><th>Difficulty</th><th>Failure</th><th>Question</th><th>Analyst SQL</th><th>Reference SQL</th></tr></thead>
+    <tbody>
+      <tr><td>q020</td><td>hard</td><td>misread_question</td><td>Which airline has the lowest median arrival delay systemwide?<p class='detail'>No result column matched the candidate entities.</p></td><td><pre>SELECT 'systemwide' AS label, COUNT(*) AS operated_flights FROM flights_v WHERE operated</pre></td><td><pre>SELECT airline_code AS label,
+       MEDIAN(arr_delay) AS median_arrival_delay,
+       COUNT(*) AS n
+FROM flights_v
+WHERE operated
+GROUP BY airline_code
+HAVING COUNT(*) &gt;= 5000
+ORDER BY median_arrival_delay ASC, label ASC
+LIMIT 1</pre></td></tr><tr><td>q037</td><td>hard</td><td>misread_question</td><td>Which airport has the largest morning-minus-evening on-time arrival gap?<p class='detail'>No result column matched the candidate entities.</p></td><td><pre>SELECT 'systemwide' AS label, COUNT(*) AS operated_flights FROM flights_v WHERE operated</pre></td><td><pre>SELECT origin AS label,
+       AVG(CASE WHEN dep_time_bucket = 'morning' THEN CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END END)
+       - AVG(CASE WHEN dep_time_bucket = 'evening' THEN CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END END) AS rate_gap,
+       COUNT(*) AS n
+FROM flights_v
+WHERE operated AND dep_time_bucket IN ('morning', 'evening')
+GROUP BY origin
+HAVING SUM(CASE WHEN dep_time_bucket = 'morning' THEN 1 ELSE 0 END) &gt;= 500
+   AND SUM(CASE WHEN dep_time_bucket = 'evening' THEN 1 ELSE 0 END) &gt;= 500
+ORDER BY rate_gap DESC, label ASC
+LIMIT 1</pre></td></tr><tr><td>q074</td><td>medium</td><td>misread_question</td><td>Which month has the highest systemwide cancellation rate?<p class='detail'>No result column matched the candidate entities.</p></td><td><pre>SELECT airline_code AS label,
+       AVG(CASE WHEN cancelled THEN 1.0 ELSE 0.0 END) AS cancellation_rate,
+       COUNT(*) AS n
+FROM flights_v
+WHERE TRUE
+GROUP BY airline_code
+HAVING SUM(CASE WHEN operated THEN 1 ELSE 0 END) &gt;= 5000
+ORDER BY cancellation_rate DESC, label ASC
+LIMIT 1</pre></td><td><pre>SELECT CAST(year AS VARCHAR) || '-' || LPAD(CAST(month AS VARCHAR), 2, '0') AS label,
+       AVG(CASE WHEN cancelled THEN 1.0 ELSE 0.0 END) AS cancellation_rate,
+       COUNT(*) AS n
+FROM flights_v
+WHERE TRUE
+GROUP BY year, month
+ORDER BY cancellation_rate DESC, label ASC
+LIMIT 1</pre></td></tr><tr><td>q079</td><td>hard</td><td>misread_question</td><td>Which on-time arrival rate is lower: 2025-11-26, the Wednesday before Thanksgiving 2025, or Wednesdays in October 2025? Return both rates.<p class='detail'>Expected 2 rows and got 1.</p></td><td><pre>SELECT 'systemwide' AS label, COUNT(*) AS operated_flights FROM flights_v WHERE operated</pre></td><td><pre>SELECT '2025-11-26' AS label, AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate FROM flights_v WHERE operated AND flight_date = DATE '2025-11-26'
+UNION ALL
+SELECT '2025-10-wednesdays' AS label, AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate FROM flights_v WHERE operated AND year = 2025 AND month = 10 AND day_of_week = 3</pre></td></tr><tr><td>q099</td><td>hard</td><td>misread_question</td><td>How late is American?<p class='detail'>No result column matched the candidate entities.</p></td><td><pre>SELECT 'systemwide' AS label, COUNT(*) AS operated_flights FROM flights_v WHERE operated</pre></td><td><pre>SELECT 'AA' AS label,
+       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,
+       AVG(arr_delay) AS avg_arrival_delay
+FROM flights_v
+WHERE operated AND airline_code = 'AA'</pre></td></tr><tr><td>q101</td><td>hard</td><td>misread_question</td><td>Does weather explain most delays? Return the weather share of late-arrival minutes, the NAS share, and 1 if the weather share is above one half.<p class='detail'>not enough numeric columns</p></td><td><pre>SELECT 'systemwide' AS label, COUNT(*) AS operated_flights FROM flights_v WHERE operated</pre></td><td><pre>SELECT 'systemwide' AS label,
+       SUM(weather_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS weather_share,
+       SUM(nas_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS nas_share,
+       CASE
+           WHEN SUM(weather_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) &gt; 0.5 THEN 1
+           ELSE 0
+       END AS weather_is_majority
+FROM flights_v
+WHERE late_arrival</pre></td></tr>
+    </tbody>
+  </table>
+  <h2>Matches</h2>
+  <p>q001, q002, q003, q004, q005, q006, q007, q008, q009, q010, q011, q012, q013, q014, q015, q016, q017, q018, q019, q021, q022, q023, q024, q025, q026, q027, q028, q029, q030, q031, q032, q033, q034, q035, q036, q038, q039, q040, q041, q042, q043, q044, q045, q046, q047, q048, q049, q050, q051, q052, q053, q054, q055, q056, q057, q058, q059, q060, q061, q062, q063, q064, q065, q066, q067, q068, q069, q070, q071, q072, q073, q075, q076, q077, q078, q080, q081, q082, q083, q084, q085, q086, q087, q088, q089, q090, q091, q092, q093, q094, q095, q096, q097, q098, q100, q102, q103, q104, q105, q106, q107, q108, q109, q110, q111</p>
+</main>
+</body>
+</html>
