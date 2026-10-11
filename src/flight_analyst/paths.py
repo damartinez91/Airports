@@ -13,6 +13,7 @@ QUESTIONS_DIR = ROOT / "questions"
 BANK_PATH = QUESTIONS_DIR / "bank.json"
 REPORTS_DIR = ROOT / "reports"
 SCOREBOARD_PATH = ROOT / "scoreboard" / "index.html"
+SITE_DIR = ROOT / "site"
 DOCS_DIR = ROOT / "docs"
 DATA_WINDOW_PATH = DOCS_DIR / "data_window.json"
 

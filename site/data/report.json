@@ -1,0 +1,258 @@
+{
+  "created_at": "2026-10-10T20:13:20+00:00",
+  "data_window": {
+    "flight_date_max": "2026-07-31",
+    "flight_date_min": "2025-08-01",
+    "months": [
+      "2025-08",
+      "2025-09",
+      "2025-10",
+      "2025-11",
+      "2025-12",
+      "2026-01",
+      "2026-02",
+      "2026-03",
+      "2026-04",
+      "2026-05",
+      "2026-06",
+      "2026-07"
+    ],
+    "row_count": 7043858
+  },
+  "matches": [
+    "q001",
+    "q002",
+    "q003",
+    "q004",
+    "q005",
+    "q006",
+    "q007",
+    "q008",
+    "q009",
+    "q010",
+    "q011",
+    "q012",
+    "q013",
+    "q014",
+    "q015",
+    "q016",
+    "q017",
+    "q018",
+    "q019",
+    "q021",
+    "q022",
+    "q023",
+    "q024",
+    "q025",
+    "q026",
+    "q027",
+    "q028",
+    "q029",
+    "q030",
+    "q031",
+    "q032",
+    "q033",
+    "q034",
+    "q035",
+    "q036",
+    "q038",
+    "q039",
+    "q040",
+    "q041",
+    "q042",
+    "q043",
+    "q044",
+    "q045",
+    "q046",
+    "q047",
+    "q048",
+    "q049",
+    "q050",
+    "q051",
+    "q052",
+    "q053",
+    "q054",
+    "q055",
+    "q056",
+    "q057",
+    "q058",
+    "q059",
+    "q060",
+    "q061",
+    "q062",
+    "q063",
+    "q064",
+    "q065",
+    "q066",
+    "q067",
+    "q068",
+    "q069",
+    "q070",
+    "q071",
+    "q072",
+    "q073",
+    "q075",
+    "q076",
+    "q077",
+    "q078",
+    "q080",
+    "q081",
+    "q082",
+    "q083",
+    "q084",
+    "q085",
+    "q086",
+    "q087",
+    "q088",
+    "q089",
+    "q090",
+    "q091",
+    "q092",
+    "q093",
+    "q094",
+    "q095",
+    "q096",
+    "q097",
+    "q098",
+    "q100",
+    "q102",
+    "q103",
+    "q104",
+    "q105",
+    "q106",
+    "q107",
+    "q108",
+    "q109",
+    "q110",
+    "q111"
+  ],
+  "misses": [
+    {
+      "analyst_sql": "SELECT 'systemwide' AS label, COUNT(*) AS operated_flights FROM flights_v WHERE operated",
+      "category": "airline_reliability",
+      "detail": "No result column matched the candidate entities.",
+      "difficulty": "hard",
+      "failure_category": "misread_question",
+      "id": "q020",
+      "question": "Which airline has the lowest median arrival delay systemwide?",
+      "reference_sql": "SELECT airline_code AS label,\n       MEDIAN(arr_delay) AS median_arrival_delay,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated\nGROUP BY airline_code\nHAVING COUNT(*) >= 5000\nORDER BY median_arrival_delay ASC, label ASC\nLIMIT 1"
+    },
+    {
+      "analyst_sql": "SELECT 'systemwide' AS label, COUNT(*) AS operated_flights FROM flights_v WHERE operated",
+      "category": "airport_reliability",
+      "detail": "No result column matched the candidate entities.",
+      "difficulty": "hard",
+      "failure_category": "misread_question",
+      "id": "q037",
+      "question": "Which airport has the largest morning-minus-evening on-time arrival gap?",
+      "reference_sql": "SELECT origin AS label,\n       AVG(CASE WHEN dep_time_bucket = 'morning' THEN CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END END)\n       - AVG(CASE WHEN dep_time_bucket = 'evening' THEN CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END END) AS rate_gap,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND dep_time_bucket IN ('morning', 'evening')\nGROUP BY origin\nHAVING SUM(CASE WHEN dep_time_bucket = 'morning' THEN 1 ELSE 0 END) >= 500\n   AND SUM(CASE WHEN dep_time_bucket = 'evening' THEN 1 ELSE 0 END) >= 500\nORDER BY rate_gap DESC, label ASC\nLIMIT 1"
+    },
+    {
+      "analyst_sql": "SELECT airline_code AS label,\n       AVG(CASE WHEN cancelled THEN 1.0 ELSE 0.0 END) AS cancellation_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE TRUE\nGROUP BY airline_code\nHAVING SUM(CASE WHEN operated THEN 1 ELSE 0 END) >= 5000\nORDER BY cancellation_rate DESC, label ASC\nLIMIT 1",
+      "category": "seasonality",
+      "detail": "No result column matched the candidate entities.",
+      "difficulty": "medium",
+      "failure_category": "misread_question",
+      "id": "q074",
+      "question": "Which month has the highest systemwide cancellation rate?",
+      "reference_sql": "SELECT CAST(year AS VARCHAR) || '-' || LPAD(CAST(month AS VARCHAR), 2, '0') AS label,\n       AVG(CASE WHEN cancelled THEN 1.0 ELSE 0.0 END) AS cancellation_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE TRUE\nGROUP BY year, month\nORDER BY cancellation_rate DESC, label ASC\nLIMIT 1"
+    },
+    {
+      "analyst_sql": "SELECT 'systemwide' AS label, COUNT(*) AS operated_flights FROM flights_v WHERE operated",
+      "category": "seasonality",
+      "detail": "Expected 2 rows and got 1.",
+      "difficulty": "hard",
+      "failure_category": "misread_question",
+      "id": "q079",
+      "question": "Which on-time arrival rate is lower: 2025-11-26, the Wednesday before Thanksgiving 2025, or Wednesdays in October 2025? Return both rates.",
+      "reference_sql": "SELECT '2025-11-26' AS label, AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate FROM flights_v WHERE operated AND flight_date = DATE '2025-11-26'\nUNION ALL\nSELECT '2025-10-wednesdays' AS label, AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate FROM flights_v WHERE operated AND year = 2025 AND month = 10 AND day_of_week = 3"
+    },
+    {
+      "analyst_sql": "SELECT 'systemwide' AS label, COUNT(*) AS operated_flights FROM flights_v WHERE operated",
+      "category": "ambiguous_or_trick",
+      "detail": "No result column matched the candidate entities.",
+      "difficulty": "hard",
+      "failure_category": "misread_question",
+      "id": "q099",
+      "question": "How late is American?",
+      "reference_sql": "SELECT 'AA' AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       AVG(arr_delay) AS avg_arrival_delay\nFROM flights_v\nWHERE operated AND airline_code = 'AA'"
+    },
+    {
+      "analyst_sql": "SELECT 'systemwide' AS label, COUNT(*) AS operated_flights FROM flights_v WHERE operated",
+      "category": "ambiguous_or_trick",
+      "detail": "not enough numeric columns",
+      "difficulty": "hard",
+      "failure_category": "misread_question",
+      "id": "q101",
+      "question": "Does weather explain most delays? Return the weather share of late-arrival minutes, the NAS share, and 1 if the weather share is above one half.",
+      "reference_sql": "SELECT 'systemwide' AS label,\n       SUM(weather_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS weather_share,\n       SUM(nas_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS nas_share,\n       CASE\n           WHEN SUM(weather_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) > 0.5 THEN 1\n           ELSE 0\n       END AS weather_is_majority\nFROM flights_v\nWHERE late_arrival"
+    }
+  ],
+  "model": null,
+  "provider": "stub",
+  "review_note": "candidate answers pending Daniel's review",
+  "scoring_basis": "Scored against DRAFT candidate answers. Not an approved standard.",
+  "status": "DRAFT",
+  "summary": {
+    "accuracy": 0.945946,
+    "by_category": {
+      "airline_reliability": {
+        "accuracy": 0.952381,
+        "n": 21,
+        "n_correct": 20
+      },
+      "airport_reliability": {
+        "accuracy": 0.9375,
+        "n": 16,
+        "n_correct": 15
+      },
+      "ambiguous_or_trick": {
+        "accuracy": 0.875,
+        "n": 16,
+        "n_correct": 14
+      },
+      "delay_causes": {
+        "accuracy": 1.0,
+        "n": 16,
+        "n_correct": 16
+      },
+      "routes": {
+        "accuracy": 1.0,
+        "n": 16,
+        "n_correct": 16
+      },
+      "seasonality": {
+        "accuracy": 0.833333,
+        "n": 12,
+        "n_correct": 10
+      },
+      "time_of_day": {
+        "accuracy": 1.0,
+        "n": 14,
+        "n_correct": 14
+      }
+    },
+    "by_difficulty": {
+      "easy": {
+        "accuracy": 1.0,
+        "n": 32,
+        "n_correct": 32
+      },
+      "hard": {
+        "accuracy": 0.821429,
+        "n": 28,
+        "n_correct": 23
+      },
+      "medium": {
+        "accuracy": 0.980392,
+        "n": 51,
+        "n_correct": 50
+      }
+    },
+    "by_failure": {
+      "misread_question": 6
+    },
+    "n": 111,
+    "n_correct": 105
+  }
+}

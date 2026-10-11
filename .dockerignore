@@ -1,0 +1,11 @@
+.git
+.venv
+data
+site
+reports
+questions
+**/*.duckdb
+**/*.parquet
+**/*.csv
+**/.env
+**/__pycache__

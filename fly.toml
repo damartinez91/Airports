@@ -1,0 +1,39 @@
+# Not launched. Nothing in this repo has been deployed.
+# min_machines_running = 0 lets Fly stop the machine when it is idle.
+# Turn the live flag on with fly secrets, and set the model key there, before any deploy.
+# The database volume is created separately and is not in git.
+
+app = "flight-analyst"
+primary_region = "iad"
+
+[build]
+
+[env]
+  FLIGHT_DB_PATH = "/data/flights.duckdb"
+  LIVE_SPEND_CAP_USD = "5"
+  LIVE_USD_PER_CALL = "0.05"
+  LIVE_RATE_PER_HOUR = "10"
+  LIVE_RATE_GLOBAL_PER_HOUR = "30"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+
+  [[http_service.checks]]
+    interval = "30s"
+    timeout = "5s"
+    grace_period = "20s"
+    method = "GET"
+    path = "/health"
+
+[[mounts]]
+  source = "flight_data"
+  destination = "/data"
+
+[[vm]]
+  cpu_kind = "shared"
+  cpus = 1
+  memory = "1gb"

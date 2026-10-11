@@ -14,7 +14,7 @@ def _esc(value: object) -> str:
     return html.escape("" if value is None else str(value), quote=False)
 
 
-def render_scoreboard(report: dict) -> str:
+def render_scoreboard(report: dict, nav: str = "") -> str:
     summary = report["summary"]
     accuracy = summary.get("accuracy")
     accuracy_text = f"{accuracy * 100:.1f}%" if accuracy is not None else "n/a"
@@ -74,11 +74,14 @@ def render_scoreboard(report: dict) -> str:
   pre {{ white-space: pre-wrap; font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; margin: 0; }}
   .detail {{ color: #5c564c; margin: 6px 0 0; }}
   .meta {{ color: #5c564c; font: 15px/1.4 ui-sans-serif, sans-serif; }}
+  nav {{ font: 15px/1.4 ui-sans-serif, sans-serif; margin-bottom: 18px; }}
+  nav a {{ color: inherit; margin-right: 16px; }}
   @media (max-width: 800px) {{ .cards {{ grid-template-columns: 1fr; }} }}
 </style>
 </head>
 <body>
 <main>
+  {nav}
   <p class="meta">US DOT on-time performance, draft analyst</p>
   <h1>Scoreboard</h1>
   <div class="banner">

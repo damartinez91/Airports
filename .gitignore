@@ -166,8 +166,14 @@ venv.bak/
 # Rope project settings
 .ropeproject
 
-# mkdocs/Zensical documentation
-/site
+# mkdocs writes /site by default. This repo's site/ is the small static
+# publish output (HTML and JSON extracts) and is committed on purpose.
+
+# Secrets and local live-ask state. The spend ledger lives under data/.
+.env.*
+!.env.example
+*.pem
+secrets/
 
 # mypy
 .mypy_cache/
@@ -220,7 +226,8 @@ __marimo__/
 .streamlit/secrets.toml
 
 # Flight-delay downloads and local databases. Do not commit raw or processed data.
-data/
+# Anchored at the repo root so site/data/ (the small JSON extracts) stays tracked.
+/data/
 *.duckdb
 *.duckdb.wal
 *.parquet

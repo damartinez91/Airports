@@ -1,0 +1,61 @@
+# GitHub Pages, manual only.
+# This workflow does not run on push or pull request.
+# A manual run builds the static site and uploads it as a workflow artifact.
+# It publishes only when the deploy input is set to true.
+# Leave that input false until GitHub Pages is turned on deliberately.
+# This repository has not enabled Pages.
+
+name: pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: "Publish the built site to GitHub Pages. Leave false until Pages is enabled on purpose."
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: pip install -r requirements.txt
+      - name: Build the static site
+        run: PYTHONPATH=src python3 -m flight_analyst build-site
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: site
+          if-no-files-found: error
+      - name: Upload the Pages artifact
+        if: ${{ inputs.deploy }}
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    if: ${{ inputs.deploy }}
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

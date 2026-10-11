@@ -1,0 +1,3509 @@
+{
+  "data_window": {
+    "airline_count": 14,
+    "cancellation_rate": 0.018226,
+    "flight_date_max": "2026-07-31",
+    "flight_date_min": "2025-08-01",
+    "months": [
+      "2025-08",
+      "2025-09",
+      "2025-10",
+      "2025-11",
+      "2025-12",
+      "2026-01",
+      "2026-02",
+      "2026-03",
+      "2026-04",
+      "2026-05",
+      "2026-06",
+      "2026-07"
+    ],
+    "on_time_arrival_rate": 0.776304,
+    "operated": 6895510,
+    "origin_count": 359,
+    "row_count": 7043858
+  },
+  "question_count": 111,
+  "questions": [
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "MQ",
+            "n": 62560,
+            "on_time_rate": 0.826918
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airline_reliability",
+      "chart": null,
+      "difficulty": "easy",
+      "id": "q001",
+      "notes": "Highest on-time arrival rate among reporting airlines with at least 100 operated departures from DFW. The winner can be a regional affiliate. Reporting-carrier AA is not the American brand family.",
+      "question": "Which airline is most on time out of DFW?",
+      "sql": "SELECT airline_code AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin = 'DFW'\nGROUP BY airline_code\nHAVING COUNT(*) >= 100\nORDER BY on_time_rate DESC, label ASC\nLIMIT 1"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "MQ",
+            "n": 55570,
+            "on_time_rate": 0.771693
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airline_reliability",
+      "chart": null,
+      "difficulty": "easy",
+      "id": "q002",
+      "notes": "Highest on-time arrival rate among reporting airlines with at least 100 operated departures from ORD. The winner can be a regional affiliate. Reporting-carrier AA is not the American brand family.",
+      "question": "Which airline is most on time out of ORD?",
+      "sql": "SELECT airline_code AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin = 'ORD'\nGROUP BY airline_code\nHAVING COUNT(*) >= 100\nORDER BY on_time_rate DESC, label ASC\nLIMIT 1"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "UA",
+            "n": 7457,
+            "on_time_rate": 0.801931
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airline_reliability",
+      "chart": null,
+      "difficulty": "easy",
+      "id": "q003",
+      "notes": "Highest on-time arrival rate among reporting airlines with at least 100 operated departures from ATL. The winner can be a regional affiliate. Reporting-carrier AA is not the American brand family.",
+      "question": "Which airline is most on time out of ATL?",
+      "sql": "SELECT airline_code AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin = 'ATL'\nGROUP BY airline_code\nHAVING COUNT(*) >= 100\nORDER BY on_time_rate DESC, label ASC\nLIMIT 1"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "DL",
+            "n": 11353,
+            "on_time_rate": 0.835198
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airline_reliability",
+      "chart": null,
+      "difficulty": "medium",
+      "id": "q004",
+      "notes": "Highest on-time arrival rate among reporting airlines with at least 100 operated departures from DEN. The winner can be a regional affiliate. Reporting-carrier AA is not the American brand family.",
+      "question": "Which airline is most on time out of DEN?",
+      "sql": "SELECT airline_code AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin = 'DEN'\nGROUP BY airline_code\nHAVING COUNT(*) >= 100\nORDER BY on_time_rate DESC, label ASC\nLIMIT 1"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "OO",
+            "n": 40364,
+            "on_time_rate": 0.8516
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airline_reliability",
+      "chart": null,
+      "difficulty": "easy",
+      "id": "q005",
+      "notes": "Highest on-time arrival rate among reporting airlines with at least 100 operated departures from LAX. The winner can be a regional affiliate. Reporting-carrier AA is not the American brand family.",
+      "question": "Which airline is most on time out of LAX?",
+      "sql": "SELECT airline_code AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin = 'LAX'\nGROUP BY airline_code\nHAVING COUNT(*) >= 100\nORDER BY on_time_rate DESC, label ASC\nLIMIT 1"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "YX",
+            "n": 53347,
+            "on_time_rate": 0.753894
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airline_reliability",
+      "chart": null,
+      "difficulty": "medium",
+      "id": "q006",
+      "notes": "Highest on-time arrival rate among reporting airlines with at least 100 operated departures from LGA. The winner can be a regional affiliate. Reporting-carrier AA is not the American brand family.",
+      "question": "Which airline is most on time out of LGA?",
+      "sql": "SELECT airline_code AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin = 'LGA'\nGROUP BY airline_code\nHAVING COUNT(*) >= 100\nORDER BY on_time_rate DESC, label ASC\nLIMIT 1"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "G4",
+            "n": 603,
+            "on_time_rate": 0.835821
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airline_reliability",
+      "chart": null,
+      "difficulty": "medium",
+      "id": "q007",
+      "notes": "Highest on-time arrival rate among reporting airlines with at least 100 operated departures from BOS. The winner can be a regional affiliate. Reporting-carrier AA is not the American brand family.",
+      "question": "Which airline is most on time out of BOS?",
+      "sql": "SELECT airline_code AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin = 'BOS'\nGROUP BY airline_code\nHAVING COUNT(*) >= 100\nORDER BY on_time_rate DESC, label ASC\nLIMIT 1"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "OO",
+            "n": 28516,
+            "on_time_rate": 0.856361
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airline_reliability",
+      "chart": null,
+      "difficulty": "medium",
+      "id": "q008",
+      "notes": "Highest on-time arrival rate among reporting airlines with at least 100 operated departures from SEA. The winner can be a regional affiliate. Reporting-carrier AA is not the American brand family.",
+      "question": "Which airline is most on time out of SEA?",
+      "sql": "SELECT airline_code AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin = 'SEA'\nGROUP BY airline_code\nHAVING COUNT(*) >= 100\nORDER BY on_time_rate DESC, label ASC\nLIMIT 1"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "YX",
+            "n": 23026,
+            "on_time_rate": 0.835403
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airline_reliability",
+      "chart": null,
+      "difficulty": "medium",
+      "id": "q009",
+      "notes": "Highest on-time arrival rate among reporting airlines with at least 100 operated departures from EWR. The winner can be a regional affiliate. Reporting-carrier AA is not the American brand family.",
+      "question": "Which airline is most on time out of EWR?",
+      "sql": "SELECT airline_code AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin = 'EWR'\nGROUP BY airline_code\nHAVING COUNT(*) >= 100\nORDER BY on_time_rate DESC, label ASC\nLIMIT 1"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "HA",
+            "n": 32839,
+            "on_time_rate": 0.818539
+          },
+          {
+            "label": "DL",
+            "n": 1018096,
+            "on_time_rate": 0.815294
+          },
+          {
+            "label": "MQ",
+            "n": 309815,
+            "on_time_rate": 0.808873
+          },
+          {
+            "label": "AS",
+            "n": 297116,
+            "on_time_rate": 0.796096
+          },
+          {
+            "label": "UA",
+            "n": 814734,
+            "on_time_rate": 0.792632
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airline_reliability",
+      "chart": {
+        "points": [
+          {
+            "label": "HA",
+            "value": 0.818539
+          },
+          {
+            "label": "DL",
+            "value": 0.815294
+          },
+          {
+            "label": "MQ",
+            "value": 0.808873
+          },
+          {
+            "label": "AS",
+            "value": 0.796096
+          },
+          {
+            "label": "UA",
+            "value": 0.792632
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "on_time_rate"
+      },
+      "difficulty": "medium",
+      "id": "q010",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "Which five airlines have the highest systemwide on-time arrival rate?",
+      "sql": "SELECT airline_code AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated\nGROUP BY airline_code\nHAVING COUNT(*) >= 5000\nORDER BY on_time_rate DESC, label ASC\nLIMIT 5"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "B6",
+            "n": 229045,
+            "on_time_rate": 0.723177
+          },
+          {
+            "label": "NK",
+            "n": 112299,
+            "on_time_rate": 0.728047
+          },
+          {
+            "label": "F9",
+            "n": 204980,
+            "on_time_rate": 0.731286
+          },
+          {
+            "label": "G4",
+            "n": 125266,
+            "on_time_rate": 0.740512
+          },
+          {
+            "label": "OH",
+            "n": 231130,
+            "on_time_rate": 0.741314
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airline_reliability",
+      "chart": {
+        "points": [
+          {
+            "label": "B6",
+            "value": 0.723177
+          },
+          {
+            "label": "NK",
+            "value": 0.728047
+          },
+          {
+            "label": "F9",
+            "value": 0.731286
+          },
+          {
+            "label": "G4",
+            "value": 0.740512
+          },
+          {
+            "label": "OH",
+            "value": 0.741314
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "on_time_rate"
+      },
+      "difficulty": "medium",
+      "id": "q011",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "Which five airlines have the lowest systemwide on-time arrival rate?",
+      "sql": "SELECT airline_code AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated\nGROUP BY airline_code\nHAVING COUNT(*) >= 5000\nORDER BY on_time_rate ASC, label ASC\nLIMIT 5"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "WN",
+            "on_time_rate": 0.76405
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airline_reliability",
+      "chart": null,
+      "difficulty": "easy",
+      "id": "q012",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "What is Southwest's systemwide on-time arrival rate?",
+      "sql": "SELECT 'WN' AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate\nFROM flights_v\nWHERE operated AND airline_code = 'WN'"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "AA",
+            "on_time_rate": 0.745604
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airline_reliability",
+      "chart": null,
+      "difficulty": "easy",
+      "id": "q013",
+      "notes": "American here is reporting carrier AA only, not Envoy, PSA, or Piedmont.",
+      "question": "What is American's systemwide on-time arrival rate?",
+      "sql": "SELECT 'AA' AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate\nFROM flights_v\nWHERE operated AND airline_code = 'AA'"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "cancellation_rate": 0.017127,
+            "label": "DL"
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airline_reliability",
+      "chart": null,
+      "difficulty": "easy",
+      "id": "q014",
+      "notes": "Cancellation rate uses all scheduled Delta flights, including cancelled ones, as the denominator.",
+      "question": "What is Delta's systemwide cancellation rate?",
+      "sql": "SELECT 'DL' AS label,\n       AVG(CASE WHEN cancelled THEN 1.0 ELSE 0.0 END) AS cancellation_rate\nFROM flights_v\nWHERE airline_code = 'DL'"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "cancellation_rate": 0.042904,
+            "label": "OH",
+            "n": 242215
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airline_reliability",
+      "chart": null,
+      "difficulty": "medium",
+      "id": "q015",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "Which airline has the highest systemwide cancellation rate?",
+      "sql": "SELECT airline_code AS label,\n       AVG(CASE WHEN cancelled THEN 1.0 ELSE 0.0 END) AS cancellation_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE TRUE\nGROUP BY airline_code\nHAVING SUM(CASE WHEN operated THEN 1 ELSE 0 END) >= 5000\nORDER BY cancellation_rate DESC, label ASC\nLIMIT 1"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "avg_arrival_delay": 15.208468,
+            "label": "G4",
+            "n": 125266
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airline_reliability",
+      "chart": null,
+      "difficulty": "medium",
+      "id": "q016",
+      "notes": "Mean of the signed arrival delay. Early arrivals reduce it.",
+      "question": "Which airline has the highest average signed arrival delay among operated flights, systemwide?",
+      "sql": "SELECT airline_code AS label,\n       AVG(arr_delay) AS avg_arrival_delay,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated\nGROUP BY airline_code\nHAVING COUNT(*) >= 5000\nORDER BY avg_arrival_delay DESC, label ASC\nLIMIT 1"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "AA",
+            "on_time_rate": 0.659432
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airline_reliability",
+      "chart": null,
+      "difficulty": "easy",
+      "id": "q017",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "What is American's on-time arrival rate for flights out of DFW?",
+      "sql": "SELECT 'AA' AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate\nFROM flights_v\nWHERE operated AND airline_code = 'AA' AND origin = 'DFW'"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "OH",
+            "n": 231130,
+            "severe_late_rate": 0.116389
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airline_reliability",
+      "chart": null,
+      "difficulty": "medium",
+      "id": "q018",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "Which airline has the highest share of operated flights that arrive at least 60 minutes late, systemwide?",
+      "sql": "SELECT airline_code AS label,\n       AVG(CASE WHEN arr_delay >= 60 THEN 1.0 ELSE 0.0 END) AS severe_late_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated\nGROUP BY airline_code\nHAVING COUNT(*) >= 5000\nORDER BY severe_late_rate DESC, label ASC\nLIMIT 1"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "diversion_rate": 0.002835,
+            "label": "systemwide"
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airline_reliability",
+      "chart": null,
+      "difficulty": "easy",
+      "id": "q019",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "What share of scheduled flights are diverted, systemwide?",
+      "sql": "SELECT 'systemwide' AS label,\n       AVG(CASE WHEN diverted THEN 1.0 ELSE 0.0 END) AS diversion_rate\nFROM flights_v\nWHERE TRUE"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "YX",
+            "median_arrival_delay": -9,
+            "n": 347315
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airline_reliability",
+      "chart": null,
+      "difficulty": "hard",
+      "id": "q020",
+      "notes": "Median of the signed arrival delay. Lowest median is the best of this metric.",
+      "question": "Which airline has the lowest median arrival delay systemwide?",
+      "sql": "SELECT airline_code AS label,\n       MEDIAN(arr_delay) AS median_arrival_delay,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated\nGROUP BY airline_code\nHAVING COUNT(*) >= 5000\nORDER BY median_arrival_delay ASC, label ASC\nLIMIT 1"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "MQ",
+            "n": 13976,
+            "on_time_rate": 0.825987
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airline_reliability",
+      "chart": null,
+      "difficulty": "medium",
+      "id": "q021",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "Which airline is most on time out of MIA?",
+      "sql": "SELECT airline_code AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin = 'MIA'\nGROUP BY airline_code\nHAVING COUNT(*) >= 100\nORDER BY on_time_rate DESC, label ASC\nLIMIT 1"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "SFB",
+            "n": 2081,
+            "on_time_rate": 0.502643
+          },
+          {
+            "label": "DAL",
+            "n": 15914,
+            "on_time_rate": 0.594005
+          },
+          {
+            "label": "FLL",
+            "n": 25241,
+            "on_time_rate": 0.598273
+          },
+          {
+            "label": "MCO",
+            "n": 40654,
+            "on_time_rate": 0.613494
+          },
+          {
+            "label": "BOS",
+            "n": 32483,
+            "on_time_rate": 0.617862
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airport_reliability",
+      "chart": {
+        "points": [
+          {
+            "label": "SFB",
+            "value": 0.502643
+          },
+          {
+            "label": "DAL",
+            "value": 0.594005
+          },
+          {
+            "label": "FLL",
+            "value": 0.598273
+          },
+          {
+            "label": "MCO",
+            "value": 0.613494
+          },
+          {
+            "label": "BOS",
+            "value": 0.617862
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "on_time_rate"
+      },
+      "difficulty": "medium",
+      "id": "q022",
+      "notes": "Worst means the lowest on-time arrival rate for flights scheduled to depart from 17:00 through 20:59, among airports with at least 2000 such operated flights.",
+      "question": "What are the five worst airports for evening delays?",
+      "sql": "SELECT origin AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND dep_time_bucket = 'evening'\nGROUP BY origin\nHAVING COUNT(*) >= 2000\nORDER BY on_time_rate ASC, label ASC\nLIMIT 5"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "SBN",
+            "n": 2489,
+            "on_time_rate": 0.78867
+          },
+          {
+            "label": "SYR",
+            "n": 3903,
+            "on_time_rate": 0.826287
+          },
+          {
+            "label": "BTV",
+            "n": 2245,
+            "on_time_rate": 0.826726
+          },
+          {
+            "label": "ORD",
+            "n": 68590,
+            "on_time_rate": 0.82824
+          },
+          {
+            "label": "GRR",
+            "n": 6502,
+            "on_time_rate": 0.835281
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airport_reliability",
+      "chart": {
+        "points": [
+          {
+            "label": "SBN",
+            "value": 0.78867
+          },
+          {
+            "label": "SYR",
+            "value": 0.826287
+          },
+          {
+            "label": "BTV",
+            "value": 0.826726
+          },
+          {
+            "label": "ORD",
+            "value": 0.82824
+          },
+          {
+            "label": "GRR",
+            "value": 0.835281
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "on_time_rate"
+      },
+      "difficulty": "medium",
+      "id": "q023",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "What are the five worst airports for morning delays?",
+      "sql": "SELECT origin AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND dep_time_bucket = 'morning'\nGROUP BY origin\nHAVING COUNT(*) >= 2000\nORDER BY on_time_rate ASC, label ASC\nLIMIT 5"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "PSC",
+            "n": 6146,
+            "on_time_rate": 0.873088
+          },
+          {
+            "label": "KOA",
+            "n": 15855,
+            "on_time_rate": 0.857584
+          },
+          {
+            "label": "LGB",
+            "n": 15028,
+            "on_time_rate": 0.852875
+          },
+          {
+            "label": "LIH",
+            "n": 15607,
+            "on_time_rate": 0.847632
+          },
+          {
+            "label": "SLC",
+            "n": 116642,
+            "on_time_rate": 0.847413
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airport_reliability",
+      "chart": {
+        "points": [
+          {
+            "label": "PSC",
+            "value": 0.873088
+          },
+          {
+            "label": "KOA",
+            "value": 0.857584
+          },
+          {
+            "label": "LGB",
+            "value": 0.852875
+          },
+          {
+            "label": "LIH",
+            "value": 0.847632
+          },
+          {
+            "label": "SLC",
+            "value": 0.847413
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "on_time_rate"
+      },
+      "difficulty": "medium",
+      "id": "q024",
+      "notes": "Best means highest on-time arrival rate for departures, after the airport minimum-sample rule.",
+      "question": "What are the five best airports by on-time arrival rate?",
+      "sql": "SELECT origin AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated\nGROUP BY origin\nHAVING COUNT(*) >= 5000\nORDER BY on_time_rate DESC, label ASC\nLIMIT 5"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "SFB",
+            "n": 10019,
+            "on_time_rate": 0.701667
+          },
+          {
+            "label": "FLL",
+            "n": 87958,
+            "on_time_rate": 0.708133
+          },
+          {
+            "label": "ASE",
+            "n": 7548,
+            "on_time_rate": 0.711447
+          },
+          {
+            "label": "ORD",
+            "n": 348736,
+            "on_time_rate": 0.715911
+          },
+          {
+            "label": "DFW",
+            "n": 302862,
+            "on_time_rate": 0.721441
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airport_reliability",
+      "chart": {
+        "points": [
+          {
+            "label": "SFB",
+            "value": 0.701667
+          },
+          {
+            "label": "FLL",
+            "value": 0.708133
+          },
+          {
+            "label": "ASE",
+            "value": 0.711447
+          },
+          {
+            "label": "ORD",
+            "value": 0.715911
+          },
+          {
+            "label": "DFW",
+            "value": 0.721441
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "on_time_rate"
+      },
+      "difficulty": "medium",
+      "id": "q025",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "What are the five worst airports by on-time arrival rate?",
+      "sql": "SELECT origin AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated\nGROUP BY origin\nHAVING COUNT(*) >= 5000\nORDER BY on_time_rate ASC, label ASC\nLIMIT 5"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "JFK",
+            "on_time_rate": 0.756083
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airport_reliability",
+      "chart": null,
+      "difficulty": "easy",
+      "id": "q026",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "What is the on-time arrival rate for flights departing JFK?",
+      "sql": "SELECT 'JFK' AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate\nFROM flights_v\nWHERE operated AND origin = 'JFK'"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "cancellation_rate": 0.028213,
+            "label": "ORD"
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airport_reliability",
+      "chart": null,
+      "difficulty": "easy",
+      "id": "q027",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "What is the cancellation rate for flights departing ORD?",
+      "sql": "SELECT 'ORD' AS label,\n       AVG(CASE WHEN cancelled THEN 1.0 ELSE 0.0 END) AS cancellation_rate\nFROM flights_v\nWHERE origin = 'ORD'"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "cancellation_rate": 0.046437,
+            "label": "LGA"
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airport_reliability",
+      "chart": null,
+      "difficulty": "easy",
+      "id": "q028",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "What is the cancellation rate for flights departing LGA?",
+      "sql": "SELECT 'LGA' AS label,\n       AVG(CASE WHEN cancelled THEN 1.0 ELSE 0.0 END) AS cancellation_rate\nFROM flights_v\nWHERE origin = 'LGA'"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "cancellation_rate": 0.058722,
+            "label": "ASE",
+            "n": 8072
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airport_reliability",
+      "chart": null,
+      "difficulty": "medium",
+      "id": "q029",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "Which airport has the highest cancellation rate?",
+      "sql": "SELECT origin AS label,\n       AVG(CASE WHEN cancelled THEN 1.0 ELSE 0.0 END) AS cancellation_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE TRUE\nGROUP BY origin\nHAVING COUNT(*) >= 5000\nORDER BY cancellation_rate DESC, label ASC\nLIMIT 1"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "avg_arrival_delay": 20.394542,
+            "label": "ASE",
+            "n": 7548
+          },
+          {
+            "avg_arrival_delay": 20.024354,
+            "label": "SFB",
+            "n": 10019
+          },
+          {
+            "avg_arrival_delay": 19.699079,
+            "label": "FWA",
+            "n": 6078
+          },
+          {
+            "avg_arrival_delay": 19.641169,
+            "label": "SBN",
+            "n": 7870
+          },
+          {
+            "avg_arrival_delay": 17.787963,
+            "label": "TVC",
+            "n": 5367
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airport_reliability",
+      "chart": {
+        "points": [
+          {
+            "label": "ASE",
+            "value": 20.394542
+          },
+          {
+            "label": "SFB",
+            "value": 20.024354
+          },
+          {
+            "label": "FWA",
+            "value": 19.699079
+          },
+          {
+            "label": "SBN",
+            "value": 19.641169
+          },
+          {
+            "label": "TVC",
+            "value": 17.787963
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "avg_arrival_delay"
+      },
+      "difficulty": "medium",
+      "id": "q030",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "Which five airports have the highest average signed arrival delay?",
+      "sql": "SELECT origin AS label,\n       AVG(arr_delay) AS avg_arrival_delay,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated\nGROUP BY origin\nHAVING COUNT(*) >= 5000\nORDER BY avg_arrival_delay DESC, label ASC\nLIMIT 5"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "set",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "DAL",
+            "n": 69286,
+            "on_time_rate": 0.728416
+          },
+          {
+            "label": "DFW",
+            "n": 302862,
+            "on_time_rate": 0.721441
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airport_reliability",
+      "chart": {
+        "points": [
+          {
+            "label": "DAL",
+            "value": 0.728416
+          },
+          {
+            "label": "DFW",
+            "value": 0.721441
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "on_time_rate"
+      },
+      "difficulty": "medium",
+      "id": "q031",
+      "notes": "Both Dallas/Fort Worth International and Dallas Love Field, departures only, no minimum beyond the airports named.",
+      "question": "How do DFW and DAL compare on on-time arrival rate for departures? Return both rates.",
+      "sql": "SELECT origin AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin IN ('DFW', 'DAL')\nGROUP BY origin\nORDER BY on_time_rate DESC, label ASC"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "EWR",
+            "on_time_rate": 0.703084
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airport_reliability",
+      "chart": null,
+      "difficulty": "easy",
+      "id": "q032",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "What is the evening on-time arrival rate for flights departing EWR?",
+      "sql": "SELECT 'EWR' AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate\nFROM flights_v\nWHERE operated AND origin = 'EWR' AND dep_time_bucket = 'evening'"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "irregular_rate": 0.01316,
+            "label": "SFO"
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airport_reliability",
+      "chart": null,
+      "difficulty": "easy",
+      "id": "q033",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "What share of flights departing SFO are cancelled or diverted?",
+      "sql": "SELECT 'SFO' AS label,\n       AVG(CASE WHEN cancelled OR diverted THEN 1.0 ELSE 0.0 END) AS irregular_rate\nFROM flights_v\nWHERE origin = 'SFO'"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "TPA",
+            "n": 75392,
+            "on_time_rate": 0.783439
+          },
+          {
+            "label": "RSW",
+            "n": 34055,
+            "on_time_rate": 0.781941
+          },
+          {
+            "label": "MCO",
+            "n": 157442,
+            "on_time_rate": 0.744636
+          },
+          {
+            "label": "MIA",
+            "n": 109030,
+            "on_time_rate": 0.737458
+          },
+          {
+            "label": "FLL",
+            "n": 87958,
+            "on_time_rate": 0.708133
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airport_reliability",
+      "chart": {
+        "points": [
+          {
+            "label": "TPA",
+            "value": 0.783439
+          },
+          {
+            "label": "RSW",
+            "value": 0.781941
+          },
+          {
+            "label": "MCO",
+            "value": 0.744636
+          },
+          {
+            "label": "MIA",
+            "value": 0.737458
+          },
+          {
+            "label": "FLL",
+            "value": 0.708133
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "on_time_rate"
+      },
+      "difficulty": "medium",
+      "id": "q034",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "Rank MCO, MIA, FLL, TPA, and RSW by on-time arrival rate for departures.",
+      "sql": "SELECT origin AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin IN ('MCO', 'MIA', 'FLL', 'TPA', 'RSW')\nGROUP BY origin\nORDER BY on_time_rate DESC, label ASC\nLIMIT 5"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "DCA",
+            "on_time_rate": 0.715882
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airport_reliability",
+      "chart": null,
+      "difficulty": "medium",
+      "id": "q035",
+      "notes": "This is arrivals at DCA, not departures from DCA.",
+      "question": "What is the on-time arrival rate for flights arriving at DCA?",
+      "sql": "SELECT 'DCA' AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate\nFROM flights_v\nWHERE operated AND dest = 'DCA'"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "ATL",
+            "n": 309347,
+            "on_time_rate": 0.782345
+          },
+          {
+            "label": "DEN",
+            "n": 315950,
+            "on_time_rate": 0.769084
+          },
+          {
+            "label": "CLT",
+            "n": 177415,
+            "on_time_rate": 0.765736
+          },
+          {
+            "label": "DFW",
+            "n": 302862,
+            "on_time_rate": 0.721441
+          },
+          {
+            "label": "ORD",
+            "n": 348736,
+            "on_time_rate": 0.715911
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airport_reliability",
+      "chart": {
+        "points": [
+          {
+            "label": "ATL",
+            "value": 0.782345
+          },
+          {
+            "label": "DEN",
+            "value": 0.769084
+          },
+          {
+            "label": "CLT",
+            "value": 0.765736
+          },
+          {
+            "label": "DFW",
+            "value": 0.721441
+          },
+          {
+            "label": "ORD",
+            "value": 0.715911
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "on_time_rate"
+      },
+      "difficulty": "easy",
+      "id": "q036",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "Rank ATL, DFW, DEN, ORD, and CLT by on-time arrival rate for departures.",
+      "sql": "SELECT origin AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin IN ('ATL', 'DFW', 'DEN', 'ORD', 'CLT')\nGROUP BY origin\nORDER BY on_time_rate DESC, label ASC\nLIMIT 5"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "SFB",
+            "n": 4841,
+            "rate_gap": 0.38685
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airport_reliability",
+      "chart": null,
+      "difficulty": "hard",
+      "id": "q037",
+      "notes": "The gap is the morning on-time arrival rate minus the evening rate. Each bucket needs at least 500 operated departures. Largest means the most positive gap.",
+      "question": "Which airport has the largest morning-minus-evening on-time arrival gap?",
+      "sql": "SELECT origin AS label,\n       AVG(CASE WHEN dep_time_bucket = 'morning' THEN CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END END)\n       - AVG(CASE WHEN dep_time_bucket = 'evening' THEN CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END END) AS rate_gap,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND dep_time_bucket IN ('morning', 'evening')\nGROUP BY origin\nHAVING SUM(CASE WHEN dep_time_bucket = 'morning' THEN 1 ELSE 0 END) >= 500\n   AND SUM(CASE WHEN dep_time_bucket = 'evening' THEN 1 ELSE 0 END) >= 500\nORDER BY rate_gap DESC, label ASC\nLIMIT 1"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "set",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "avg_arrival_delay": null,
+            "cancellation_rate": null,
+            "label": "WN",
+            "on_time_rate": null,
+            "operated_flights": 0,
+            "scheduled_flights": 0
+          },
+          {
+            "avg_arrival_delay": 20.34725,
+            "cancellation_rate": 0.034629,
+            "label": "AA",
+            "on_time_rate": 0.6611,
+            "operated_flights": 4072,
+            "scheduled_flights": 4245
+          }
+        ],
+        "truncated": false
+      },
+      "category": "routes",
+      "chart": {
+        "points": [
+          {
+            "label": "WN",
+            "value": 0
+          },
+          {
+            "label": "AA",
+            "value": 4245
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "scheduled_flights"
+      },
+      "difficulty": "medium",
+      "id": "q038",
+      "notes": "Directional, DFW to ORD. Both carriers are listed even if one has no flights. Rates are null when the operated count is zero, and those rates are not scored; the counts are. In this extract Southwest's Dallas flights use DAL, not DFW, so its DFW-ORD counts are the finding.",
+      "question": "How do American and Southwest compare on DFW to ORD? For each airline return scheduled flights and operated flights, plus the on-time arrival rate, cancellation rate, and average signed arrival delay when that airline flew the route.",
+      "sql": "SELECT codes.airline_code AS label,\n       COUNT(f.flight_date) AS scheduled_flights,\n       COALESCE(SUM(CASE WHEN f.operated THEN 1 ELSE 0 END), 0) AS operated_flights,\n       AVG(CASE WHEN f.operated THEN CASE WHEN f.on_time_arrival THEN 1.0 ELSE 0.0 END END) AS on_time_rate,\n       AVG(CASE WHEN f.flight_date IS NOT NULL THEN CASE WHEN f.cancelled THEN 1.0 ELSE 0.0 END END) AS cancellation_rate,\n       AVG(CASE WHEN f.operated THEN f.arr_delay END) AS avg_arrival_delay\nFROM (VALUES ('AA'), ('WN')) AS codes(airline_code)\nLEFT JOIN flights_v f\n  ON f.airline_code = codes.airline_code\n AND f.origin = 'DFW'\n AND f.dest = 'ORD'\nGROUP BY codes.airline_code"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "set",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "avg_arrival_delay": 21.046724,
+            "cancellation_rate": 0.024837,
+            "label": "UA",
+            "on_time_rate": 0.683136,
+            "operated_flights": 3724,
+            "scheduled_flights": 3825
+          },
+          {
+            "avg_arrival_delay": null,
+            "cancellation_rate": null,
+            "label": "AA",
+            "on_time_rate": null,
+            "operated_flights": 0,
+            "scheduled_flights": 0
+          }
+        ],
+        "truncated": false
+      },
+      "category": "routes",
+      "chart": {
+        "points": [
+          {
+            "label": "UA",
+            "value": 3825
+          },
+          {
+            "label": "AA",
+            "value": 0
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "scheduled_flights"
+      },
+      "difficulty": "medium",
+      "id": "q039",
+      "notes": "Directional, EWR to SFO. Both carriers are listed even if one has no flights. Counts are scored. A null rate means that carrier did not operate the route in this extract.",
+      "question": "How do United and American compare on EWR to SFO? For each airline return scheduled flights and operated flights, plus the on-time arrival rate, cancellation rate, and average signed arrival delay when that airline flew the route.",
+      "sql": "SELECT codes.airline_code AS label,\n       COUNT(f.flight_date) AS scheduled_flights,\n       COALESCE(SUM(CASE WHEN f.operated THEN 1 ELSE 0 END), 0) AS operated_flights,\n       AVG(CASE WHEN f.operated THEN CASE WHEN f.on_time_arrival THEN 1.0 ELSE 0.0 END END) AS on_time_rate,\n       AVG(CASE WHEN f.flight_date IS NOT NULL THEN CASE WHEN f.cancelled THEN 1.0 ELSE 0.0 END END) AS cancellation_rate,\n       AVG(CASE WHEN f.operated THEN f.arr_delay END) AS avg_arrival_delay\nFROM (VALUES ('UA'), ('AA')) AS codes(airline_code)\nLEFT JOIN flights_v f\n  ON f.airline_code = codes.airline_code\n AND f.origin = 'EWR'\n AND f.dest = 'SFO'\nGROUP BY codes.airline_code"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "set",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "avg_arrival_delay": 7.88774,
+            "cancellation_rate": 0.032421,
+            "label": "DL",
+            "on_time_rate": 0.766617,
+            "operated_flights": 4739,
+            "scheduled_flights": 4935
+          },
+          {
+            "avg_arrival_delay": 14.913815,
+            "cancellation_rate": 0.02454,
+            "label": "WN",
+            "on_time_rate": 0.712294,
+            "operated_flights": 789,
+            "scheduled_flights": 815
+          }
+        ],
+        "truncated": false
+      },
+      "category": "routes",
+      "chart": {
+        "points": [
+          {
+            "label": "DL",
+            "value": 4935
+          },
+          {
+            "label": "WN",
+            "value": 815
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "scheduled_flights"
+      },
+      "difficulty": "medium",
+      "id": "q040",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "How do Delta and Southwest compare on ATL to LGA? For each airline return the on-time arrival rate, the cancellation rate, and the average signed arrival delay.",
+      "sql": "SELECT codes.airline_code AS label,\n       COUNT(f.flight_date) AS scheduled_flights,\n       COALESCE(SUM(CASE WHEN f.operated THEN 1 ELSE 0 END), 0) AS operated_flights,\n       AVG(CASE WHEN f.operated THEN CASE WHEN f.on_time_arrival THEN 1.0 ELSE 0.0 END END) AS on_time_rate,\n       AVG(CASE WHEN f.flight_date IS NOT NULL THEN CASE WHEN f.cancelled THEN 1.0 ELSE 0.0 END END) AS cancellation_rate,\n       AVG(CASE WHEN f.operated THEN f.arr_delay END) AS avg_arrival_delay\nFROM (VALUES ('DL'), ('WN')) AS codes(airline_code)\nLEFT JOIN flights_v f\n  ON f.airline_code = codes.airline_code\n AND f.origin = 'ATL'\n AND f.dest = 'LGA'\nGROUP BY codes.airline_code"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "LAX-JFK",
+            "on_time_rate": 0.790151
+          }
+        ],
+        "truncated": false
+      },
+      "category": "routes",
+      "chart": null,
+      "difficulty": "easy",
+      "id": "q041",
+      "notes": "All reporting airlines, one direction.",
+      "question": "What is the on-time arrival rate on LAX to JFK?",
+      "sql": "SELECT 'LAX-JFK' AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate\nFROM flights_v\nWHERE operated AND origin = 'LAX' AND dest = 'JFK'"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "OO",
+            "n": 2541,
+            "on_time_rate": 0.69146
+          }
+        ],
+        "truncated": false
+      },
+      "category": "routes",
+      "chart": null,
+      "difficulty": "medium",
+      "id": "q042",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "Which airline is most on time on LAX to SFO?",
+      "sql": "SELECT airline_code AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin = 'LAX' AND dest = 'SFO'\nGROUP BY airline_code\nHAVING COUNT(*) >= 100\nORDER BY on_time_rate DESC, label ASC\nLIMIT 1"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "PHL-DCA",
+            "n": 753,
+            "on_time_rate": 0.581673
+          },
+          {
+            "label": "FLL-AVL",
+            "n": 648,
+            "on_time_rate": 0.591049
+          },
+          {
+            "label": "ACV-SFO",
+            "n": 1251,
+            "on_time_rate": 0.595524
+          },
+          {
+            "label": "DFW-BUF",
+            "n": 561,
+            "on_time_rate": 0.597148
+          },
+          {
+            "label": "SBP-SFO",
+            "n": 1130,
+            "on_time_rate": 0.597345
+          }
+        ],
+        "truncated": false
+      },
+      "category": "routes",
+      "chart": {
+        "points": [
+          {
+            "label": "PHL-DCA",
+            "value": 0.581673
+          },
+          {
+            "label": "FLL-AVL",
+            "value": 0.591049
+          },
+          {
+            "label": "ACV-SFO",
+            "value": 0.595524
+          },
+          {
+            "label": "DFW-BUF",
+            "value": 0.597148
+          },
+          {
+            "label": "SBP-SFO",
+            "value": 0.597345
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "on_time_rate"
+      },
+      "difficulty": "hard",
+      "id": "q043",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "Which five routes have the lowest on-time arrival rate?",
+      "sql": "SELECT origin || '-' || dest AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated\nGROUP BY origin, dest\nHAVING COUNT(*) >= 500\nORDER BY on_time_rate ASC, label ASC\nLIMIT 5"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "cancellation_rate": 0.139605,
+            "label": "DTW-PLN",
+            "n": 659
+          },
+          {
+            "cancellation_rate": 0.139605,
+            "label": "PLN-DTW",
+            "n": 659
+          },
+          {
+            "cancellation_rate": 0.073365,
+            "label": "MCW-ORD",
+            "n": 627
+          },
+          {
+            "cancellation_rate": 0.07173,
+            "label": "ASE-DFW",
+            "n": 1185
+          },
+          {
+            "cancellation_rate": 0.070764,
+            "label": "CLE-DCA",
+            "n": 1611
+          }
+        ],
+        "truncated": false
+      },
+      "category": "routes",
+      "chart": {
+        "points": [
+          {
+            "label": "DTW-PLN",
+            "value": 0.139605
+          },
+          {
+            "label": "PLN-DTW",
+            "value": 0.139605
+          },
+          {
+            "label": "MCW-ORD",
+            "value": 0.073365
+          },
+          {
+            "label": "ASE-DFW",
+            "value": 0.07173
+          },
+          {
+            "label": "CLE-DCA",
+            "value": 0.070764
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "cancellation_rate"
+      },
+      "difficulty": "hard",
+      "id": "q044",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "Which five routes have the highest cancellation rate?",
+      "sql": "SELECT origin || '-' || dest AS label,\n       AVG(CASE WHEN cancelled THEN 1.0 ELSE 0.0 END) AS cancellation_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE TRUE\nGROUP BY origin, dest\nHAVING COUNT(*) >= 500\nORDER BY cancellation_rate DESC, label ASC\nLIMIT 5"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "avg_arrival_delay": 20.032416,
+            "label": "DFW-ORD"
+          }
+        ],
+        "truncated": false
+      },
+      "category": "routes",
+      "chart": null,
+      "difficulty": "easy",
+      "id": "q045",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "What is the average signed arrival delay on DFW to ORD?",
+      "sql": "SELECT 'DFW-ORD' AS label,\n       AVG(arr_delay) AS avg_arrival_delay\nFROM flights_v\nWHERE operated AND origin = 'DFW' AND dest = 'ORD'"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "set",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "avg_arrival_delay": 1.157395,
+            "cancellation_rate": 0.006289,
+            "label": "DL",
+            "on_time_rate": 0.830846,
+            "operated_flights": 2211,
+            "scheduled_flights": 2226
+          },
+          {
+            "avg_arrival_delay": 1.098527,
+            "cancellation_rate": 0.009425,
+            "label": "AS",
+            "on_time_rate": 0.80663,
+            "operated_flights": 3258,
+            "scheduled_flights": 3289
+          }
+        ],
+        "truncated": false
+      },
+      "category": "routes",
+      "chart": {
+        "points": [
+          {
+            "label": "DL",
+            "value": 2226
+          },
+          {
+            "label": "AS",
+            "value": 3289
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "scheduled_flights"
+      },
+      "difficulty": "medium",
+      "id": "q046",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "How do Alaska and Delta compare on SEA to LAX? For each airline return the on-time arrival rate, the cancellation rate, and the average signed arrival delay.",
+      "sql": "SELECT codes.airline_code AS label,\n       COUNT(f.flight_date) AS scheduled_flights,\n       COALESCE(SUM(CASE WHEN f.operated THEN 1 ELSE 0 END), 0) AS operated_flights,\n       AVG(CASE WHEN f.operated THEN CASE WHEN f.on_time_arrival THEN 1.0 ELSE 0.0 END END) AS on_time_rate,\n       AVG(CASE WHEN f.flight_date IS NOT NULL THEN CASE WHEN f.cancelled THEN 1.0 ELSE 0.0 END END) AS cancellation_rate,\n       AVG(CASE WHEN f.operated THEN f.arr_delay END) AS avg_arrival_delay\nFROM (VALUES ('AS'), ('DL')) AS codes(airline_code)\nLEFT JOIN flights_v f\n  ON f.airline_code = codes.airline_code\n AND f.origin = 'SEA'\n AND f.dest = 'LAX'\nGROUP BY codes.airline_code"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "cancellation_rate": 0.029567,
+            "label": "DFW-ORD"
+          }
+        ],
+        "truncated": false
+      },
+      "category": "routes",
+      "chart": null,
+      "difficulty": "easy",
+      "id": "q047",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "What share of DFW to ORD flights are cancelled?",
+      "sql": "SELECT 'DFW-ORD' AS label,\n       AVG(CASE WHEN cancelled THEN 1.0 ELSE 0.0 END) AS cancellation_rate\nFROM flights_v\nWHERE origin = 'DFW' AND dest = 'ORD'"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "set",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "ORD-LGA",
+            "on_time_rate": 0.673641
+          },
+          {
+            "label": "LGA-ORD",
+            "on_time_rate": 0.680109
+          }
+        ],
+        "truncated": false
+      },
+      "category": "routes",
+      "chart": {
+        "points": [
+          {
+            "label": "ORD-LGA",
+            "value": 0.673641
+          },
+          {
+            "label": "LGA-ORD",
+            "value": 0.680109
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "on_time_rate"
+      },
+      "difficulty": "medium",
+      "id": "q048",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "Which direction is more on time, ORD to LGA or LGA to ORD? Return both on-time arrival rates.",
+      "sql": "SELECT 'ORD-LGA' AS label, AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate FROM flights_v WHERE operated AND origin = 'ORD' AND dest = 'LGA'\nUNION ALL\nSELECT 'LGA-ORD' AS label, AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate FROM flights_v WHERE operated AND origin = 'LGA' AND dest = 'ORD'"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "set",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "avg_arrival_delay": 15.587065,
+            "cancellation_rate": 0.033386,
+            "label": "B6",
+            "on_time_rate": 0.681592,
+            "operated_flights": 2412,
+            "scheduled_flights": 2516
+          },
+          {
+            "avg_arrival_delay": 8.657166,
+            "cancellation_rate": 0.02148,
+            "label": "DL",
+            "on_time_rate": 0.762215,
+            "operated_flights": 1228,
+            "scheduled_flights": 1257
+          }
+        ],
+        "truncated": false
+      },
+      "category": "routes",
+      "chart": {
+        "points": [
+          {
+            "label": "B6",
+            "value": 2516
+          },
+          {
+            "label": "DL",
+            "value": 1257
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "scheduled_flights"
+      },
+      "difficulty": "medium",
+      "id": "q049",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "How do JetBlue and Delta compare on BOS to MCO? For each airline return the on-time arrival rate, the cancellation rate, and the average signed arrival delay.",
+      "sql": "SELECT codes.airline_code AS label,\n       COUNT(f.flight_date) AS scheduled_flights,\n       COALESCE(SUM(CASE WHEN f.operated THEN 1 ELSE 0 END), 0) AS operated_flights,\n       AVG(CASE WHEN f.operated THEN CASE WHEN f.on_time_arrival THEN 1.0 ELSE 0.0 END END) AS on_time_rate,\n       AVG(CASE WHEN f.flight_date IS NOT NULL THEN CASE WHEN f.cancelled THEN 1.0 ELSE 0.0 END END) AS cancellation_rate,\n       AVG(CASE WHEN f.operated THEN f.arr_delay END) AS avg_arrival_delay\nFROM (VALUES ('B6'), ('DL')) AS codes(airline_code)\nLEFT JOIN flights_v f\n  ON f.airline_code = codes.airline_code\n AND f.origin = 'BOS'\n AND f.dest = 'MCO'\nGROUP BY codes.airline_code"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "WN",
+            "n": 3971,
+            "operated_flights": 3971
+          }
+        ],
+        "truncated": false
+      },
+      "category": "routes",
+      "chart": null,
+      "difficulty": "easy",
+      "id": "q050",
+      "notes": "Operated flights only. The scored figure is the flight count.",
+      "question": "Which airline operates the most flights from DAL to HOU?",
+      "sql": "SELECT airline_code AS label,\n       COUNT(*) AS operated_flights,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin = 'DAL' AND dest = 'HOU'\nGROUP BY airline_code\nORDER BY operated_flights DESC, label ASC\nLIMIT 1"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "set",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "avg_arrival_delay": 20.742604,
+            "cancellation_rate": 0.035125,
+            "label": "AA",
+            "on_time_rate": 0.688363,
+            "operated_flights": 4056,
+            "scheduled_flights": 4242
+          },
+          {
+            "avg_arrival_delay": 10.430215,
+            "cancellation_rate": 0.013216,
+            "label": "UA",
+            "on_time_rate": 0.742371,
+            "operated_flights": 1999,
+            "scheduled_flights": 2043
+          }
+        ],
+        "truncated": false
+      },
+      "category": "routes",
+      "chart": {
+        "points": [
+          {
+            "label": "AA",
+            "value": 4242
+          },
+          {
+            "label": "UA",
+            "value": 2043
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "scheduled_flights"
+      },
+      "difficulty": "medium",
+      "id": "q051",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "How do American and United compare on ORD to DFW? For each airline return the on-time arrival rate, the cancellation rate, and the average signed arrival delay.",
+      "sql": "SELECT codes.airline_code AS label,\n       COUNT(f.flight_date) AS scheduled_flights,\n       COALESCE(SUM(CASE WHEN f.operated THEN 1 ELSE 0 END), 0) AS operated_flights,\n       AVG(CASE WHEN f.operated THEN CASE WHEN f.on_time_arrival THEN 1.0 ELSE 0.0 END END) AS on_time_rate,\n       AVG(CASE WHEN f.flight_date IS NOT NULL THEN CASE WHEN f.cancelled THEN 1.0 ELSE 0.0 END END) AS cancellation_rate,\n       AVG(CASE WHEN f.operated THEN f.arr_delay END) AS avg_arrival_delay\nFROM (VALUES ('AA'), ('UA')) AS codes(airline_code)\nLEFT JOIN flights_v f\n  ON f.airline_code = codes.airline_code\n AND f.origin = 'ORD'\n AND f.dest = 'DFW'\nGROUP BY codes.airline_code"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "avg_arrival_delay": 59.027027,
+            "label": "DFW-BFL",
+            "n": 296
+          },
+          {
+            "avg_arrival_delay": 40.584746,
+            "label": "DFW-MDT",
+            "n": 354
+          },
+          {
+            "avg_arrival_delay": 39.704684,
+            "label": "DFW-OGG",
+            "n": 491
+          },
+          {
+            "avg_arrival_delay": 32.308411,
+            "label": "DFW-EYW",
+            "n": 321
+          },
+          {
+            "avg_arrival_delay": 30.862884,
+            "label": "DFW-EGE",
+            "n": 846
+          }
+        ],
+        "truncated": false
+      },
+      "category": "routes",
+      "chart": {
+        "points": [
+          {
+            "label": "DFW-BFL",
+            "value": 59.027027
+          },
+          {
+            "label": "DFW-MDT",
+            "value": 40.584746
+          },
+          {
+            "label": "DFW-OGG",
+            "value": 39.704684
+          },
+          {
+            "label": "DFW-EYW",
+            "value": 32.308411
+          },
+          {
+            "label": "DFW-EGE",
+            "value": 30.862884
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "avg_arrival_delay"
+      },
+      "difficulty": "hard",
+      "id": "q052",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "What are the five routes out of DFW with the highest average signed arrival delay?",
+      "sql": "SELECT origin || '-' || dest AS label,\n       AVG(arr_delay) AS avg_arrival_delay,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin = 'DFW'\nGROUP BY origin, dest\nHAVING COUNT(*) >= 200\nORDER BY avg_arrival_delay DESC, label ASC\nLIMIT 5"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "F9",
+            "on_time_rate": 0.76374
+          }
+        ],
+        "truncated": false
+      },
+      "category": "routes",
+      "chart": null,
+      "difficulty": "medium",
+      "id": "q053",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "What is Frontier's on-time arrival rate on DEN to LAS?",
+      "sql": "SELECT 'F9' AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate\nFROM flights_v\nWHERE operated AND airline_code = 'F9' AND origin = 'DEN' AND dest = 'LAS'"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "hour_20",
+            "n": 300806,
+            "on_time_rate": 0.67736
+          }
+        ],
+        "truncated": false
+      },
+      "category": "time_of_day",
+      "chart": null,
+      "difficulty": "medium",
+      "id": "q054",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "Which scheduled departure hour has the worst systemwide on-time arrival rate, among hours with at least 10000 operated flights?",
+      "sql": "SELECT 'hour_' || LPAD(CAST(sched_dep_hour AS VARCHAR), 2, '0') AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND sched_dep_hour IS NOT NULL\nGROUP BY sched_dep_hour\nHAVING COUNT(*) >= 10000\nORDER BY on_time_rate ASC, label ASC\nLIMIT 1"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "hour_06",
+            "n": 5673,
+            "on_time_rate": 0.898114
+          }
+        ],
+        "truncated": false
+      },
+      "category": "time_of_day",
+      "chart": null,
+      "difficulty": "medium",
+      "id": "q055",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "At ATL, which scheduled departure hour is most on time among hours with at least 400 operated departures?",
+      "sql": "SELECT 'hour_' || LPAD(CAST(sched_dep_hour AS VARCHAR), 2, '0') AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin = 'ATL' AND sched_dep_hour IS NOT NULL\nGROUP BY sched_dep_hour\nHAVING COUNT(*) >= 400\nORDER BY on_time_rate DESC, label ASC\nLIMIT 1"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "morning",
+            "on_time_rate": 0.881644
+          }
+        ],
+        "truncated": false
+      },
+      "category": "time_of_day",
+      "chart": null,
+      "difficulty": "easy",
+      "id": "q056",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "What is the systemwide on-time arrival rate for morning departures?",
+      "sql": "SELECT 'morning' AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate\nFROM flights_v\nWHERE operated AND dep_time_bucket = 'morning'"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "evening",
+            "on_time_rate": 0.683157
+          }
+        ],
+        "truncated": false
+      },
+      "category": "time_of_day",
+      "chart": null,
+      "difficulty": "easy",
+      "id": "q057",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "What is the systemwide on-time arrival rate for evening departures?",
+      "sql": "SELECT 'evening' AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate\nFROM flights_v\nWHERE operated AND dep_time_bucket = 'evening'"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "night",
+            "on_time_rate": 0.727308
+          }
+        ],
+        "truncated": false
+      },
+      "category": "time_of_day",
+      "chart": null,
+      "difficulty": "easy",
+      "id": "q058",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "What is the systemwide on-time arrival rate for night departures?",
+      "sql": "SELECT 'night' AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate\nFROM flights_v\nWHERE operated AND dep_time_bucket = 'night'"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "systemwide",
+            "percentage_points": 19.848757
+          }
+        ],
+        "truncated": false
+      },
+      "category": "time_of_day",
+      "chart": null,
+      "difficulty": "medium",
+      "id": "q059",
+      "notes": "A negative number means evening departures were more on time than morning departures.",
+      "question": "By how many percentage points is the systemwide morning on-time arrival rate higher than the evening rate? Return morning minus evening.",
+      "sql": "SELECT 'systemwide' AS label,\n       (\n           (SELECT AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) FROM flights_v WHERE operated AND dep_time_bucket = 'morning')\n           - (SELECT AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) FROM flights_v WHERE operated AND dep_time_bucket = 'evening')\n       ) * 100.0 AS percentage_points"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "hour_17",
+            "on_time_rate": 0.718953
+          }
+        ],
+        "truncated": false
+      },
+      "category": "time_of_day",
+      "chart": null,
+      "difficulty": "medium",
+      "id": "q060",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "What is the on-time arrival rate for EWR departures scheduled in the 17:00 hour?",
+      "sql": "SELECT 'hour_17' AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate\nFROM flights_v\nWHERE operated AND origin = 'EWR' AND sched_dep_hour = 17"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "Tuesday",
+            "n": 931681,
+            "on_time_rate": 0.813638
+          }
+        ],
+        "truncated": false
+      },
+      "category": "time_of_day",
+      "chart": null,
+      "difficulty": "easy",
+      "id": "q061",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "Which day of week has the highest systemwide on-time arrival rate?",
+      "sql": "SELECT CASE day_of_week\n    WHEN 1 THEN 'Monday' WHEN 2 THEN 'Tuesday' WHEN 3 THEN 'Wednesday'\n    WHEN 4 THEN 'Thursday' WHEN 5 THEN 'Friday' WHEN 6 THEN 'Saturday'\n    WHEN 7 THEN 'Sunday' END AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated\nGROUP BY day_of_week\nORDER BY on_time_rate DESC, label ASC\nLIMIT 1"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "Sunday",
+            "n": 1020227,
+            "on_time_rate": 0.736472
+          }
+        ],
+        "truncated": false
+      },
+      "category": "time_of_day",
+      "chart": null,
+      "difficulty": "easy",
+      "id": "q062",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "Which day of week has the lowest systemwide on-time arrival rate?",
+      "sql": "SELECT CASE day_of_week\n    WHEN 1 THEN 'Monday' WHEN 2 THEN 'Tuesday' WHEN 3 THEN 'Wednesday'\n    WHEN 4 THEN 'Thursday' WHEN 5 THEN 'Friday' WHEN 6 THEN 'Saturday'\n    WHEN 7 THEN 'Sunday' END AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated\nGROUP BY day_of_week\nORDER BY on_time_rate ASC, label ASC\nLIMIT 1"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "set",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "friday_evening",
+            "on_time_rate": 0.664477
+          },
+          {
+            "label": "wednesday_morning",
+            "on_time_rate": 0.898482
+          }
+        ],
+        "truncated": false
+      },
+      "category": "time_of_day",
+      "chart": {
+        "points": [
+          {
+            "label": "friday_evening",
+            "value": 0.664477
+          },
+          {
+            "label": "wednesday_morning",
+            "value": 0.898482
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "on_time_rate"
+      },
+      "difficulty": "medium",
+      "id": "q063",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "What are the systemwide on-time arrival rates for Friday evening departures and Wednesday morning departures?",
+      "sql": "SELECT 'friday_evening' AS label, AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate FROM flights_v WHERE operated AND day_of_week = 5 AND dep_time_bucket = 'evening'\nUNION ALL\nSELECT 'wednesday_morning' AS label, AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate FROM flights_v WHERE operated AND day_of_week = 3 AND dep_time_bucket = 'morning'"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "set",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "hour_06",
+            "on_time_rate": 0.861438
+          },
+          {
+            "label": "hour_18",
+            "on_time_rate": 0.616492
+          }
+        ],
+        "truncated": false
+      },
+      "category": "time_of_day",
+      "chart": {
+        "points": [
+          {
+            "label": "hour_06",
+            "value": 0.861438
+          },
+          {
+            "label": "hour_18",
+            "value": 0.616492
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "on_time_rate"
+      },
+      "difficulty": "hard",
+      "id": "q064",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "At ORD, what are the on-time arrival rates for departures in hour 06 and hour 18?",
+      "sql": "SELECT 'hour_06' AS label, AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate FROM flights_v WHERE operated AND origin = 'ORD' AND sched_dep_hour = 6\nUNION ALL\nSELECT 'hour_18' AS label, AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate FROM flights_v WHERE operated AND origin = 'ORD' AND sched_dep_hour = 18"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "avg_arrival_delay": 20.544464,
+            "label": "LGA"
+          }
+        ],
+        "truncated": false
+      },
+      "category": "time_of_day",
+      "chart": null,
+      "difficulty": "medium",
+      "id": "q065",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "What is the average signed arrival delay for evening departures from LGA?",
+      "sql": "SELECT 'LGA' AS label,\n       AVG(arr_delay) AS avg_arrival_delay\nFROM flights_v\nWHERE operated AND origin = 'LGA' AND dep_time_bucket = 'evening'"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "cancellation_rate": 0.024928,
+            "label": "night",
+            "n": 469196
+          }
+        ],
+        "truncated": false
+      },
+      "category": "time_of_day",
+      "chart": null,
+      "difficulty": "medium",
+      "id": "q066",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "Which time-of-day bucket has the highest cancellation rate systemwide?",
+      "sql": "SELECT dep_time_bucket AS label,\n       AVG(CASE WHEN cancelled THEN 1.0 ELSE 0.0 END) AS cancellation_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE dep_time_bucket IS NOT NULL\nGROUP BY dep_time_bucket\nORDER BY cancellation_rate DESC, label ASC\nLIMIT 1"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "set",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "hour_08",
+            "on_time_rate": 0.889922
+          },
+          {
+            "label": "hour_20",
+            "on_time_rate": 0.674528
+          }
+        ],
+        "truncated": false
+      },
+      "category": "time_of_day",
+      "chart": {
+        "points": [
+          {
+            "label": "hour_08",
+            "value": 0.889922
+          },
+          {
+            "label": "hour_20",
+            "value": 0.674528
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "on_time_rate"
+      },
+      "difficulty": "hard",
+      "id": "q067",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "At DEN, what are the on-time arrival rates for departures in hour 08 and hour 20?",
+      "sql": "SELECT 'hour_08' AS label, AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate FROM flights_v WHERE operated AND origin = 'DEN' AND sched_dep_hour = 8\nUNION ALL\nSELECT 'hour_20' AS label, AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate FROM flights_v WHERE operated AND origin = 'DEN' AND sched_dep_hour = 20"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "fall",
+            "n": 1715194,
+            "on_time_rate": 0.808022
+          }
+        ],
+        "truncated": false
+      },
+      "category": "seasonality",
+      "chart": null,
+      "difficulty": "easy",
+      "id": "q068",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "Which season has the highest systemwide on-time arrival rate?",
+      "sql": "SELECT season AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated\nGROUP BY season\nORDER BY on_time_rate DESC, label ASC\nLIMIT 1"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "summer",
+            "n": 1800966,
+            "on_time_rate": 0.744349
+          }
+        ],
+        "truncated": false
+      },
+      "category": "seasonality",
+      "chart": null,
+      "difficulty": "easy",
+      "id": "q069",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "Which season has the lowest systemwide on-time arrival rate?",
+      "sql": "SELECT season AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated\nGROUP BY season\nORDER BY on_time_rate ASC, label ASC\nLIMIT 1"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "ORD",
+            "on_time_rate": 0.672253
+          }
+        ],
+        "truncated": false
+      },
+      "category": "seasonality",
+      "chart": null,
+      "difficulty": "easy",
+      "id": "q070",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "What is the winter on-time arrival rate for flights departing ORD?",
+      "sql": "SELECT 'ORD' AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate\nFROM flights_v\nWHERE operated AND origin = 'ORD' AND season = 'winter'"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "ORD",
+            "on_time_rate": 0.721628
+          }
+        ],
+        "truncated": false
+      },
+      "category": "seasonality",
+      "chart": null,
+      "difficulty": "easy",
+      "id": "q071",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "What is the summer on-time arrival rate for flights departing ORD?",
+      "sql": "SELECT 'ORD' AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate\nFROM flights_v\nWHERE operated AND origin = 'ORD' AND season = 'summer'"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "cancellation_rate": 0.027895,
+            "label": "DFW"
+          }
+        ],
+        "truncated": false
+      },
+      "category": "seasonality",
+      "chart": null,
+      "difficulty": "medium",
+      "id": "q072",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "What is the summer cancellation rate for flights departing DFW?",
+      "sql": "SELECT 'DFW' AS label,\n       AVG(CASE WHEN cancelled THEN 1.0 ELSE 0.0 END) AS cancellation_rate\nFROM flights_v\nWHERE origin = 'DFW' AND season = 'summer'"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "2026-07",
+            "n": 612038,
+            "on_time_rate": 0.716585
+          }
+        ],
+        "truncated": false
+      },
+      "category": "seasonality",
+      "chart": null,
+      "difficulty": "medium",
+      "id": "q073",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "Which month has the lowest systemwide on-time arrival rate?",
+      "sql": "SELECT CAST(year AS VARCHAR) || '-' || LPAD(CAST(month AS VARCHAR), 2, '0') AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated\nGROUP BY year, month\nORDER BY on_time_rate ASC, label ASC\nLIMIT 1"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "cancellation_rate": 0.047123,
+            "label": "2026-01",
+            "n": 544003
+          }
+        ],
+        "truncated": false
+      },
+      "category": "seasonality",
+      "chart": null,
+      "difficulty": "medium",
+      "id": "q074",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "Which month has the highest systemwide cancellation rate?",
+      "sql": "SELECT CAST(year AS VARCHAR) || '-' || LPAD(CAST(month AS VARCHAR), 2, '0') AS label,\n       AVG(CASE WHEN cancelled THEN 1.0 ELSE 0.0 END) AS cancellation_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE TRUE\nGROUP BY year, month\nORDER BY cancellation_rate DESC, label ASC\nLIMIT 1"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "fall",
+            "n": 24999,
+            "on_time_rate": 0.777951
+          }
+        ],
+        "truncated": false
+      },
+      "category": "seasonality",
+      "chart": null,
+      "difficulty": "medium",
+      "id": "q075",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "At MIA, which season has the highest on-time arrival rate for departures?",
+      "sql": "SELECT season AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin = 'MIA'\nGROUP BY season\nORDER BY on_time_rate DESC, label ASC\nLIMIT 1"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "set",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "winter",
+            "on_time_rate": 0.794833
+          },
+          {
+            "label": "summer",
+            "on_time_rate": 0.689307
+          }
+        ],
+        "truncated": false
+      },
+      "category": "seasonality",
+      "chart": {
+        "points": [
+          {
+            "label": "winter",
+            "value": 0.794833
+          },
+          {
+            "label": "summer",
+            "value": 0.689307
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "on_time_rate"
+      },
+      "difficulty": "medium",
+      "id": "q076",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "What are the winter and summer on-time arrival rates for flights departing DEN?",
+      "sql": "SELECT 'winter' AS label, AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate FROM flights_v WHERE operated AND origin = 'DEN' AND season = 'winter'\nUNION ALL\nSELECT 'summer' AS label, AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate FROM flights_v WHERE operated AND origin = 'DEN' AND season = 'summer'"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "AS",
+            "n": 113,
+            "on_time_rate": 0.734513
+          }
+        ],
+        "truncated": false
+      },
+      "category": "seasonality",
+      "chart": null,
+      "difficulty": "hard",
+      "id": "q077",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "In July 2026, which airline is most on time out of ATL?",
+      "sql": "SELECT airline_code AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin = 'ATL' AND year = 2026 AND month = 7\nGROUP BY airline_code\nHAVING COUNT(*) >= 100\nORDER BY on_time_rate DESC, label ASC\nLIMIT 1"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "2025-12",
+            "on_time_rate": 0.732284
+          }
+        ],
+        "truncated": false
+      },
+      "category": "seasonality",
+      "chart": null,
+      "difficulty": "easy",
+      "id": "q078",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "What is the December 2025 systemwide on-time arrival rate?",
+      "sql": "SELECT '2025-12' AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate\nFROM flights_v\nWHERE operated AND year = 2025 AND month = 12"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "set",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "2025-11-26",
+            "on_time_rate": 0.779287
+          },
+          {
+            "label": "2025-10-wednesdays",
+            "on_time_rate": 0.854119
+          }
+        ],
+        "truncated": false
+      },
+      "category": "seasonality",
+      "chart": {
+        "points": [
+          {
+            "label": "2025-11-26",
+            "value": 0.779287
+          },
+          {
+            "label": "2025-10-wednesdays",
+            "value": 0.854119
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "on_time_rate"
+      },
+      "difficulty": "hard",
+      "id": "q079",
+      "notes": "Thanksgiving 2025 fell on Thursday, November 27. The comparison day is Wednesday, November 26, against every Wednesday in October 2025.",
+      "question": "Which on-time arrival rate is lower: 2025-11-26, the Wednesday before Thanksgiving 2025, or Wednesdays in October 2025? Return both rates.",
+      "sql": "SELECT '2025-11-26' AS label, AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate FROM flights_v WHERE operated AND flight_date = DATE '2025-11-26'\nUNION ALL\nSELECT '2025-10-wednesdays' AS label, AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate FROM flights_v WHERE operated AND year = 2025 AND month = 10 AND day_of_week = 3"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "set",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "airline_controlled",
+            "share": 0.805836
+          },
+          {
+            "label": "weather",
+            "share": 0.056298
+          }
+        ],
+        "truncated": false
+      },
+      "category": "delay_causes",
+      "chart": {
+        "points": [
+          {
+            "label": "airline_controlled",
+            "value": 0.805836
+          },
+          {
+            "label": "weather",
+            "value": 0.056298
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "share"
+      },
+      "difficulty": "medium",
+      "id": "q080",
+      "notes": "Own fault is the draft convention: carrier delay plus late-aircraft delay, as a share of the five BTS cause minutes, on late arrivals of reporting carrier AA. Weather is only the weather-delay cause.",
+      "question": "How much of American's lateness is its own fault versus weather?",
+      "sql": "SELECT 'airline_controlled' AS label,\n       SUM(airline_controlled_minutes) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS share\nFROM flights_v\nWHERE late_arrival AND airline_code = 'AA'\nUNION ALL\nSELECT 'weather' AS label,\n       SUM(weather_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS share\nFROM flights_v\nWHERE late_arrival AND airline_code = 'AA'"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "set",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "airline_controlled",
+            "share": 0.79487
+          },
+          {
+            "label": "weather",
+            "share": 0.023236
+          }
+        ],
+        "truncated": false
+      },
+      "category": "delay_causes",
+      "chart": {
+        "points": [
+          {
+            "label": "airline_controlled",
+            "value": 0.79487
+          },
+          {
+            "label": "weather",
+            "value": 0.023236
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "share"
+      },
+      "difficulty": "medium",
+      "id": "q081",
+      "notes": "Own fault is the draft convention: carrier delay plus late-aircraft delay, as a share of the five BTS cause minutes, on late arrivals of reporting carrier WN. Weather is only the weather-delay cause.",
+      "question": "How much of Southwest's lateness is its own fault versus weather?",
+      "sql": "SELECT 'airline_controlled' AS label,\n       SUM(airline_controlled_minutes) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS share\nFROM flights_v\nWHERE late_arrival AND airline_code = 'WN'\nUNION ALL\nSELECT 'weather' AS label,\n       SUM(weather_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS share\nFROM flights_v\nWHERE late_arrival AND airline_code = 'WN'"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "set",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "airline_controlled",
+            "share": 0.741997
+          },
+          {
+            "label": "weather",
+            "share": 0.041057
+          }
+        ],
+        "truncated": false
+      },
+      "category": "delay_causes",
+      "chart": {
+        "points": [
+          {
+            "label": "airline_controlled",
+            "value": 0.741997
+          },
+          {
+            "label": "weather",
+            "value": 0.041057
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "share"
+      },
+      "difficulty": "medium",
+      "id": "q082",
+      "notes": "Own fault is the draft convention: carrier delay plus late-aircraft delay, as a share of the five BTS cause minutes, on late arrivals of reporting carrier DL. Weather is only the weather-delay cause.",
+      "question": "How much of Delta's lateness is its own fault versus weather?",
+      "sql": "SELECT 'airline_controlled' AS label,\n       SUM(airline_controlled_minutes) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS share\nFROM flights_v\nWHERE late_arrival AND airline_code = 'DL'\nUNION ALL\nSELECT 'weather' AS label,\n       SUM(weather_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS share\nFROM flights_v\nWHERE late_arrival AND airline_code = 'DL'"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "set",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "airline_controlled",
+            "share": 0.617687
+          },
+          {
+            "label": "weather",
+            "share": 0.042073
+          }
+        ],
+        "truncated": false
+      },
+      "category": "delay_causes",
+      "chart": {
+        "points": [
+          {
+            "label": "airline_controlled",
+            "value": 0.617687
+          },
+          {
+            "label": "weather",
+            "value": 0.042073
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "share"
+      },
+      "difficulty": "medium",
+      "id": "q083",
+      "notes": "Own fault is the draft convention: carrier delay plus late-aircraft delay, as a share of the five BTS cause minutes, on late arrivals of reporting carrier UA. Weather is only the weather-delay cause.",
+      "question": "How much of United's lateness is its own fault versus weather?",
+      "sql": "SELECT 'airline_controlled' AS label,\n       SUM(airline_controlled_minutes) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS share\nFROM flights_v\nWHERE late_arrival AND airline_code = 'UA'\nUNION ALL\nSELECT 'weather' AS label,\n       SUM(weather_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS share\nFROM flights_v\nWHERE late_arrival AND airline_code = 'UA'"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "set",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "airline_controlled",
+            "share": 0.718444
+          },
+          {
+            "label": "weather",
+            "share": 0.025605
+          }
+        ],
+        "truncated": false
+      },
+      "category": "delay_causes",
+      "chart": {
+        "points": [
+          {
+            "label": "airline_controlled",
+            "value": 0.718444
+          },
+          {
+            "label": "weather",
+            "value": 0.025605
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "share"
+      },
+      "difficulty": "medium",
+      "id": "q084",
+      "notes": "Own fault is the draft convention: carrier delay plus late-aircraft delay, as a share of the five BTS cause minutes, on late arrivals of reporting carrier B6. Weather is only the weather-delay cause.",
+      "question": "How much of JetBlue's lateness is its own fault versus weather?",
+      "sql": "SELECT 'airline_controlled' AS label,\n       SUM(airline_controlled_minutes) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS share\nFROM flights_v\nWHERE late_arrival AND airline_code = 'B6'\nUNION ALL\nSELECT 'weather' AS label,\n       SUM(weather_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS share\nFROM flights_v\nWHERE late_arrival AND airline_code = 'B6'"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "set",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "carrier",
+            "share": 0.333105
+          },
+          {
+            "label": "weather",
+            "share": 0.061143
+          },
+          {
+            "label": "nas",
+            "share": 0.206879
+          },
+          {
+            "label": "security",
+            "share": 0.001447
+          },
+          {
+            "label": "late_aircraft",
+            "share": 0.397426
+          }
+        ],
+        "truncated": false
+      },
+      "category": "delay_causes",
+      "chart": {
+        "points": [
+          {
+            "label": "carrier",
+            "value": 0.333105
+          },
+          {
+            "label": "weather",
+            "value": 0.061143
+          },
+          {
+            "label": "nas",
+            "value": 0.206879
+          },
+          {
+            "label": "security",
+            "value": 0.001447
+          },
+          {
+            "label": "late_aircraft",
+            "value": 0.397426
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "share"
+      },
+      "difficulty": "medium",
+      "id": "q085",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "Systemwide, what share of late-arrival minutes falls on each of the five BTS delay causes?",
+      "sql": "SELECT 'carrier' AS label,\n       SUM(carrier_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS share\nFROM flights_v\nWHERE late_arrival\nUNION ALL\nSELECT 'weather' AS label,\n       SUM(weather_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS share\nFROM flights_v\nWHERE late_arrival\nUNION ALL\nSELECT 'nas' AS label,\n       SUM(nas_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS share\nFROM flights_v\nWHERE late_arrival\nUNION ALL\nSELECT 'security' AS label,\n       SUM(security_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS share\nFROM flights_v\nWHERE late_arrival\nUNION ALL\nSELECT 'late_aircraft' AS label,\n       SUM(late_aircraft_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS share\nFROM flights_v\nWHERE late_arrival"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "late_aircraft",
+            "share": 0.397426
+          }
+        ],
+        "truncated": false
+      },
+      "category": "delay_causes",
+      "chart": null,
+      "difficulty": "easy",
+      "id": "q086",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "Which BTS delay cause accounts for the largest share of late-arrival minutes systemwide?",
+      "sql": "SELECT * FROM (\nSELECT 'carrier' AS label,\n       SUM(carrier_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS share\nFROM flights_v\nWHERE late_arrival\nUNION ALL\nSELECT 'weather' AS label,\n       SUM(weather_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS share\nFROM flights_v\nWHERE late_arrival\nUNION ALL\nSELECT 'nas' AS label,\n       SUM(nas_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS share\nFROM flights_v\nWHERE late_arrival\nUNION ALL\nSELECT 'security' AS label,\n       SUM(security_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS share\nFROM flights_v\nWHERE late_arrival\nUNION ALL\nSELECT 'late_aircraft' AS label,\n       SUM(late_aircraft_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS share\nFROM flights_v\nWHERE late_arrival\n) causes\nORDER BY share DESC, label ASC\nLIMIT 1"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "SFO",
+            "share": 0.221136
+          }
+        ],
+        "truncated": false
+      },
+      "category": "delay_causes",
+      "chart": null,
+      "difficulty": "medium",
+      "id": "q087",
+      "notes": "Late arrivals among flights that departed SFO, not flights that arrived at SFO.",
+      "question": "For late departures from SFO, what share of late-arrival minutes is NAS delay?",
+      "sql": "SELECT 'SFO' AS label,\n       SUM(nas_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS share\nFROM flights_v\nWHERE late_arrival AND origin = 'SFO'"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "HA",
+            "n": 5959,
+            "share": 0.651263
+          }
+        ],
+        "truncated": false
+      },
+      "category": "delay_causes",
+      "chart": null,
+      "difficulty": "hard",
+      "id": "q088",
+      "notes": "Carrier delay only. Late-aircraft minutes stay in the denominator and are not treated as carrier delay.",
+      "question": "Which airline has the highest share of its late-arrival minutes labeled carrier delay, not counting late aircraft?",
+      "sql": "SELECT airline_code AS label,\n       SUM(carrier_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS share,\n       COUNT(*) AS n\nFROM flights_v\nWHERE late_arrival\nGROUP BY airline_code\nHAVING COUNT(*) >= 1000\nORDER BY share DESC, label ASC\nLIMIT 1"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "set",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "late_aircraft",
+            "share": 0.399387
+          },
+          {
+            "label": "weather",
+            "share": 0.064746
+          }
+        ],
+        "truncated": false
+      },
+      "category": "delay_causes",
+      "chart": {
+        "points": [
+          {
+            "label": "late_aircraft",
+            "value": 0.399387
+          },
+          {
+            "label": "weather",
+            "value": 0.064746
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "share"
+      },
+      "difficulty": "medium",
+      "id": "q089",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "On DFW to ORD, what are the late-aircraft share and the weather share of late-arrival minutes?",
+      "sql": "SELECT 'late_aircraft' AS label,\n       SUM(late_aircraft_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS share\nFROM flights_v\nWHERE late_arrival AND origin = 'DFW' AND dest = 'ORD'\nUNION ALL\nSELECT 'weather' AS label,\n       SUM(weather_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS share\nFROM flights_v\nWHERE late_arrival AND origin = 'DFW' AND dest = 'ORD'"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "AA",
+            "share": 0.816095
+          }
+        ],
+        "truncated": false
+      },
+      "category": "delay_causes",
+      "chart": null,
+      "difficulty": "medium",
+      "id": "q090",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "For American flights out of DFW, what share of late-arrival minutes is airline-controlled?",
+      "sql": "SELECT 'AA' AS label,\n       SUM(airline_controlled_minutes) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS share\nFROM flights_v\nWHERE late_arrival AND airline_code = 'AA' AND origin = 'DFW'"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "systemwide",
+            "share": 0.620816
+          }
+        ],
+        "truncated": false
+      },
+      "category": "delay_causes",
+      "chart": null,
+      "difficulty": "easy",
+      "id": "q091",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "Systemwide, what share of cancelled flights carry cancellation code B (weather)?",
+      "sql": "SELECT 'systemwide' AS label,\n       AVG(CASE WHEN cancellation_code = 'B' THEN 1.0 ELSE 0.0 END) AS share\nFROM flights_v\nWHERE cancelled"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "DL",
+            "n": 17789,
+            "share": 0.587891
+          }
+        ],
+        "truncated": false
+      },
+      "category": "delay_causes",
+      "chart": null,
+      "difficulty": "hard",
+      "id": "q092",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "Which airline has the highest share of its cancellations coded A (carrier)?",
+      "sql": "SELECT airline_code AS label,\n       AVG(CASE WHEN cancellation_code = 'A' THEN 1.0 ELSE 0.0 END) AS share,\n       COUNT(*) AS n\nFROM flights_v\nWHERE cancelled\nGROUP BY airline_code\nHAVING COUNT(*) >= 200\nORDER BY share DESC, label ASC\nLIMIT 1"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "ORD",
+            "share": 0.139593
+          }
+        ],
+        "truncated": false
+      },
+      "category": "delay_causes",
+      "chart": null,
+      "difficulty": "hard",
+      "id": "q093",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "For winter departures from ORD, what share of late-arrival minutes is weather delay?",
+      "sql": "SELECT 'ORD' AS label,\n       SUM(weather_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS share\nFROM flights_v\nWHERE late_arrival AND origin = 'ORD' AND season = 'winter'"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "set",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "AA",
+            "share": 0.805836
+          },
+          {
+            "label": "WN",
+            "share": 0.79487
+          }
+        ],
+        "truncated": false
+      },
+      "category": "delay_causes",
+      "chart": {
+        "points": [
+          {
+            "label": "AA",
+            "value": 0.805836
+          },
+          {
+            "label": "WN",
+            "value": 0.79487
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "share"
+      },
+      "difficulty": "medium",
+      "id": "q094",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "Compare the airline-controlled share of late minutes for American and Southwest, systemwide.",
+      "sql": "SELECT airline_code AS label,\n       SUM(airline_controlled_minutes) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS share\nFROM flights_v\nWHERE late_arrival AND airline_code IN ('AA', 'WN')\nGROUP BY airline_code"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "security",
+            "share": 0.001447
+          }
+        ],
+        "truncated": false
+      },
+      "category": "delay_causes",
+      "chart": null,
+      "difficulty": "easy",
+      "id": "q095",
+      "notes": "Candidate interpretation follows the project definitions.",
+      "question": "Systemwide, what share of late-arrival minutes is security delay?",
+      "sql": "SELECT 'security' AS label,\n       SUM(security_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS share\nFROM flights_v\nWHERE late_arrival"
+    },
+    {
+      "ambiguous": true,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "MQ",
+            "n": 62560,
+            "on_time_rate": 0.826918
+          }
+        ],
+        "truncated": false
+      },
+      "category": "ambiguous_or_trick",
+      "chart": null,
+      "difficulty": "hard",
+      "id": "q096",
+      "notes": "Ambiguous word: best. Candidate interpretation is the highest on-time arrival rate after the 100-flight rule. A cancellation or delay-minute reading would be a different answer. Pending review.",
+      "question": "Which airline is best out of DFW?",
+      "sql": "SELECT airline_code AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin = 'DFW'\nGROUP BY airline_code\nHAVING COUNT(*) >= 100\nORDER BY on_time_rate DESC, label ASC\nLIMIT 1"
+    },
+    {
+      "ambiguous": true,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "avg_arrival_delay": 14.999934,
+            "label": "ORD"
+          }
+        ],
+        "truncated": false
+      },
+      "category": "ambiguous_or_trick",
+      "chart": null,
+      "difficulty": "hard",
+      "id": "q097",
+      "notes": "Ambiguous. Candidate interpretation is the mean signed arrival delay of operated departures from ORD, not departures-only delay, not median, and not late-flights-only.",
+      "question": "What is the average delay at ORD?",
+      "sql": "SELECT 'ORD' AS label,\n       AVG(arr_delay) AS avg_arrival_delay\nFROM flights_v\nWHERE operated AND origin = 'ORD'"
+    },
+    {
+      "ambiguous": true,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "both-directions",
+            "on_time_rate": 0.693619
+          }
+        ],
+        "truncated": false
+      },
+      "category": "ambiguous_or_trick",
+      "chart": null,
+      "difficulty": "hard",
+      "id": "q098",
+      "notes": "Ambiguous direction. Candidate interpretation combines both directions. A one-way reading is a different answer.",
+      "question": "Are flights between DFW and ORD on time? Return the on-time arrival rate.",
+      "sql": "SELECT 'both-directions' AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate\nFROM flights_v\nWHERE operated AND ((origin = 'DFW' AND dest = 'ORD') OR (origin = 'ORD' AND dest = 'DFW'))"
+    },
+    {
+      "ambiguous": true,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "avg_arrival_delay": 13.263049,
+            "label": "AA",
+            "on_time_rate": 0.745604
+          }
+        ],
+        "truncated": false
+      },
+      "category": "ambiguous_or_trick",
+      "chart": null,
+      "difficulty": "hard",
+      "id": "q099",
+      "notes": "Ambiguous. Candidate interpretation returns both the systemwide on-time arrival rate and the mean signed arrival delay for reporting carrier AA. It does not roll up regional affiliates.",
+      "question": "How late is American?",
+      "sql": "SELECT 'AA' AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       AVG(arr_delay) AS avg_arrival_delay\nFROM flights_v\nWHERE operated AND airline_code = 'AA'"
+    },
+    {
+      "ambiguous": true,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "SFB",
+            "n": 10019,
+            "on_time_rate": 0.701667
+          }
+        ],
+        "truncated": false
+      },
+      "category": "ambiguous_or_trick",
+      "chart": null,
+      "difficulty": "hard",
+      "id": "q100",
+      "notes": "Ambiguous. Candidate interpretation is the lowest on-time arrival rate among airports with at least 5000 operated departures.",
+      "question": "Which airport is the worst?",
+      "sql": "SELECT origin AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated\nGROUP BY origin\nHAVING COUNT(*) >= 5000\nORDER BY on_time_rate ASC, label ASC\nLIMIT 1"
+    },
+    {
+      "ambiguous": true,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "systemwide",
+            "nas_share": 0.206879,
+            "weather_is_majority": 0,
+            "weather_share": 0.061143
+          }
+        ],
+        "truncated": false
+      },
+      "category": "ambiguous_or_trick",
+      "chart": null,
+      "difficulty": "hard",
+      "id": "q101",
+      "notes": "Ambiguous word: weather. Candidate interpretation uses the BTS weather-delay cause only, and puts the NAS share beside it so a weather-versus-system reading stays visible. Pending review.",
+      "question": "Does weather explain most delays? Return the weather share of late-arrival minutes, the NAS share, and 1 if the weather share is above one half.",
+      "sql": "SELECT 'systemwide' AS label,\n       SUM(weather_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS weather_share,\n       SUM(nas_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS nas_share,\n       CASE\n           WHEN SUM(weather_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) > 0.5 THEN 1\n           ELSE 0\n       END AS weather_is_majority\nFROM flights_v\nWHERE late_arrival"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "set",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "AA",
+            "on_time_rate": 0.757983
+          },
+          {
+            "label": "DL",
+            "on_time_rate": 0.815294
+          }
+        ],
+        "truncated": false
+      },
+      "category": "ambiguous_or_trick",
+      "chart": {
+        "points": [
+          {
+            "label": "AA",
+            "value": 0.757983
+          },
+          {
+            "label": "DL",
+            "value": 0.815294
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "on_time_rate"
+      },
+      "difficulty": "hard",
+      "id": "q102",
+      "notes": "Uses carrier_families. SkyWest, Republic, and Mesa are excluded because they fly for more than one major. If a listed regional does not appear in this extract, it simply adds no rows.",
+      "question": "Including single-partner regional affiliates, how do American and Delta compare on systemwide on-time arrival rate? Return both rates.",
+      "sql": "SELECT family_code AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate\nFROM flights_v\nWHERE operated AND family_code IN ('AA', 'DL')\nGROUP BY family_code"
+    },
+    {
+      "ambiguous": true,
+      "answer_type": "set",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "WN",
+            "n": 67504,
+            "on_time_rate": 0.726164
+          },
+          {
+            "label": "AA",
+            "n": 159366,
+            "on_time_rate": 0.659432
+          }
+        ],
+        "truncated": false
+      },
+      "category": "ambiguous_or_trick",
+      "chart": {
+        "points": [
+          {
+            "label": "WN",
+            "value": 0.726164
+          },
+          {
+            "label": "AA",
+            "value": 0.659432
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "on_time_rate"
+      },
+      "difficulty": "hard",
+      "id": "q103",
+      "notes": "Ambiguous airport. Candidate interpretation pools DFW and DAL. Dallas/Fort Worth alone would be a different cut.",
+      "question": "Which is more on time out of Dallas, American or Southwest? Return both on-time arrival rates.",
+      "sql": "SELECT airline_code AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin IN ('DFW', 'DAL') AND airline_code IN ('AA', 'WN')\nGROUP BY airline_code\nORDER BY on_time_rate DESC, label ASC"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "refusal",
+      "candidate": {
+        "behavior": "refuse",
+        "rows": [],
+        "truncated": false
+      },
+      "category": "ambiguous_or_trick",
+      "chart": null,
+      "difficulty": "hard",
+      "id": "q104",
+      "notes": "The extract is a historical monthly file, not a live feed. The analyst should refuse rather than substitute the latest date in the file.",
+      "question": "What was the on-time rate yesterday?",
+      "sql": null
+    },
+    {
+      "ambiguous": true,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "WN",
+            "late_flights": 324261,
+            "n": 324261
+          }
+        ],
+        "truncated": false
+      },
+      "category": "ambiguous_or_trick",
+      "chart": null,
+      "difficulty": "hard",
+      "id": "q105",
+      "notes": "Ambiguous. Candidate interpretation is the greatest count of late arrivals, not the highest late rate. The rate is usually the better operational comparison. Pending review.",
+      "question": "Which airline has the most delays?",
+      "sql": "SELECT airline_code AS label,\n       COUNT(*) AS late_flights,\n       COUNT(*) AS n\nFROM flights_v\nWHERE late_arrival\nGROUP BY airline_code\nORDER BY late_flights DESC, label ASC\nLIMIT 1"
+    },
+    {
+      "ambiguous": true,
+      "answer_type": "set",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "night",
+            "on_time_rate": 0.727308
+          },
+          {
+            "label": "other",
+            "on_time_rate": 0.779778
+          }
+        ],
+        "truncated": false
+      },
+      "category": "ambiguous_or_trick",
+      "chart": {
+        "points": [
+          {
+            "label": "night",
+            "value": 0.727308
+          },
+          {
+            "label": "other",
+            "value": 0.779778
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "on_time_rate"
+      },
+      "difficulty": "hard",
+      "id": "q106",
+      "notes": "Ambiguous word: red-eye. Candidate interpretation is the night bucket, 21:00 through 04:59, against every other operated departure.",
+      "question": "Are red-eye flights less on time than other flights? Return the night-departure on-time arrival rate and the rate for all other departures.",
+      "sql": "SELECT 'night' AS label, AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate FROM flights_v WHERE operated AND dep_time_bucket = 'night'\nUNION ALL\nSELECT 'other' AS label, AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate FROM flights_v WHERE operated AND dep_time_bucket <> 'night'"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "carrier_only_share": 0.333105,
+            "label": "systemwide"
+          }
+        ],
+        "truncated": false
+      },
+      "category": "ambiguous_or_trick",
+      "chart": null,
+      "difficulty": "hard",
+      "id": "q107",
+      "notes": "The question overrides the default own-fault convention and keeps late-aircraft minutes out of the numerator.",
+      "question": "If late aircraft does not count as the airline's fault, what share of systemwide late-arrival minutes is the airline's fault?",
+      "sql": "SELECT 'systemwide' AS label,\n       SUM(carrier_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS carrier_only_share\nFROM flights_v\nWHERE late_arrival"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "refusal",
+      "candidate": {
+        "behavior": "refuse",
+        "rows": [],
+        "truncated": false
+      },
+      "category": "ambiguous_or_trick",
+      "chart": null,
+      "difficulty": "hard",
+      "id": "q108",
+      "notes": "The on-time extract has no passenger counts. The analyst should refuse rather than return an unweighted rate.",
+      "question": "What is the passenger-weighted on-time arrival rate at ATL?",
+      "sql": null
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "ranking",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "HA",
+            "n": 32877,
+            "on_time_departure_rate": 0.835143
+          },
+          {
+            "label": "MQ",
+            "n": 310662,
+            "on_time_departure_rate": 0.822321
+          },
+          {
+            "label": "DL",
+            "n": 1020855,
+            "on_time_departure_rate": 0.819649
+          },
+          {
+            "label": "UA",
+            "n": 817183,
+            "on_time_departure_rate": 0.814762
+          },
+          {
+            "label": "YX",
+            "n": 348157,
+            "on_time_departure_rate": 0.814092
+          }
+        ],
+        "truncated": false
+      },
+      "category": "ambiguous_or_trick",
+      "chart": {
+        "points": [
+          {
+            "label": "HA",
+            "value": 0.835143
+          },
+          {
+            "label": "MQ",
+            "value": 0.822321
+          },
+          {
+            "label": "DL",
+            "value": 0.819649
+          },
+          {
+            "label": "UA",
+            "value": 0.814762
+          },
+          {
+            "label": "YX",
+            "value": 0.814092
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "on_time_departure_rate"
+      },
+      "difficulty": "hard",
+      "id": "q109",
+      "notes": "Departure metric, on the flights that have a departure delay. This is not the arrival standard.",
+      "question": "Rank the five most on-time airlines by on-time departure rather than arrival.",
+      "sql": "SELECT airline_code AS label,\n       AVG(CASE WHEN on_time_departure THEN 1.0 ELSE 0.0 END) AS on_time_departure_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE on_time_departure IS NOT NULL\nGROUP BY airline_code\nHAVING COUNT(*) >= 5000\nORDER BY on_time_departure_rate DESC, label ASC\nLIMIT 5"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "systemwide",
+            "on_time_rate": 0.759955
+          }
+        ],
+        "truncated": false
+      },
+      "category": "ambiguous_or_trick",
+      "chart": null,
+      "difficulty": "hard",
+      "id": "q110",
+      "notes": "Overrides the operated-flight denominator. Every scheduled row is in the denominator. Only an arrival under 15 minutes counts as on time.",
+      "question": "What share of scheduled flights arrive on time if cancelled and diverted flights count as not on time?",
+      "sql": "SELECT 'systemwide' AS label,\n       AVG(CASE WHEN (NOT cancelled AND NOT diverted AND arr_delay < 15) THEN 1.0 ELSE 0.0 END) AS on_time_rate\nFROM flights_v\nWHERE TRUE"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "included": 0,
+            "label": "OO"
+          }
+        ],
+        "truncated": false
+      },
+      "category": "ambiguous_or_trick",
+      "chart": null,
+      "difficulty": "hard",
+      "id": "q111",
+      "notes": "SkyWest flies for more than one major, so the draft family table leaves it out. The expected figure is 0.",
+      "question": "Is SkyWest part of the American single-partner family used in this project? Return 1 if it is and 0 if it is not.",
+      "sql": "SELECT 'OO' AS label,\n       CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END AS included\nFROM carrier_families\nWHERE family_code = 'AA' AND airline_code = 'OO'"
+    }
+  ],
+  "review_note": "candidate answers pending Daniel's review",
+  "scoring_basis": "DRAFT candidate answers computed from reference SQL. Not an approved standard.",
+  "status": "DRAFT"
+}
