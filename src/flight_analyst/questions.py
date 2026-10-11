@@ -16,9 +16,11 @@ from flight_analyst.definitions import (
     MIN_LATE_FLIGHTS,
     MIN_ROUTE,
     MIN_ROUTE_FROM_AIRPORT,
+    MINIMUM_RULE,
     TOLERANCE_FRACTION,
     TOLERANCE_MINUTES,
     TOLERANCE_PERCENTAGE_POINTS,
+    WHY_LIMIT,
 )
 
 ONTIME = "AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END)"
@@ -43,6 +45,8 @@ _UNITS = {
     "operated_flights": ("count", 0),
     "scheduled_flights": ("count", 0),
     "late_flights": ("count", 0),
+    "late_rate": ("fraction", TOLERANCE_FRACTION),
+    "figure": ("fraction", TOLERANCE_FRACTION),
     "included": ("flag", 0),
     "weather_is_majority": ("flag", 0),
 }
@@ -73,7 +77,12 @@ def _q(
     notes: str = "Candidate interpretation follows the project definitions.",
     ambiguous: bool = False,
     key_columns: list[str] | None = None,
+    interpretation: str = "",
+    follow_up: str = "",
+    alternatives: str = "",
+    why_limit: str = "",
 ) -> dict:
+    minimum_rule = MINIMUM_RULE if answer_type == "ranking" else ""
     return {
         "status": "DRAFT",
         "question": question,
@@ -85,6 +94,11 @@ def _q(
         "key_columns": ["label"] if key_columns is None and answer_type != "refusal" else (key_columns or []),
         "values": values or [],
         "notes": notes,
+        "interpretation": interpretation,
+        "follow_up": follow_up,
+        "alternatives": alternatives,
+        "why_limit": why_limit,
+        "minimum_rule": minimum_rule,
     }
 
 
@@ -171,6 +185,254 @@ LEFT JOIN flights_v f
  AND f.origin = '{origin}'
  AND f.dest = '{dest}'
 GROUP BY codes.airline_code"""
+
+
+def sql_american_brand_pair() -> str:
+    return f"""SELECT 'american_mainline' AS label, {ONTIME} AS on_time_rate, COUNT(*) AS n
+FROM flights_v WHERE operated AND airline_code = 'AA'
+UNION ALL
+SELECT 'american_with_partners' AS label, {ONTIME} AS on_time_rate, COUNT(*) AS n
+FROM flights_v WHERE operated AND airline_code IN ('AA', 'MQ', 'OH', 'PT')"""
+
+
+def sql_american_lateness() -> str:
+    """Same figures for every phrasing of the American lateness question."""
+    return """SELECT 'AA' AS label,
+       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,
+       AVG(arr_delay) AS avg_arrival_delay
+FROM flights_v
+WHERE operated AND airline_code = 'AA'"""
+
+
+def sql_best_out_of_dfw() -> str:
+    return f"""WITH carrier AS (
+    SELECT airline_code,
+           AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,
+           COUNT(*) AS n
+    FROM flights_v
+    WHERE operated AND origin = 'DFW'
+    GROUP BY airline_code
+    HAVING COUNT(*) >= {MIN_AIRLINE_AT_AIRPORT}
+),
+best_reporting AS (
+    SELECT * FROM carrier ORDER BY on_time_rate DESC, airline_code ASC LIMIT 1
+),
+best_mainline AS (
+    SELECT * FROM carrier
+    WHERE airline_code IN ('AA', 'DL', 'UA', 'WN', 'AS', 'B6', 'NK', 'F9', 'G4', 'HA')
+    ORDER BY on_time_rate DESC, airline_code ASC
+    LIMIT 1
+),
+branded AS (
+    SELECT CASE
+               WHEN airline_code IN ('AA', 'MQ', 'OH', 'PT') THEN 'brand_american'
+               WHEN airline_code IN ('DL', '9E') THEN 'brand_delta'
+               WHEN airline_code IN ('UA', 'C5', 'G7', 'ZW') THEN 'brand_united'
+               WHEN airline_code IN ('AS', 'QX') THEN 'brand_alaska'
+               WHEN airline_code = 'WN' THEN 'brand_southwest'
+               WHEN airline_code = 'B6' THEN 'brand_jetblue'
+               WHEN airline_code = 'NK' THEN 'brand_spirit'
+               WHEN airline_code = 'F9' THEN 'brand_frontier'
+               WHEN airline_code = 'G4' THEN 'brand_allegiant'
+               WHEN airline_code = 'HA' THEN 'brand_hawaiian'
+               WHEN airline_code = 'OO' THEN 'brand_skywest_unassigned'
+               WHEN airline_code = 'YX' THEN 'brand_republic_unassigned'
+               ELSE 'brand_' || lower(airline_code)
+           END AS label,
+           AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,
+           COUNT(*) AS n
+    FROM flights_v
+    WHERE operated AND origin = 'DFW'
+    GROUP BY 1
+    HAVING COUNT(*) >= {MIN_AIRLINE_AT_AIRPORT}
+)
+SELECT 'reporting_best' AS label,
+       CASE airline_code WHEN 'MQ' THEN 'Envoy (American Eagle)' ELSE airline_code END AS who,
+       on_time_rate,
+       n
+FROM best_reporting
+UNION ALL
+SELECT 'mainline_best' AS label,
+       airline_code AS who,
+       on_time_rate,
+       n
+FROM best_mainline
+UNION ALL
+SELECT label, label AS who, on_time_rate, n FROM branded"""
+
+
+def sql_dfw_ord_both_ways() -> str:
+    return f"""SELECT 'DFW-ORD' AS label,
+       {ONTIME} AS on_time_rate,
+       COUNT(*) AS n
+FROM flights_v
+WHERE operated AND origin = 'DFW' AND dest = 'ORD'
+UNION ALL
+SELECT 'ORD-DFW' AS label,
+       {ONTIME} AS on_time_rate,
+       COUNT(*) AS n
+FROM flights_v
+WHERE operated AND origin = 'ORD' AND dest = 'DFW'
+UNION ALL
+SELECT 'both-directions' AS label,
+       {ONTIME} AS on_time_rate,
+       COUNT(*) AS n
+FROM flights_v
+WHERE operated AND ((origin = 'DFW' AND dest = 'ORD') OR (origin = 'ORD' AND dest = 'DFW'))"""
+
+
+def sql_worst_airport() -> str:
+    return f"""WITH airport_n AS (
+    SELECT origin, COUNT(*) AS airport_flights
+    FROM flights_v
+    WHERE operated
+    GROUP BY origin
+),
+rates AS (
+    SELECT f.origin,
+           AVG(CASE WHEN f.on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,
+           COUNT(*) AS n,
+           a.airport_flights
+    FROM flights_v f
+    JOIN airport_n a ON f.origin = a.origin
+    WHERE f.operated
+    GROUP BY f.origin, a.airport_flights
+)
+SELECT * FROM (
+    SELECT 'overall_worst' AS label, origin AS airport, on_time_rate, n
+    FROM rates
+    WHERE airport_flights >= {MIN_AIRPORT}
+    ORDER BY on_time_rate ASC, origin ASC
+    LIMIT 1
+)
+UNION ALL
+SELECT * FROM (
+    SELECT 'large_hub_worst' AS label, origin AS airport, on_time_rate, n
+    FROM rates
+    WHERE airport_flights >= 150000
+    ORDER BY on_time_rate ASC, origin ASC
+    LIMIT 1
+)"""
+
+
+def sql_most_delays() -> str:
+    return f"""SELECT airline_code AS label,
+       SUM(CASE WHEN late_arrival THEN 1 ELSE 0 END) AS late_flights,
+       AVG(CASE WHEN late_arrival THEN 1.0 ELSE 0.0 END) AS late_rate,
+       COUNT(*) AS n
+FROM flights_v
+WHERE operated
+GROUP BY airline_code
+HAVING COUNT(*) >= {MIN_AIRLINE_SYSTEMWIDE}
+ORDER BY late_flights DESC, label ASC
+LIMIT 1"""
+
+
+def sql_named_routes(metric_sql: str, metric_name: str, where: str, having: int) -> str:
+    return f"""SELECT origin || '-' || dest AS label,
+       origin_city_name || ' to ' || dest_city_name AS route_name,
+       {metric_sql} AS {metric_name},
+       COUNT(*) AS n
+FROM flights_v
+WHERE {where}
+GROUP BY origin, dest, origin_city_name, dest_city_name
+HAVING COUNT(*) >= {having}
+ORDER BY {metric_name} DESC, label ASC
+LIMIT 5"""
+
+
+def sql_atl_july_2026() -> str:
+    return f"""WITH base AS (
+    SELECT airline_code,
+           AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,
+           COUNT(*) AS n
+    FROM flights_v
+    WHERE operated AND origin = 'ATL' AND year = 2026 AND month = 7
+    GROUP BY airline_code
+    HAVING COUNT(*) >= {MIN_AIRLINE_AT_AIRPORT}
+),
+winner AS (
+    SELECT airline_code FROM base ORDER BY on_time_rate DESC, airline_code ASC LIMIT 1
+)
+SELECT b.airline_code AS label,
+       b.on_time_rate,
+       b.n,
+       CASE
+           WHEN b.airline_code IN (SELECT airline_code FROM winner) THEN 'literal_best'
+           ELSE 'big3'
+       END AS role
+FROM base b
+WHERE b.airline_code IN (SELECT airline_code FROM winner)
+   OR b.airline_code IN ('AA', 'DL', 'UA')"""
+
+
+def sql_partners_and_mainline() -> str:
+    return f"""SELECT 'american_mainline' AS label, {ONTIME} AS on_time_rate, COUNT(*) AS n
+FROM flights_v WHERE operated AND airline_code = 'AA'
+UNION ALL
+SELECT 'american_with_partners' AS label, {ONTIME} AS on_time_rate, COUNT(*) AS n
+FROM flights_v WHERE operated AND airline_code IN ('AA', 'MQ', 'OH', 'PT')
+UNION ALL
+SELECT 'delta_mainline' AS label, {ONTIME} AS on_time_rate, COUNT(*) AS n
+FROM flights_v WHERE operated AND airline_code = 'DL'
+UNION ALL
+SELECT 'delta_with_partners' AS label, {ONTIME} AS on_time_rate, COUNT(*) AS n
+FROM flights_v WHERE operated AND airline_code IN ('DL', '9E')"""
+
+
+def sql_dice_or_airline() -> str:
+    """Volume buckets plus the same-airport gap for four brands."""
+    return f"""WITH origin_n AS (
+    SELECT origin, COUNT(*) AS airport_flights
+    FROM flights_v
+    WHERE operated
+    GROUP BY origin
+),
+volume AS (
+    SELECT CASE
+               WHEN a.airport_flights >= 150000 THEN 'largest_airports'
+               ELSE 'midsize_airports'
+           END AS label,
+           AVG(CASE WHEN f.on_time_arrival THEN 1.0 ELSE 0.0 END) AS figure
+    FROM flights_v f
+    JOIN origin_n a ON f.origin = a.origin
+    WHERE f.operated
+      AND (a.airport_flights >= 150000 OR (a.airport_flights >= 10000 AND a.airport_flights < 50000))
+    GROUP BY 1
+),
+cell AS (
+    SELECT CASE
+               WHEN airline_code IN ('AA', 'MQ', 'OH', 'PT') THEN 'american'
+               WHEN airline_code IN ('DL', '9E') THEN 'delta'
+               WHEN airline_code IN ('UA', 'C5', 'G7', 'ZW') THEN 'united'
+               WHEN airline_code = 'WN' THEN 'southwest'
+               ELSE 'other'
+           END AS brand,
+           origin,
+           COUNT(*) AS n,
+           AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS rate
+    FROM flights_v
+    WHERE operated
+    GROUP BY 1, 2
+),
+totals AS (
+    SELECT origin, SUM(n) AS n_all, SUM(n * rate) AS on_time_all
+    FROM cell
+    GROUP BY origin
+),
+gaps AS (
+    SELECT c.brand AS label,
+           SUM(c.n * (c.rate - (t.on_time_all - c.n * c.rate) / (t.n_all - c.n))) / SUM(c.n) AS figure
+    FROM cell c
+    JOIN totals t USING (origin)
+    WHERE c.brand <> 'other'
+      AND c.n >= {MIN_AIRLINE_AT_AIRPORT}
+      AND (t.n_all - c.n) >= {MIN_AIRLINE_AT_AIRPORT}
+    GROUP BY c.brand
+)
+SELECT label, figure FROM volume
+UNION ALL
+SELECT label || '_same_airport_gap' AS label, figure FROM gaps"""
 
 
 def build_questions() -> list[dict]:
@@ -571,9 +833,11 @@ LIMIT 1""",
         "Which five routes have the highest cancellation rate?",
         "hard",
         "routes",
-        _rank("origin || '-' || dest", "origin, dest", "cancellation_rate", CANCEL, "TRUE", f"COUNT(*) >= {MIN_ROUTE}", True, 5),
+        sql_named_routes(CANCEL, "cancellation_rate", "TRUE", MIN_ROUTE),
         "ranking",
         _vals("cancellation_rate"),
+        notes="Each direction is its own named route. The route_name column is the BTS city pair, for example Detroit, MI to Pellston, MI. The reverse is a different row.",
+        alternatives="Both directions are listed when both clear the 500-flight floor. Neither direction stands in for the other.",
     ))
     add(_q(
         "What is the average signed arrival delay on DFW to ORD?",
@@ -639,18 +903,11 @@ LIMIT 1""",
         "What are the five routes out of DFW with the highest average signed arrival delay?",
         "hard",
         "routes",
-        _rank(
-            "origin || '-' || dest",
-            "origin, dest",
-            "avg_arrival_delay",
-            "AVG(arr_delay)",
-            "operated AND origin = 'DFW'",
-            f"COUNT(*) >= {MIN_ROUTE_FROM_AIRPORT}",
-            True,
-            5,
-        ),
+        sql_named_routes("AVG(arr_delay)", "avg_arrival_delay", "operated AND origin = 'DFW'", MIN_ROUTE_FROM_AIRPORT),
         "ranking",
         _vals("avg_arrival_delay"),
+        notes="Every listed route has its mean signed arrival delay in minutes and its operated-flight count. Early arrivals pull the mean down. The minimum is 200 operated flights from DFW. route_name is the city pair.",
+        alternatives="The minutes are on every route in the list, not only the first.",
     ))
     add(_q(
         "What is Frontier's on-time arrival rate on DEN to LAS?",
@@ -867,9 +1124,12 @@ LIMIT 1""",
         "In July 2026, which airline is most on time out of ATL?",
         "hard",
         "seasonality",
-        _rank("airline_code", "airline_code", "on_time_rate", ONTIME, "operated AND origin = 'ATL' AND year = 2026 AND month = 7", f"COUNT(*) >= {MIN_AIRLINE_AT_AIRPORT}", True, 1),
-        "ranking",
+        sql_atl_july_2026(),
+        "set",
         _vals("on_time_rate"),
+        notes="The literal winner is the reporting carrier with the highest on-time arrival rate after the 100-flight minimum. The same answer also lists American, Delta, and United, the three big business airlines. role is literal_best or big3.",
+        follow_up="Want this across the three big business airlines for the full year, with and without operating partners?",
+        alternatives="Literal best reporting carrier, plus AA, DL, and UA at ATL in July 2026. Each row has an on-time rate and a flight count. The floor is 100 operated flights.",
     ))
     add(_q(
         "What is the December 2025 systemwide on-time arrival rate?",
@@ -947,7 +1207,10 @@ LIMIT 1""",
         ),
         "ranking",
         _vals("share"),
-        notes="Carrier delay only. Late-aircraft minutes stay in the denominator and are not treated as carrier delay.",
+        notes="Carrier delay only. Late-aircraft minutes stay in the denominator and are not treated as carrier delay. The winner is a share of coded minutes, not an explanation of the operation.",
+        why_limit=WHY_LIMIT,
+        follow_up="The BTS codes cannot say why those minutes were coded carrier. Want the five-cause split for that airline?",
+        alternatives="The figure is the carrier-delay share only. Weather, NAS, security, and late aircraft stay out of the numerator.",
     ))
     add(_q(
         "On DFW to ORD, what are the late-aircraft share and the weather share of late-arrival minutes?",
@@ -997,6 +1260,10 @@ WHERE late_arrival AND origin = 'DFW' AND dest = 'ORD'""",
         ),
         "ranking",
         _vals("share"),
+        notes="Cancellation code A means the reporting carrier coded the cancellation as its own. The minimum is 200 cancellations. The code does not say what failed.",
+        why_limit=WHY_LIMIT,
+        follow_up="Code A is the carrier's own cancellation code. It cannot say why the flight was cancelled. Want the A, B, C, and D shares side by side?",
+        alternatives="This is the share of cancellations coded A, among airlines with at least 200 cancellations.",
     ))
     add(_q(
         "For winter departures from ORD, what share of late-arrival minutes is weather delay?",
@@ -1031,11 +1298,14 @@ GROUP BY airline_code""",
         "Which airline is best out of DFW?",
         "hard",
         "ambiguous_or_trick",
-        _rank("airline_code", "airline_code", "on_time_rate", ONTIME, "operated AND origin = 'DFW'", f"COUNT(*) >= {MIN_AIRLINE_AT_AIRPORT}", True, 1),
-        "ranking",
+        sql_best_out_of_dfw(),
+        "set",
         _vals("on_time_rate"),
-        notes="Ambiguous word: best. Candidate interpretation is the highest on-time arrival rate after the 100-flight rule. A cancellation or delay-minute reading would be a different answer. Pending review.",
+        notes="Best means the highest on-time arrival rate after 100 operated flights. reporting_best is the best reporting carrier. In this extract that row is Envoy (American Eagle). mainline_best is the best mainline carrier. brand_* rows group single-partner families. SkyWest and Republic stay unassigned because the file has no marketing-airline column.",
         ambiguous=True,
+        interpretation="I read best as on-time arrival rate, then I also show the best mainline carrier and the brand rollup.",
+        follow_up="Want the same three cuts at another hub?",
+        alternatives="Envoy (American Eagle) as the best reporting carrier, the best mainline carrier, and each brand at DFW with at least 100 flights.",
     ))
     add(_q(
         "What is the average delay at ORD?",
@@ -1051,40 +1321,40 @@ GROUP BY airline_code""",
         "Are flights between DFW and ORD on time? Return the on-time arrival rate.",
         "hard",
         "ambiguous_or_trick",
-        _scalar(
-            "both-directions",
-            "on_time_rate",
-            ONTIME,
-            "operated AND ((origin = 'DFW' AND dest = 'ORD') OR (origin = 'ORD' AND dest = 'DFW'))",
-        ),
-        "scalar",
+        sql_dfw_ord_both_ways(),
+        "set",
         _vals("on_time_rate"),
-        notes="Ambiguous direction. Candidate interpretation combines both directions. A one-way reading is a different answer.",
+        notes="Between means both directions. The answer names DFW-ORD, ORD-DFW, and the combined figure. Each row has an on-time arrival rate and a flight count.",
         ambiguous=True,
+        interpretation="I read between DFW and ORD as both directions, and I list each direction on its own plus the combined rate.",
+        follow_up="Want the same three figures by airline?",
+        alternatives="DFW to ORD, ORD to DFW, and both directions combined.",
     ))
     add(_q(
         "How late is American?",
         "hard",
         "ambiguous_or_trick",
-        """SELECT 'AA' AS label,
-       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,
-       AVG(arr_delay) AS avg_arrival_delay
-FROM flights_v
-WHERE operated AND airline_code = 'AA'""",
+        sql_american_lateness(),
         "scalar",
         _vals("on_time_rate", "avg_arrival_delay"),
-        notes="Ambiguous. Candidate interpretation returns both the systemwide on-time arrival rate and the mean signed arrival delay for reporting carrier AA. It does not roll up regional affiliates.",
+        notes="Ambiguous. The literal reading is reporting carrier AA, not the American brand. The answer gives the systemwide on-time arrival rate and the mean signed arrival delay in minutes. Phrasing variants of this question use the same SQL.",
         ambiguous=True,
+        interpretation="I read this as reporting-carrier American Airlines: on-time arrival rate and mean signed arrival delay in minutes. It does not roll up Envoy, PSA, or other partners.",
+        follow_up="Want the same two figures for the American brand, with Envoy and PSA and without them?",
+        alternatives="On-time arrival rate and mean signed arrival delay, both for reporting carrier AA.",
     ))
     add(_q(
         "Which airport is the worst?",
         "hard",
         "ambiguous_or_trick",
-        _rank("origin", "origin", "on_time_rate", ONTIME, "operated", f"COUNT(*) >= {MIN_AIRPORT}", False, 1),
-        "ranking",
+        sql_worst_airport(),
+        "set",
         _vals("on_time_rate"),
-        notes="Ambiguous. Candidate interpretation is the lowest on-time arrival rate among airports with at least 5000 operated departures.",
+        notes="Two cuts. overall_worst is the lowest on-time arrival rate among airports with at least 5,000 operated departures. large_hub_worst uses airports with at least 150,000 operated departures. The airport column names the airport. A large hub here is a volume bucket, not an FAA passenger-share designation, because this extract has no passenger counts.",
         ambiguous=True,
+        interpretation="I read worst as the lowest on-time arrival rate, and I give both the overall airport and the worst large airport.",
+        follow_up="Want the five worst large airports, each with its on-time rate?",
+        alternatives="Overall worst airport after 5,000 flights, and worst airport among those with 150,000 or more departures.",
     ))
     add(_q(
         "Does weather explain most delays? Return the weather share of late-arrival minutes, the NAS share, and 1 if the weather share is above one half.",
@@ -1108,14 +1378,12 @@ WHERE late_arrival""",
         "Including single-partner regional affiliates, how do American and Delta compare on systemwide on-time arrival rate? Return both rates.",
         "hard",
         "ambiguous_or_trick",
-        """SELECT family_code AS label,
-       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate
-FROM flights_v
-WHERE operated AND family_code IN ('AA', 'DL')
-GROUP BY family_code""",
+        sql_partners_and_mainline(),
         "set",
         _vals("on_time_rate"),
-        notes="Uses carrier_families. SkyWest, Republic, and Mesa are excluded because they fly for more than one major. If a listed regional does not appear in this extract, it simply adds no rows.",
+        notes="Four rows: American and Delta, each with operating partners and without them. Partners are the single-partner codes only (Envoy, PSA, and Piedmont for American; Endeavor for Delta). Piedmont and Endeavor have no rows in this extract. SkyWest and Republic are not assigned: the reporting-carrier file has no marketing-airline column.",
+        alternatives="Mainline only, and mainline plus single-partner operating partners, for American and for Delta.",
+        follow_up="Want United the same way? Its regional codes have no rows in this extract, so the two United figures match.",
     ))
     add(_q(
         "Which is more on time out of Dallas, American or Southwest? Return both on-time arrival rates.",
@@ -1133,8 +1401,11 @@ GROUP BY family_code""",
         ),
         "set",
         _vals("on_time_rate"),
-        notes="Ambiguous airport. Candidate interpretation pools DFW and DAL. Dallas/Fort Worth alone would be a different cut.",
+        notes="Dallas with no airport code means DFW and DAL pooled. The answer states that pool. DFW alone would be a different cut. Southwest's Dallas flights in this extract are at DAL. American's are mostly at DFW.",
         ambiguous=True,
+        interpretation="I read Dallas as DFW and DAL combined, and I give both airlines' on-time arrival rates.",
+        follow_up="Is a lower on-time rate the dice of busy hubs, or the airline after the airport is held fixed?",
+        alternatives="Both rates are in the pooled DFW and DAL departures. DFW alone is a different cut.",
     ))
     add(_q(
         "What was the on-time rate yesterday?",
@@ -1148,11 +1419,14 @@ GROUP BY family_code""",
         "Which airline has the most delays?",
         "hard",
         "ambiguous_or_trick",
-        _rank("airline_code", "airline_code", "late_flights", "COUNT(*)", "late_arrival", None, True, 1),
+        sql_most_delays(),
         "ranking",
-        _vals("late_flights"),
-        notes="Ambiguous. Candidate interpretation is the greatest count of late arrivals, not the highest late rate. The rate is usually the better operational comparison. Pending review.",
+        _vals("late_flights", "late_rate"),
+        notes="Most delays means the greatest count of late arrivals. The same row also has the late rate, so the count is not the only figure. The minimum is 5,000 operated flights. Both numbers are for that airline.",
         ambiguous=True,
+        interpretation="I read most delays as the greatest count of late arrivals, and I also give that airline's late rate.",
+        follow_up="Want the airline with the highest late rate, which is a different ranking?",
+        alternatives="Late-arrival count and late-arrival rate for the airline with the most late arrivals.",
     ))
     add(_q(
         "Are red-eye flights less on time than other flights? Return the night-departure on-time arrival rate and the rate for all other departures.",
@@ -1292,6 +1566,112 @@ GROUP BY 1""",
         "scalar",
         _vals("share"),
         notes="Own-fault share for the American brand rollup. Airline-controlled minutes are carrier plus late aircraft. SkyWest and Republic are excluded. Pending review.",
+        why_limit=WHY_LIMIT,
+    ))
+    add(_q(
+        "What is American's systemwide on-time arrival rate with its single-partner operating partners, and without them? Return both.",
+        "medium",
+        "airline_reliability",
+        sql_american_brand_pair(),
+        "set",
+        _vals("on_time_rate"),
+        notes="American Eagle in this extract is Envoy (MQ) and PSA (OH). Piedmont (PT) has no rows. SkyWest and Republic are not assigned to American: the July 2026 file has Reporting_Airline and no marketing-airline column.",
+        alternatives="Mainline AA only, and AA plus Envoy and PSA.",
+        follow_up="Want Delta and United on the same with-and-without cut?",
+    ))
+    add(_q(
+        "Is American usually late?",
+        "hard",
+        "ambiguous_or_trick",
+        sql_american_lateness(),
+        "scalar",
+        _vals("on_time_rate", "avg_arrival_delay"),
+        notes="Phrasing variant of 'How late is American?'. Same SQL, same figures: reporting carrier AA, on-time arrival rate and mean signed arrival delay in minutes.",
+        ambiguous=True,
+        interpretation="I read this as reporting-carrier American Airlines: on-time arrival rate and mean signed arrival delay in minutes. It does not roll up Envoy, PSA, or other partners.",
+        follow_up="Want the same two figures for the American brand, with Envoy and PSA and without them?",
+        alternatives="On-time arrival rate and mean signed arrival delay, both for reporting carrier AA.",
+    ))
+    add(_q(
+        "American's on-time record?",
+        "hard",
+        "ambiguous_or_trick",
+        sql_american_lateness(),
+        "scalar",
+        _vals("on_time_rate", "avg_arrival_delay"),
+        notes="Phrasing variant of 'How late is American?'. Same SQL, same figures: reporting carrier AA, on-time arrival rate and mean signed arrival delay in minutes.",
+        ambiguous=True,
+        interpretation="I read this as reporting-carrier American Airlines: on-time arrival rate and mean signed arrival delay in minutes. It does not roll up Envoy, PSA, or other partners.",
+        follow_up="Want the same two figures for the American brand, with Envoy and PSA and without them?",
+        alternatives="On-time arrival rate and mean signed arrival delay, both for reporting carrier AA.",
+    ))
+    add(_q(
+        "Is a lower on-time rate the dice of busier airports, or the airline after the origin airport is held fixed? Return the on-time rate for the largest airports and for midsize airports, and the same-airport gap for American, Delta, United, and Southwest.",
+        "hard",
+        "ambiguous_or_trick",
+        sql_dice_or_airline(),
+        "set",
+        _vals("figure"),
+        notes="Largest airports have at least 150,000 operated departures. Midsize airports have 10,000 to 49,999. The same-airport gap is the flight-weighted difference between that brand and the other flights at the same origin, each side at least 100 flights. American includes Envoy and PSA. SkyWest and Republic stay in the other-flights side because they cannot be assigned to a marketing brand. A negative gap means the brand is behind the other flights at the same airports. This is a description, not a cause.",
+        ambiguous=True,
+        interpretation="I read this as two cuts: airport size, and the airline after the origin airport is held fixed.",
+        follow_up="Want the hour-of-day slope next to the airport-size slope? Evening departures move the rate much more than hub size does.",
+        alternatives="Largest-airport rate, midsize-airport rate, and a same-airport gap for American, Delta, United, and Southwest.",
+    ))
+    add(_q(
+        "What can the BTS delay and cancellation codes tell us about why a flight was late or cancelled? Return the systemwide share of late-arrival minutes for each delay cause.",
+        "medium",
+        "delay_causes",
+        _cause_parts("late_arrival"),
+        "set",
+        _vals("share"),
+        notes="The five shares are what the codes can tell us. They cannot name the broken part, the crew, or the decision.",
+        why_limit=WHY_LIMIT,
+        follow_up="The codes cannot say why. Want the same split for one airline?",
+        alternatives="Carrier, weather, NAS, security, and late aircraft, as shares of late-arrival minutes.",
     ))
 
+    return _apply_review(questions)
+
+
+# Question text -> Daniel's call on 2026-10-11. Unlisted questions stay DRAFT.
+_REVIEW = {
+    "Which airline has the lowest median arrival delay systemwide?": {
+        "status": "APPROVED",
+        "follow_up": "Want the same median across airline brands, for example American including American Eagle?",
+    },
+    "Which airport has the largest morning-minus-evening on-time arrival gap?": {"status": "APPROVED"},
+    "Which month has the highest systemwide cancellation rate?": {"status": "APPROVED"},
+    "Which on-time arrival rate is lower: 2025-11-26, the Wednesday before Thanksgiving 2025, or Wednesdays in October 2025? Return both rates.": {"status": "APPROVED"},
+    "How late is American?": {"status": "APPROVED"},
+    "Does weather explain most delays? Return the weather share of late-arrival minutes, the NAS share, and 1 if the weather share is above one half.": {
+        "status": "APPROVED",
+        "why_limit": WHY_LIMIT,
+    },
+    "Which airline is best out of DFW?": {"status": "DRAFT-REVISED"},
+    "What is the average delay at ORD?": {"status": "APPROVED"},
+    "Are flights between DFW and ORD on time? Return the on-time arrival rate.": {"status": "DRAFT-REVISED"},
+    "Which airport is the worst?": {"status": "DRAFT-REVISED"},
+    "Which is more on time out of Dallas, American or Southwest? Return both on-time arrival rates.": {"status": "APPROVED"},
+    "Which airline has the most delays?": {"status": "DRAFT-REVISED"},
+    "Are red-eye flights less on time than other flights? Return the night-departure on-time arrival rate and the rate for all other departures.": {"status": "APPROVED"},
+    "Which five routes have the lowest on-time arrival rate?": {"status": "APPROVED"},
+    "Which five routes have the highest cancellation rate?": {"status": "DRAFT-REVISED"},
+    "What are the five routes out of DFW with the highest average signed arrival delay?": {"status": "DRAFT-REVISED"},
+    "At ORD, what are the on-time arrival rates for departures in hour 06 and hour 18?": {"status": "APPROVED"},
+    "At DEN, what are the on-time arrival rates for departures in hour 08 and hour 20?": {"status": "APPROVED"},
+    "In July 2026, which airline is most on time out of ATL?": {"status": "DRAFT-REVISED"},
+    "Which airline has the highest share of its late-arrival minutes labeled carrier delay, not counting late aircraft?": {"status": "DRAFT-REVISED"},
+    "Which airline has the highest share of its cancellations coded A (carrier)?": {"status": "DRAFT-REVISED"},
+    "For winter departures from ORD, what share of late-arrival minutes is weather delay?": {"status": "APPROVED"},
+    "Including single-partner regional affiliates, how do American and Delta compare on systemwide on-time arrival rate? Return both rates.": {"status": "DRAFT-REVISED"},
+}
+
+
+def _apply_review(questions: list[dict]) -> list[dict]:
+    for item in questions:
+        extra = _REVIEW.get(item["question"])
+        if not extra:
+            continue
+        item.update(extra)
     return questions

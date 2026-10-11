@@ -237,8 +237,7 @@ def plan_question(question: str) -> dict:
     """Rules baseline. Known gaps fall through to a flight-count query.
 
     Not implemented here: medians, the airport morning-minus-evening gap,
-    the Thanksgiving-versus-October comparison, "how late is ...", and
-    "does weather explain most delays".
+    the Thanksgiving-versus-October comparison, and "does weather explain most delays".
     """
     text = question.strip()
     low = text.lower()
@@ -246,6 +245,64 @@ def plan_question(question: str) -> dict:
         if "passenger" in low:
             return _refuse("The on-time extract has no passenger counts, so a passenger-weighted rate cannot be computed.")
         return _refuse("This extract is not a live feed, so yesterday or tomorrow is outside its scope.")
+    if "american" in low and any(phrase in low for phrase in ("how late", "usually late", "on-time record", "on time record")):
+        from flight_analyst.questions import sql_american_lateness
+
+        return _ok(sql_american_lateness())
+    if low.startswith("which airline is best out of dfw"):
+        from flight_analyst.questions import sql_best_out_of_dfw
+
+        return _ok(sql_best_out_of_dfw(), chart=True)
+    if "dice of busier" in low or "same-airport gap" in low:
+        from flight_analyst.questions import sql_dice_or_airline
+
+        return _ok(sql_dice_or_airline(), chart=True)
+    if "what can the bts delay" in low:
+        return _ok(_five_causes("late_arrival"), chart=True)
+    if "single-partner operating partners" in low and "without them" in low:
+        from flight_analyst.questions import sql_american_brand_pair
+
+        return _ok(sql_american_brand_pair(), chart=True)
+    if "envoy and psa" in low and "skywest" in low:
+        return _ok(_scalar("American", "on_time_rate", ONTIME, "operated AND airline_code IN ('AA', 'MQ', 'OH', 'PT')"))
+    if "150,000" in low and "10,000 to 49,999" in low:
+        return _ok(
+            """WITH airport_n AS (
+    SELECT origin, COUNT(*) AS airport_flights
+    FROM flights_v
+    WHERE operated
+    GROUP BY origin
+)
+SELECT CASE
+           WHEN a.airport_flights >= 150000 THEN '150k_or_more'
+           ELSE '10k_to_49999'
+       END AS label,
+       AVG(CASE WHEN f.on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate
+FROM flights_v f
+JOIN airport_n a ON f.origin = a.origin
+WHERE f.operated
+  AND (a.airport_flights >= 150000 OR (a.airport_flights >= 10000 AND a.airport_flights < 50000))
+GROUP BY 1""",
+            chart=True,
+        )
+    if "american brand" in low and "every other carrier" in low:
+        return _ok(
+            """SELECT CASE WHEN airline_code IN ('AA', 'MQ', 'OH', 'PT') THEN 'American' ELSE 'other' END AS label,
+       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate
+FROM flights_v
+WHERE operated AND origin = 'DFW'
+GROUP BY 1""",
+            chart=True,
+        )
+    if "american brand" in low and "airline-controlled" in low:
+        return _ok(
+            _scalar(
+                "American",
+                "share",
+                "SUM(airline_controlled_minutes) * 1.0 / NULLIF(SUM(cause_minutes), 0)",
+                "late_arrival AND cause_minutes > 0 AND airline_code IN ('AA', 'MQ', 'OH', 'PT')",
+            )
+        )
     if any(token in low for token in ("median", "morning-minus-evening", "2025-11-26", "explain most")) or low.startswith("how late is"):
         return _fallback()
 
@@ -270,14 +327,9 @@ WHERE family_code = 'AA' AND airline_code = 'OO'"""
             chart=True,
         )
     if "regional" in low and "american" in low and "delta" in low:
-        return _ok(
-            """SELECT family_code AS label,
-       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate
-FROM flights_v
-WHERE operated AND family_code IN ('AA', 'DL')
-GROUP BY family_code""",
-            chart=True,
-        )
+        from flight_analyst.questions import sql_partners_and_mainline
+
+        return _ok(sql_partners_and_mainline(), chart=True)
     if "each of the five" in low:
         return _ok(_five_causes("late_arrival"), chart=True)
     if "which bts delay cause" in low:
@@ -331,7 +383,9 @@ GROUP BY codes.airline_code""",
     if "five airports have the highest average" in low:
         return _ok(_grouped("origin", "origin", "avg_arrival_delay", "AVG(arr_delay)", "operated", f"COUNT(*) >= {MIN_AIRPORT}", True, 5), chart=True)
     if "which airport is the worst" in low:
-        return _ok(_grouped("origin", "origin", "on_time_rate", ONTIME, "operated", f"COUNT(*) >= {MIN_AIRPORT}", False, 1))
+        from flight_analyst.questions import sql_worst_airport
+
+        return _ok(sql_worst_airport(), chart=True)
     if "dfw and dal" in low:
         return _ok(_grouped("origin", "origin", "on_time_rate", ONTIME, "operated AND origin IN ('DFW', 'DAL')", None, True, 5), chart=True)
     if "rank mco" in low:
@@ -357,7 +411,7 @@ GROUP BY airline_code""",
         return _ok(_grouped("airline_code", "airline_code", "on_time_rate", ONTIME, "operated", f"COUNT(*) >= {MIN_AIRLINE_SYSTEMWIDE}", True, 5), chart=True)
     if "five airlines" in low and "lowest" in low:
         return _ok(_grouped("airline_code", "airline_code", "on_time_rate", ONTIME, "operated", f"COUNT(*) >= {MIN_AIRLINE_SYSTEMWIDE}", False, 5), chart=True)
-    if "highest systemwide cancellation rate" in low:
+    if "highest systemwide cancellation rate" in low and "month" not in low:
         return _ok(_grouped("airline_code", "airline_code", "cancellation_rate", CANCEL, "TRUE", f"SUM(CASE WHEN operated THEN 1 ELSE 0 END) >= {MIN_AIRLINE_SYSTEMWIDE}", True, 1))
     if "highest average signed arrival delay among operated" in low:
         return _ok(_grouped("airline_code", "airline_code", "avg_arrival_delay", "AVG(arr_delay)", "operated", f"COUNT(*) >= {MIN_AIRLINE_SYSTEMWIDE}", True, 1))
@@ -440,7 +494,9 @@ SELECT 'hour_20' AS label, {ONTIME} AS on_time_rate FROM flights_v WHERE operate
         label = "CAST(year AS VARCHAR) || '-' || LPAD(CAST(month AS VARCHAR), 2, '0')"
         return _ok(_grouped(label, "year, month", "cancellation_rate", CANCEL, "TRUE", None, True, 1))
     if "july 2026" in low and "ATL" in airports:
-        return _ok(_grouped("airline_code", "airline_code", "on_time_rate", ONTIME, "operated AND origin = 'ATL' AND year = 2026 AND month = 7", f"COUNT(*) >= {MIN_AIRLINE_AT_AIRPORT}", True, 1))
+        from flight_analyst.questions import sql_atl_july_2026
+
+        return _ok(sql_atl_july_2026(), chart=True)
     if "winter and summer" in low and airports:
         code = airports[0]
         return _ok(
@@ -453,11 +509,23 @@ SELECT 'summer' AS label, {ONTIME} AS on_time_rate FROM flights_v WHERE operated
         match = re.search(r"between\s+([A-Z]{3})\s+and\s+([A-Z]{3})", text)
         if match:
             a, b = match.group(1), match.group(2)
-            return _ok(_scalar("both-directions", "on_time_rate", ONTIME, f"operated AND ((origin = '{a}' AND dest = '{b}') OR (origin = '{b}' AND dest = '{a}'))"))
+            return _ok(
+                f"""SELECT '{a}-{b}' AS label, {ONTIME} AS on_time_rate, COUNT(*) AS n
+FROM flights_v WHERE operated AND origin = '{a}' AND dest = '{b}'
+UNION ALL
+SELECT '{b}-{a}' AS label, {ONTIME} AS on_time_rate, COUNT(*) AS n
+FROM flights_v WHERE operated AND origin = '{b}' AND dest = '{a}'
+UNION ALL
+SELECT 'both-directions' AS label, {ONTIME} AS on_time_rate, COUNT(*) AS n
+FROM flights_v WHERE operated AND ((origin = '{a}' AND dest = '{b}') OR (origin = '{b}' AND dest = '{a}'))""",
+                chart=True,
+            )
     if "average delay at" in low and airports:
         return _ok(_scalar(airports[0], "avg_arrival_delay", "AVG(arr_delay)", f"operated AND origin = '{airports[0]}'"))
     if "most delays" in low:
-        return _ok(_grouped("airline_code", "airline_code", "late_flights", "COUNT(*)", "late_arrival", None, True, 1))
+        from flight_analyst.questions import sql_most_delays
+
+        return _ok(sql_most_delays())
     if "red-eye" in low:
         return _ok(
             f"""SELECT 'night' AS label, {ONTIME} AS on_time_rate FROM flights_v WHERE operated AND dep_time_bucket = 'night'

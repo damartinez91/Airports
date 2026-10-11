@@ -80,6 +80,28 @@ Best airline and worst airport use the on-time arrival rate, after the minimum-s
 
 Ties in a ranking break by label ascending.
 
+## Answering rules Daniel approved on 2026-10-11
+
+These sentences are part of the analyst briefing and the grader rubric.
+
+Answer the question literally first, then offer one better follow-up question.
+
+When a number is given for one listed item, give that number for every listed item, with its unit.
+
+An ambiguous question gets the literal answer, a stated reading, and the natural alternative cuts.
+
+Name every route, airport, and airline explicitly. A route named in one direction is not the reverse.
+
+BTS delay codes are carrier, weather, national air system, security, and late aircraft. They are coarse and self-reported, and they often cannot say why.
+
+A ranking states its minimum-flights rule. A sample under that floor does not win.
+
+The same question asked in different words gets the same figures.
+
+Brand figures are shown with operating partners and without them. This extract has no marketing-airline column, so SkyWest and Republic stay unassigned.
+
+The July 2026 reporting-carrier header has `Reporting_Airline` and no marketing-airline column. Envoy, PSA, and Piedmont can roll into American because they fly for one brand. SkyWest and Republic fly for more than one brand, and this file cannot assign those flights to a marketing brand.
+
 These cutoffs are choices. A smaller airport can still clear the evening floor. Changing the floor will change who sits at the bottom of that list. That is a review item, not a hidden constant.
 
 ## What this dataset cannot answer

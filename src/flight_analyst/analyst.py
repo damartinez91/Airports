@@ -7,7 +7,7 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 
-from flight_analyst.definitions import briefing_block
+from flight_analyst.definitions import MINIMUM_RULE, WHY_LIMIT, briefing_block
 from flight_analyst.ingest import connect_readonly
 from flight_analyst.llm import StubClient, get_client
 from flight_analyst.schema import FLIGHT_COLUMNS, VIEW_EXTRA
@@ -90,17 +90,84 @@ def _chart(rows: list[dict], columns: list[str]) -> dict | None:
     }
 
 
-def _format(rows: list[dict], columns: list[str]) -> str:
-    if not rows:
-        return "No rows."
-    shown = rows[:8]
-    rendered = []
-    for index, row in enumerate(shown, start=1):
-        bits = [f"{column}={row.get(column)}" for column in columns]
-        rendered.append(f"{index}. " + ", ".join(bits))
+def _with_unit(column: str, value) -> str:
+    if isinstance(value, bool) or value is None:
+        return f"{column} {value}"
+    if isinstance(value, (int, float)) and not isinstance(value, bool):
+        name = column.lower()
+        if any(part in name for part in ("rate", "share", "gap", "figure")) and abs(float(value)) <= 1.5:
+            return f"{column} {float(value) * 100:.1f} percent"
+        if "delay" in name or name.endswith("minutes"):
+            return f"{column} {float(value):.1f} minutes"
+        if any(part in name for part in ("flight", "count", "n")) or name == "n":
+            return f"{column} {value} flights"
+        return f"{column} {value}"
+    return f"{column} {value}"
+
+
+def _reading(question: str) -> str:
+    low = question.lower()
+    if "between" in low and " and " in low:
+        return "both directions, each named on its own, plus the combined figure."
+    if "usually late" in low or "how late" in low or "on-time record" in low:
+        return "reporting-carrier American: the on-time arrival rate and the mean signed arrival delay in minutes, not the brand rollup."
+    if "most delays" in low:
+        return "the greatest count of late arrivals, with that airline's late rate beside the count."
+    if "best" in low or "worst" in low:
+        return "the on-time arrival rate after the minimum-flights rule, with the natural alternative cut beside it."
+    if "dallas" in low and "american" in low:
+        return "Dallas as DFW and DAL pooled, with a rate for each airline."
+    if "dice" in low or "same-airport" in low:
+        return "two cuts: airport size, and the airline after the origin airport is held fixed."
+    if "operating partner" in low or "regional" in low:
+        return "the mainline figure and the figure with single-partner operating partners. SkyWest and Republic stay unassigned."
+    if "average delay" in low:
+        return "the mean signed arrival delay in minutes of operated flights. Early arrivals pull it down."
+    if "red-eye" in low or "night" in low:
+        return "red-eye as the night bucket, 21:00 through 04:59, against every other departure."
+    if "weather" in low and "most" in low:
+        return "the BTS weather-delay cause, with the NAS share beside it."
+    return "the figures below, using the project definitions."
+
+
+def _follow_up(question: str) -> str:
+    low = question.lower()
+    if any(token in low for token in ("delay cause", "cancellation code", "carrier delay", "why", "late-arrival minutes", "weather explain")):
+        return "The BTS codes cannot say why. Want the carrier, weather, airspace, security, and late-aircraft split for one airline?"
+    if "airport" in low or "worst" in low:
+        return "Want the same cut limited to large airports, with the minimum-flights rule stated?"
+    if "route" in low or "between" in low:
+        return "Want each direction named on its own, with the minutes on every route?"
+    return "Want to see this across the big 3 business airlines, with and without operating partners?"
+
+
+def _needs_minimum(question: str) -> bool:
+    low = question.lower()
+    return any(token in low for token in ("which ", "five ", "most ", "highest", "lowest", "worst", "best", "rank"))
+
+
+def _needs_why(question: str) -> bool:
+    low = question.lower()
+    return any(token in low for token in ("delay", "cancellation code", "cause", "why", "weather explain", "late-arrival"))
+
+
+def compose_answer(question: str, rows: list[dict], columns: list[str]) -> str:
+    """Spoken answer. Every listed item gets a number and a unit, then a follow-up."""
+    lines = [f"I read this as: {_reading(question)}"]
+    shown = rows[:12]
+    for row in shown:
+        label = row.get("label", "")
+        bits = [_with_unit(column, row.get(column)) for column in columns if column != "label"]
+        lines.append(f"{label}: " + ", ".join(bits))
     if len(rows) > len(shown):
-        rendered.append(f"... {len(rows) - len(shown)} more rows")
-    return "\n".join(rendered)
+        lines.append(f"{len(rows) - len(shown)} more rows")
+    if _needs_minimum(question):
+        lines.append(MINIMUM_RULE)
+    if _needs_why(question):
+        lines.append(WHY_LIMIT)
+    lines.append("Units: rates and shares are in percent, delays are in minutes, and counts are in flights.")
+    lines.append(f"Follow-up: {_follow_up(question)}")
+    return "\n".join(lines)
 
 
 class Analyst:
@@ -129,7 +196,10 @@ class Analyst:
             if payload.get("refuse"):
                 result.refused = True
                 result.refusal_reason = payload.get("refusal_reason") or "Refused."
-                result.answer_text = result.refusal_reason
+                result.answer_text = (
+                    result.refusal_reason
+                    + "\nFollow-up: Ask for a rate this extract can compute, such as the on-time arrival rate for a month that is in the file."
+                )
                 return result
             sql = prepare_sql(payload.get("sql") or "")
             result.sql = sql
@@ -148,7 +218,7 @@ class Analyst:
                 result.rows = []
                 return result
             result.chart = _chart(result.rows, result.columns)
-            result.answer_text = _format(result.rows, result.columns)
+            result.answer_text = compose_answer(question, result.rows, result.columns)
             return result
         except SqlGuardError as exc:
             result.sql_error = str(exc)

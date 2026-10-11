@@ -31,11 +31,23 @@ def render_markdown(report: dict) -> str:
         f"- Matching the candidate answer: {summary['n_correct']}",
         f"- Accuracy: {summary['accuracy']:.1%}" if summary.get("accuracy") is not None else "- Accuracy: n/a",
         "",
-        "## By difficulty",
-        "",
-        "| Difficulty | Correct | N | Accuracy |",
-        "| --- | ---: | ---: | ---: |",
     ]
+    nudge = summary.get("advisory_nudge") or {}
+    if nudge:
+        rate = nudge.get("rate")
+        rate_text = f"{rate:.1%}" if isinstance(rate, float) else "n/a"
+        lines.append(
+            f"- Advisory nudge (a follow-up was offered; this does not change the score): {nudge.get('n_offered')} of {nudge.get('n')} ({rate_text})"
+        )
+        lines.append("")
+    lines.extend(
+        [
+            "## By difficulty",
+            "",
+            "| Difficulty | Correct | N | Accuracy |",
+            "| --- | ---: | ---: | ---: |",
+        ]
+    )
     for name, slot in sorted(summary.get("by_difficulty", {}).items()):
         accuracy = slot.get("accuracy")
         shown = f"{accuracy:.1%}" if accuracy is not None else ""

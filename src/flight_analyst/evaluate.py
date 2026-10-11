@@ -7,7 +7,8 @@ from pathlib import Path
 
 from flight_analyst.analyst import Analyst
 from flight_analyst.bank import load_bank
-from flight_analyst.compare import Comparison, EntityResolver, categorize, compare_result
+from flight_analyst.compare import Comparison, EntityResolver, categorize, compare_result, prose_rubric
+from flight_analyst.definitions import GRADER_RUBRIC
 from flight_analyst.ingest import connect_readonly
 from flight_analyst.paths import BANK_PATH, DB_PATH, REPORTS_DIR
 from flight_analyst.report import write_reports
@@ -48,7 +49,12 @@ def run_evaluation(
             comparison = Comparison(False, "error", outcome.infrastructure_error)
         else:
             comparison = compare_result(item, outcome, resolver)
+        prose_ok, prose_detail, nudge = prose_rubric(item, outcome.answer_text)
         failure = categorize(item, outcome, comparison)
+        detail = comparison.detail if comparison else outcome.infrastructure_error
+        if failure is None and not prose_ok:
+            failure = "misread_question"
+            detail = prose_detail
         results.append(
             {
                 "id": item["id"],
@@ -58,7 +64,8 @@ def run_evaluation(
                 "ambiguous": item.get("ambiguous", False),
                 "passed": failure is None,
                 "failure_category": failure,
-                "detail": comparison.detail if comparison else outcome.infrastructure_error,
+                "detail": detail,
+                "nudge_offered": nudge,
                 "analyst_sql": outcome.sql,
                 "reference_sql": item.get("sql"),
                 "answer_text": outcome.answer_text,
@@ -85,10 +92,11 @@ def run_evaluation(
 
     n = len(results)
     n_correct = sum(int(row["passed"]) for row in results)
+    n_nudge = sum(int(row.get("nudge_offered")) for row in results)
     report = {
         "status": "DRAFT",
         "review_note": bank.get("review_note"),
-        "scoring_basis": "Scored against DRAFT candidate answers. Not an approved standard.",
+        "scoring_basis": "Scored against DRAFT candidate answers where a question is still draft. " + GRADER_RUBRIC,
         "created_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
         "provider": getattr(analyst.client, "name", "unknown"),
         "model": getattr(analyst.client, "model", None),
@@ -108,6 +116,11 @@ def run_evaluation(
             "by_difficulty": by_difficulty,
             "by_category": by_category,
             "by_failure": by_failure,
+            "advisory_nudge": {
+                "n": n,
+                "n_offered": n_nudge,
+                "rate": round(n_nudge / n, 6) if n else None,
+            },
         },
         "results": results,
     }

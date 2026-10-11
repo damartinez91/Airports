@@ -113,7 +113,7 @@
     "duplicate_operation_keys": 0,
     "carriers_without_readable_name": []
   },
-  "question_count": 115,
+  "question_count": 120,
   "questions": [
     {
       "status": "DRAFT",
@@ -141,6 +141,11 @@
         }
       ],
       "notes": "Highest on-time arrival rate among reporting airlines with at least 100 operated departures from DFW. The winner can be a regional affiliate. Reporting-carrier AA is not the American brand family.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q001",
       "expected": {
         "rows": [
@@ -178,6 +183,11 @@
         }
       ],
       "notes": "Highest on-time arrival rate among reporting airlines with at least 100 operated departures from ORD. The winner can be a regional affiliate. Reporting-carrier AA is not the American brand family.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q002",
       "expected": {
         "rows": [
@@ -215,6 +225,11 @@
         }
       ],
       "notes": "Highest on-time arrival rate among reporting airlines with at least 100 operated departures from ATL. The winner can be a regional affiliate. Reporting-carrier AA is not the American brand family.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q003",
       "expected": {
         "rows": [
@@ -252,6 +267,11 @@
         }
       ],
       "notes": "Highest on-time arrival rate among reporting airlines with at least 100 operated departures from DEN. The winner can be a regional affiliate. Reporting-carrier AA is not the American brand family.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q004",
       "expected": {
         "rows": [
@@ -289,6 +309,11 @@
         }
       ],
       "notes": "Highest on-time arrival rate among reporting airlines with at least 100 operated departures from LAX. The winner can be a regional affiliate. Reporting-carrier AA is not the American brand family.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q005",
       "expected": {
         "rows": [
@@ -326,6 +351,11 @@
         }
       ],
       "notes": "Highest on-time arrival rate among reporting airlines with at least 100 operated departures from LGA. The winner can be a regional affiliate. Reporting-carrier AA is not the American brand family.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q006",
       "expected": {
         "rows": [
@@ -363,6 +393,11 @@
         }
       ],
       "notes": "Highest on-time arrival rate among reporting airlines with at least 100 operated departures from BOS. The winner can be a regional affiliate. Reporting-carrier AA is not the American brand family.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q007",
       "expected": {
         "rows": [
@@ -400,6 +435,11 @@
         }
       ],
       "notes": "Highest on-time arrival rate among reporting airlines with at least 100 operated departures from SEA. The winner can be a regional affiliate. Reporting-carrier AA is not the American brand family.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q008",
       "expected": {
         "rows": [
@@ -437,6 +477,11 @@
         }
       ],
       "notes": "Highest on-time arrival rate among reporting airlines with at least 100 operated departures from EWR. The winner can be a regional affiliate. Reporting-carrier AA is not the American brand family.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q009",
       "expected": {
         "rows": [
@@ -474,6 +519,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q010",
       "expected": {
         "rows": [
@@ -531,6 +581,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q011",
       "expected": {
         "rows": [
@@ -588,6 +643,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q012",
       "expected": {
         "rows": [
@@ -624,6 +684,11 @@
         }
       ],
       "notes": "American here is reporting carrier AA only, not Envoy, PSA, or Piedmont.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q013",
       "expected": {
         "rows": [
@@ -657,6 +722,11 @@
         }
       ],
       "notes": "Cancellation rate uses all scheduled Delta flights, including cancelled ones, as the denominator.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q014",
       "expected": {
         "rows": [
@@ -690,6 +760,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q015",
       "expected": {
         "rows": [
@@ -726,6 +801,11 @@
         }
       ],
       "notes": "Mean of the signed arrival delay. Early arrivals reduce it.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q016",
       "expected": {
         "rows": [
@@ -763,6 +843,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q017",
       "expected": {
         "rows": [
@@ -796,6 +881,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q018",
       "expected": {
         "rows": [
@@ -830,6 +920,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q019",
       "expected": {
         "rows": [
@@ -841,7 +936,7 @@
       }
     },
     {
-      "status": "DRAFT",
+      "status": "APPROVED",
       "question": "Which airline has the lowest median arrival delay systemwide?",
       "difficulty": "hard",
       "category": "airline_reliability",
@@ -864,6 +959,11 @@
         }
       ],
       "notes": "Median of the signed arrival delay. Lowest median is the best of this metric.",
+      "interpretation": "",
+      "follow_up": "Want the same median across airline brands, for example American including American Eagle?",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q020",
       "expected": {
         "rows": [
@@ -901,6 +1001,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q021",
       "expected": {
         "rows": [
@@ -938,6 +1043,11 @@
         }
       ],
       "notes": "Worst means the lowest on-time arrival rate for flights scheduled to depart from 17:00 through 20:59, among airports with at least 2000 such operated flights.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q022",
       "expected": {
         "rows": [
@@ -995,6 +1105,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q023",
       "expected": {
         "rows": [
@@ -1052,6 +1167,11 @@
         }
       ],
       "notes": "Best means highest on-time arrival rate for departures, after the airport minimum-sample rule.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q024",
       "expected": {
         "rows": [
@@ -1109,6 +1229,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q025",
       "expected": {
         "rows": [
@@ -1166,6 +1291,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q026",
       "expected": {
         "rows": [
@@ -1199,6 +1329,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q027",
       "expected": {
         "rows": [
@@ -1232,6 +1367,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q028",
       "expected": {
         "rows": [
@@ -1265,6 +1405,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q029",
       "expected": {
         "rows": [
@@ -1301,6 +1446,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q030",
       "expected": {
         "rows": [
@@ -1358,6 +1508,11 @@
         }
       ],
       "notes": "Both Dallas/Fort Worth International and Dallas Love Field, departures only, no minimum beyond the airports named.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q031",
       "expected": {
         "rows": [
@@ -1400,6 +1555,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q032",
       "expected": {
         "rows": [
@@ -1433,6 +1593,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q033",
       "expected": {
         "rows": [
@@ -1469,6 +1634,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q034",
       "expected": {
         "rows": [
@@ -1526,6 +1696,11 @@
         }
       ],
       "notes": "This is arrivals at DCA, not departures from DCA.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q035",
       "expected": {
         "rows": [
@@ -1562,6 +1737,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q036",
       "expected": {
         "rows": [
@@ -1594,7 +1774,7 @@
       }
     },
     {
-      "status": "DRAFT",
+      "status": "APPROVED",
       "question": "Which airport has the largest morning-minus-evening on-time arrival gap?",
       "difficulty": "hard",
       "category": "airport_reliability",
@@ -1617,6 +1797,11 @@
         }
       ],
       "notes": "The gap is the morning on-time arrival rate minus the evening rate. Each bucket needs at least 500 operated departures. Largest means the most positive gap.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q037",
       "expected": {
         "rows": [
@@ -1662,17 +1847,14 @@
         }
       ],
       "notes": "Directional, DFW to ORD. Both carriers are listed even if one has no flights. Rates are null when the operated count is zero, and those rates are not scored; the counts are. In this extract Southwest's Dallas flights use DAL, not DFW, so its DFW-ORD counts are the finding.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q038",
       "expected": {
         "rows": [
-          {
-            "label": "AA",
-            "scheduled_flights": 4245,
-            "operated_flights": 4072,
-            "on_time_rate": 0.6611,
-            "cancellation_rate": 0.034629,
-            "avg_arrival_delay": 20.34725
-          },
           {
             "label": "WN",
             "scheduled_flights": 0,
@@ -1680,6 +1862,14 @@
             "on_time_rate": null,
             "cancellation_rate": null,
             "avg_arrival_delay": null
+          },
+          {
+            "label": "AA",
+            "scheduled_flights": 4245,
+            "operated_flights": 4072,
+            "on_time_rate": 0.6611,
+            "cancellation_rate": 0.034629,
+            "avg_arrival_delay": 20.34725
           }
         ]
       }
@@ -1718,6 +1908,11 @@
         }
       ],
       "notes": "Directional, EWR to SFO. Both carriers are listed even if one has no flights. Counts are scored. A null rate means that carrier did not operate the route in this extract.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q039",
       "expected": {
         "rows": [
@@ -1786,6 +1981,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q040",
       "expected": {
         "rows": [
@@ -1834,6 +2034,11 @@
         }
       ],
       "notes": "All reporting airlines, one direction.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q041",
       "expected": {
         "rows": [
@@ -1870,6 +2075,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q042",
       "expected": {
         "rows": [
@@ -1882,7 +2092,7 @@
       }
     },
     {
-      "status": "DRAFT",
+      "status": "APPROVED",
       "question": "Which five routes have the lowest on-time arrival rate?",
       "difficulty": "hard",
       "category": "routes",
@@ -1907,6 +2117,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q043",
       "expected": {
         "rows": [
@@ -1939,13 +2154,13 @@
       }
     },
     {
-      "status": "DRAFT",
+      "status": "DRAFT-REVISED",
       "question": "Which five routes have the highest cancellation rate?",
       "difficulty": "hard",
       "category": "routes",
       "ambiguous": false,
       "answer_type": "ranking",
-      "sql": "SELECT origin || '-' || dest AS label,\n       AVG(CASE WHEN cancelled THEN 1.0 ELSE 0.0 END) AS cancellation_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE TRUE\nGROUP BY origin, dest\nHAVING COUNT(*) >= 500\nORDER BY cancellation_rate DESC, label ASC\nLIMIT 5",
+      "sql": "SELECT origin || '-' || dest AS label,\n       origin_city_name || ' to ' || dest_city_name AS route_name,\n       AVG(CASE WHEN cancelled THEN 1.0 ELSE 0.0 END) AS cancellation_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE TRUE\nGROUP BY origin, dest, origin_city_name, dest_city_name\nHAVING COUNT(*) >= 500\nORDER BY cancellation_rate DESC, label ASC\nLIMIT 5",
       "key_columns": [
         "label"
       ],
@@ -1960,32 +2175,42 @@
           ]
         }
       ],
-      "notes": "Candidate interpretation follows the project definitions.",
+      "notes": "Each direction is its own named route. The route_name column is the BTS city pair, for example Detroit, MI to Pellston, MI. The reverse is a different row.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "Both directions are listed when both clear the 500-flight floor. Neither direction stands in for the other.",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q044",
       "expected": {
         "rows": [
           {
             "label": "DTW-PLN",
+            "route_name": "Detroit, MI to Pellston, MI",
             "cancellation_rate": 0.139605,
             "n": 659
           },
           {
             "label": "PLN-DTW",
+            "route_name": "Pellston, MI to Detroit, MI",
             "cancellation_rate": 0.139605,
             "n": 659
           },
           {
             "label": "MCW-ORD",
+            "route_name": "Mason City, IA to Chicago, IL",
             "cancellation_rate": 0.073365,
             "n": 627
           },
           {
             "label": "ASE-DFW",
+            "route_name": "Aspen, CO to Dallas/Fort Worth, TX",
             "cancellation_rate": 0.07173,
             "n": 1185
           },
           {
             "label": "CLE-DCA",
+            "route_name": "Cleveland, OH to Washington, DC",
             "cancellation_rate": 0.070764,
             "n": 1611
           }
@@ -2017,6 +2242,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q045",
       "expected": {
         "rows": [
@@ -2073,17 +2303,14 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q046",
       "expected": {
         "rows": [
-          {
-            "label": "AS",
-            "scheduled_flights": 3289,
-            "operated_flights": 3258,
-            "on_time_rate": 0.80663,
-            "cancellation_rate": 0.009425,
-            "avg_arrival_delay": 1.098527
-          },
           {
             "label": "DL",
             "scheduled_flights": 2226,
@@ -2091,6 +2318,14 @@
             "on_time_rate": 0.830846,
             "cancellation_rate": 0.006289,
             "avg_arrival_delay": 1.157395
+          },
+          {
+            "label": "AS",
+            "scheduled_flights": 3289,
+            "operated_flights": 3258,
+            "on_time_rate": 0.80663,
+            "cancellation_rate": 0.009425,
+            "avg_arrival_delay": 1.098527
           }
         ]
       }
@@ -2118,6 +2353,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q047",
       "expected": {
         "rows": [
@@ -2154,6 +2394,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q048",
       "expected": {
         "rows": [
@@ -2214,6 +2459,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q049",
       "expected": {
         "rows": [
@@ -2260,6 +2510,11 @@
         }
       ],
       "notes": "Operated flights only. The scored figure is the flight count.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q050",
       "expected": {
         "rows": [
@@ -2317,6 +2572,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q051",
       "expected": {
         "rows": [
@@ -2340,13 +2600,13 @@
       }
     },
     {
-      "status": "DRAFT",
+      "status": "DRAFT-REVISED",
       "question": "What are the five routes out of DFW with the highest average signed arrival delay?",
       "difficulty": "hard",
       "category": "routes",
       "ambiguous": false,
       "answer_type": "ranking",
-      "sql": "SELECT origin || '-' || dest AS label,\n       AVG(arr_delay) AS avg_arrival_delay,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin = 'DFW'\nGROUP BY origin, dest\nHAVING COUNT(*) >= 200\nORDER BY avg_arrival_delay DESC, label ASC\nLIMIT 5",
+      "sql": "SELECT origin || '-' || dest AS label,\n       origin_city_name || ' to ' || dest_city_name AS route_name,\n       AVG(arr_delay) AS avg_arrival_delay,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin = 'DFW'\nGROUP BY origin, dest, origin_city_name, dest_city_name\nHAVING COUNT(*) >= 200\nORDER BY avg_arrival_delay DESC, label ASC\nLIMIT 5",
       "key_columns": [
         "label"
       ],
@@ -2363,32 +2623,42 @@
           ]
         }
       ],
-      "notes": "Candidate interpretation follows the project definitions.",
+      "notes": "Every listed route has its mean signed arrival delay in minutes and its operated-flight count. Early arrivals pull the mean down. The minimum is 200 operated flights from DFW. route_name is the city pair.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "The minutes are on every route in the list, not only the first.",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q052",
       "expected": {
         "rows": [
           {
             "label": "DFW-BFL",
+            "route_name": "Dallas/Fort Worth, TX to Bakersfield, CA",
             "avg_arrival_delay": 59.027027,
             "n": 296
           },
           {
             "label": "DFW-MDT",
+            "route_name": "Dallas/Fort Worth, TX to Harrisburg, PA",
             "avg_arrival_delay": 40.584746,
             "n": 354
           },
           {
             "label": "DFW-OGG",
+            "route_name": "Dallas/Fort Worth, TX to Kahului, HI",
             "avg_arrival_delay": 39.704684,
             "n": 491
           },
           {
             "label": "DFW-EYW",
+            "route_name": "Dallas/Fort Worth, TX to Key West, FL",
             "avg_arrival_delay": 32.308411,
             "n": 321
           },
           {
             "label": "DFW-EGE",
+            "route_name": "Dallas/Fort Worth, TX to Eagle, CO",
             "avg_arrival_delay": 30.862884,
             "n": 846
           }
@@ -2421,6 +2691,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q053",
       "expected": {
         "rows": [
@@ -2457,6 +2732,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q054",
       "expected": {
         "rows": [
@@ -2494,6 +2774,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q055",
       "expected": {
         "rows": [
@@ -2531,6 +2816,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q056",
       "expected": {
         "rows": [
@@ -2567,6 +2857,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q057",
       "expected": {
         "rows": [
@@ -2603,6 +2898,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q058",
       "expected": {
         "rows": [
@@ -2637,6 +2937,11 @@
         }
       ],
       "notes": "A negative number means evening departures were more on time than morning departures.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q059",
       "expected": {
         "rows": [
@@ -2673,6 +2978,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q060",
       "expected": {
         "rows": [
@@ -2709,6 +3019,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q061",
       "expected": {
         "rows": [
@@ -2746,6 +3061,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q062",
       "expected": {
         "rows": [
@@ -2783,6 +3103,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q063",
       "expected": {
         "rows": [
@@ -2798,7 +3123,7 @@
       }
     },
     {
-      "status": "DRAFT",
+      "status": "APPROVED",
       "question": "At ORD, what are the on-time arrival rates for departures in hour 06 and hour 18?",
       "difficulty": "hard",
       "category": "time_of_day",
@@ -2823,6 +3148,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q064",
       "expected": {
         "rows": [
@@ -2862,6 +3192,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q065",
       "expected": {
         "rows": [
@@ -2895,6 +3230,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q066",
       "expected": {
         "rows": [
@@ -2907,7 +3247,7 @@
       }
     },
     {
-      "status": "DRAFT",
+      "status": "APPROVED",
       "question": "At DEN, what are the on-time arrival rates for departures in hour 08 and hour 20?",
       "difficulty": "hard",
       "category": "time_of_day",
@@ -2932,6 +3272,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q067",
       "expected": {
         "rows": [
@@ -2972,6 +3317,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q068",
       "expected": {
         "rows": [
@@ -3009,6 +3359,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q069",
       "expected": {
         "rows": [
@@ -3046,6 +3401,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q070",
       "expected": {
         "rows": [
@@ -3082,6 +3442,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q071",
       "expected": {
         "rows": [
@@ -3115,6 +3480,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q072",
       "expected": {
         "rows": [
@@ -3151,6 +3521,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q073",
       "expected": {
         "rows": [
@@ -3163,7 +3538,7 @@
       }
     },
     {
-      "status": "DRAFT",
+      "status": "APPROVED",
       "question": "Which month has the highest systemwide cancellation rate?",
       "difficulty": "medium",
       "category": "seasonality",
@@ -3185,6 +3560,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q074",
       "expected": {
         "rows": [
@@ -3222,6 +3602,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q075",
       "expected": {
         "rows": [
@@ -3259,6 +3644,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q076",
       "expected": {
         "rows": [
@@ -3274,13 +3664,13 @@
       }
     },
     {
-      "status": "DRAFT",
+      "status": "DRAFT-REVISED",
       "question": "In July 2026, which airline is most on time out of ATL?",
       "difficulty": "hard",
       "category": "seasonality",
       "ambiguous": false,
-      "answer_type": "ranking",
-      "sql": "SELECT airline_code AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin = 'ATL' AND year = 2026 AND month = 7\nGROUP BY airline_code\nHAVING COUNT(*) >= 100\nORDER BY on_time_rate DESC, label ASC\nLIMIT 1",
+      "answer_type": "set",
+      "sql": "WITH base AS (\n    SELECT airline_code,\n           AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n           COUNT(*) AS n\n    FROM flights_v\n    WHERE operated AND origin = 'ATL' AND year = 2026 AND month = 7\n    GROUP BY airline_code\n    HAVING COUNT(*) >= 100\n),\nwinner AS (\n    SELECT airline_code FROM base ORDER BY on_time_rate DESC, airline_code ASC LIMIT 1\n)\nSELECT b.airline_code AS label,\n       b.on_time_rate,\n       b.n,\n       CASE\n           WHEN b.airline_code IN (SELECT airline_code FROM winner) THEN 'literal_best'\n           ELSE 'big3'\n       END AS role\nFROM base b\nWHERE b.airline_code IN (SELECT airline_code FROM winner)\n   OR b.airline_code IN ('AA', 'DL', 'UA')",
       "key_columns": [
         "label"
       ],
@@ -3298,14 +3688,38 @@
           ]
         }
       ],
-      "notes": "Candidate interpretation follows the project definitions.",
+      "notes": "The literal winner is the reporting carrier with the highest on-time arrival rate after the 100-flight minimum. The same answer also lists American, Delta, and United, the three big business airlines. role is literal_best or big3.",
+      "interpretation": "",
+      "follow_up": "Want this across the three big business airlines for the full year, with and without operating partners?",
+      "alternatives": "Literal best reporting carrier, plus AA, DL, and UA at ATL in July 2026. Each row has an on-time rate and a flight count. The floor is 100 operated flights.",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q077",
       "expected": {
         "rows": [
           {
+            "label": "DL",
+            "on_time_rate": 0.68102,
+            "n": 21249,
+            "role": "big3"
+          },
+          {
+            "label": "UA",
+            "on_time_rate": 0.724744,
+            "n": 683,
+            "role": "big3"
+          },
+          {
             "label": "AS",
             "on_time_rate": 0.734513,
-            "n": 113
+            "n": 113,
+            "role": "literal_best"
+          },
+          {
+            "label": "AA",
+            "on_time_rate": 0.636099,
+            "n": 687,
+            "role": "big3"
           }
         ]
       }
@@ -3336,6 +3750,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q078",
       "expected": {
         "rows": [
@@ -3347,7 +3766,7 @@
       }
     },
     {
-      "status": "DRAFT",
+      "status": "APPROVED",
       "question": "Which on-time arrival rate is lower: 2025-11-26, the Wednesday before Thanksgiving 2025, or Wednesdays in October 2025? Return both rates.",
       "difficulty": "hard",
       "category": "seasonality",
@@ -3372,6 +3791,11 @@
         }
       ],
       "notes": "Thanksgiving 2025 fell on Thursday, November 27. The comparison day is Wednesday, November 26, against every Wednesday in October 2025.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q079",
       "expected": {
         "rows": [
@@ -3412,6 +3836,11 @@
         }
       ],
       "notes": "Own fault is the draft convention: carrier delay plus late-aircraft delay, as a share of the five BTS cause minutes, on late arrivals of reporting carrier AA. Weather is only the weather-delay cause.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q080",
       "expected": {
         "rows": [
@@ -3452,6 +3881,11 @@
         }
       ],
       "notes": "Own fault is the draft convention: carrier delay plus late-aircraft delay, as a share of the five BTS cause minutes, on late arrivals of reporting carrier WN. Weather is only the weather-delay cause.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q081",
       "expected": {
         "rows": [
@@ -3492,6 +3926,11 @@
         }
       ],
       "notes": "Own fault is the draft convention: carrier delay plus late-aircraft delay, as a share of the five BTS cause minutes, on late arrivals of reporting carrier DL. Weather is only the weather-delay cause.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q082",
       "expected": {
         "rows": [
@@ -3532,6 +3971,11 @@
         }
       ],
       "notes": "Own fault is the draft convention: carrier delay plus late-aircraft delay, as a share of the five BTS cause minutes, on late arrivals of reporting carrier UA. Weather is only the weather-delay cause.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q083",
       "expected": {
         "rows": [
@@ -3572,6 +4016,11 @@
         }
       ],
       "notes": "Own fault is the draft convention: carrier delay plus late-aircraft delay, as a share of the five BTS cause minutes, on late arrivals of reporting carrier B6. Weather is only the weather-delay cause.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q084",
       "expected": {
         "rows": [
@@ -3612,6 +4061,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q085",
       "expected": {
         "rows": [
@@ -3664,6 +4118,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q086",
       "expected": {
         "rows": [
@@ -3700,6 +4159,11 @@
         }
       ],
       "notes": "Late arrivals among flights that departed SFO, not flights that arrived at SFO.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q087",
       "expected": {
         "rows": [
@@ -3711,7 +4175,7 @@
       }
     },
     {
-      "status": "DRAFT",
+      "status": "DRAFT-REVISED",
       "question": "Which airline has the highest share of its late-arrival minutes labeled carrier delay, not counting late aircraft?",
       "difficulty": "hard",
       "category": "delay_causes",
@@ -3735,7 +4199,12 @@
           ]
         }
       ],
-      "notes": "Carrier delay only. Late-aircraft minutes stay in the denominator and are not treated as carrier delay.",
+      "notes": "Carrier delay only. Late-aircraft minutes stay in the denominator and are not treated as carrier delay. The winner is a share of coded minutes, not an explanation of the operation.",
+      "interpretation": "",
+      "follow_up": "The BTS codes cannot say why those minutes were coded carrier. Want the five-cause split for that airline?",
+      "alternatives": "The figure is the carrier-delay share only. Weather, NAS, security, and late aircraft stay out of the numerator.",
+      "why_limit": "BTS delay codes are carrier, weather, national air system (NAS), security, and late aircraft. Cancellation code A is carrier, B is weather, C is national air system, and D is security. The codes are coarse and self-reported, and they are filled in only for arrivals that are 15 minutes or more late, or for cancellations. They cannot tell us the operational reason.",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q088",
       "expected": {
         "rows": [
@@ -3773,6 +4242,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q089",
       "expected": {
         "rows": [
@@ -3813,6 +4287,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q090",
       "expected": {
         "rows": [
@@ -3849,6 +4328,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q091",
       "expected": {
         "rows": [
@@ -3860,7 +4344,7 @@
       }
     },
     {
-      "status": "DRAFT",
+      "status": "DRAFT-REVISED",
       "question": "Which airline has the highest share of its cancellations coded A (carrier)?",
       "difficulty": "hard",
       "category": "delay_causes",
@@ -3884,7 +4368,12 @@
           ]
         }
       ],
-      "notes": "Candidate interpretation follows the project definitions.",
+      "notes": "Cancellation code A means the reporting carrier coded the cancellation as its own. The minimum is 200 cancellations. The code does not say what failed.",
+      "interpretation": "",
+      "follow_up": "Code A is the carrier's own cancellation code. It cannot say why the flight was cancelled. Want the A, B, C, and D shares side by side?",
+      "alternatives": "This is the share of cancellations coded A, among airlines with at least 200 cancellations.",
+      "why_limit": "BTS delay codes are carrier, weather, national air system (NAS), security, and late aircraft. Cancellation code A is carrier, B is weather, C is national air system, and D is security. The codes are coarse and self-reported, and they are filled in only for arrivals that are 15 minutes or more late, or for cancellations. They cannot tell us the operational reason.",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q092",
       "expected": {
         "rows": [
@@ -3897,7 +4386,7 @@
       }
     },
     {
-      "status": "DRAFT",
+      "status": "APPROVED",
       "question": "For winter departures from ORD, what share of late-arrival minutes is weather delay?",
       "difficulty": "hard",
       "category": "delay_causes",
@@ -3922,6 +4411,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q093",
       "expected": {
         "rows": [
@@ -3958,6 +4452,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q094",
       "expected": {
         "rows": [
@@ -3998,6 +4497,11 @@
         }
       ],
       "notes": "Candidate interpretation follows the project definitions.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q095",
       "expected": {
         "rows": [
@@ -4009,13 +4513,13 @@
       }
     },
     {
-      "status": "DRAFT",
+      "status": "DRAFT-REVISED",
       "question": "Which airline is best out of DFW?",
       "difficulty": "hard",
       "category": "ambiguous_or_trick",
       "ambiguous": true,
-      "answer_type": "ranking",
-      "sql": "SELECT airline_code AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin = 'DFW'\nGROUP BY airline_code\nHAVING COUNT(*) >= 100\nORDER BY on_time_rate DESC, label ASC\nLIMIT 1",
+      "answer_type": "set",
+      "sql": "WITH carrier AS (\n    SELECT airline_code,\n           AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n           COUNT(*) AS n\n    FROM flights_v\n    WHERE operated AND origin = 'DFW'\n    GROUP BY airline_code\n    HAVING COUNT(*) >= 100\n),\nbest_reporting AS (\n    SELECT * FROM carrier ORDER BY on_time_rate DESC, airline_code ASC LIMIT 1\n),\nbest_mainline AS (\n    SELECT * FROM carrier\n    WHERE airline_code IN ('AA', 'DL', 'UA', 'WN', 'AS', 'B6', 'NK', 'F9', 'G4', 'HA')\n    ORDER BY on_time_rate DESC, airline_code ASC\n    LIMIT 1\n),\nbranded AS (\n    SELECT CASE\n               WHEN airline_code IN ('AA', 'MQ', 'OH', 'PT') THEN 'brand_american'\n               WHEN airline_code IN ('DL', '9E') THEN 'brand_delta'\n               WHEN airline_code IN ('UA', 'C5', 'G7', 'ZW') THEN 'brand_united'\n               WHEN airline_code IN ('AS', 'QX') THEN 'brand_alaska'\n               WHEN airline_code = 'WN' THEN 'brand_southwest'\n               WHEN airline_code = 'B6' THEN 'brand_jetblue'\n               WHEN airline_code = 'NK' THEN 'brand_spirit'\n               WHEN airline_code = 'F9' THEN 'brand_frontier'\n               WHEN airline_code = 'G4' THEN 'brand_allegiant'\n               WHEN airline_code = 'HA' THEN 'brand_hawaiian'\n               WHEN airline_code = 'OO' THEN 'brand_skywest_unassigned'\n               WHEN airline_code = 'YX' THEN 'brand_republic_unassigned'\n               ELSE 'brand_' || lower(airline_code)\n           END AS label,\n           AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n           COUNT(*) AS n\n    FROM flights_v\n    WHERE operated AND origin = 'DFW'\n    GROUP BY 1\n    HAVING COUNT(*) >= 100\n)\nSELECT 'reporting_best' AS label,\n       CASE airline_code WHEN 'MQ' THEN 'Envoy (American Eagle)' ELSE airline_code END AS who,\n       on_time_rate,\n       n\nFROM best_reporting\nUNION ALL\nSELECT 'mainline_best' AS label,\n       airline_code AS who,\n       on_time_rate,\n       n\nFROM best_mainline\nUNION ALL\nSELECT label, label AS who, on_time_rate, n FROM branded",
       "key_columns": [
         "label"
       ],
@@ -4033,20 +4537,80 @@
           ]
         }
       ],
-      "notes": "Ambiguous word: best. Candidate interpretation is the highest on-time arrival rate after the 100-flight rule. A cancellation or delay-minute reading would be a different answer. Pending review.",
+      "notes": "Best means the highest on-time arrival rate after 100 operated flights. reporting_best is the best reporting carrier. In this extract that row is Envoy (American Eagle). mainline_best is the best mainline carrier. brand_* rows group single-partner families. SkyWest and Republic stay unassigned because the file has no marketing-airline column.",
+      "interpretation": "I read best as on-time arrival rate, then I also show the best mainline carrier and the brand rollup.",
+      "follow_up": "Want the same three cuts at another hub?",
+      "alternatives": "Envoy (American Eagle) as the best reporting carrier, the best mainline carrier, and each brand at DFW with at least 100 flights.",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q096",
       "expected": {
         "rows": [
           {
-            "label": "MQ",
+            "label": "reporting_best",
+            "who": "Envoy (American Eagle)",
             "on_time_rate": 0.826918,
             "n": 62560
+          },
+          {
+            "label": "mainline_best",
+            "who": "DL",
+            "on_time_rate": 0.809473,
+            "n": 11358
+          },
+          {
+            "label": "brand_skywest_unassigned",
+            "who": "brand_skywest_unassigned",
+            "on_time_rate": 0.771548,
+            "n": 21812
+          },
+          {
+            "label": "brand_united",
+            "who": "brand_united",
+            "on_time_rate": 0.761472,
+            "n": 9785
+          },
+          {
+            "label": "brand_frontier",
+            "who": "brand_frontier",
+            "on_time_rate": 0.742717,
+            "n": 10195
+          },
+          {
+            "label": "brand_delta",
+            "who": "brand_delta",
+            "on_time_rate": 0.809473,
+            "n": 11358
+          },
+          {
+            "label": "brand_alaska",
+            "who": "brand_alaska",
+            "on_time_rate": 0.748851,
+            "n": 2393
+          },
+          {
+            "label": "brand_spirit",
+            "who": "brand_spirit",
+            "on_time_rate": 0.745017,
+            "n": 3612
+          },
+          {
+            "label": "brand_american",
+            "who": "brand_american",
+            "on_time_rate": 0.709824,
+            "n": 243256
+          },
+          {
+            "label": "brand_jetblue",
+            "who": "brand_jetblue",
+            "on_time_rate": 0.662531,
+            "n": 403
           }
         ]
       }
     },
     {
-      "status": "DRAFT",
+      "status": "APPROVED",
       "question": "What is the average delay at ORD?",
       "difficulty": "hard",
       "category": "ambiguous_or_trick",
@@ -4070,6 +4634,11 @@
         }
       ],
       "notes": "Ambiguous. Candidate interpretation is the mean signed arrival delay of operated departures from ORD, not departures-only delay, not median, and not late-flights-only.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q097",
       "expected": {
         "rows": [
@@ -4081,13 +4650,13 @@
       }
     },
     {
-      "status": "DRAFT",
+      "status": "DRAFT-REVISED",
       "question": "Are flights between DFW and ORD on time? Return the on-time arrival rate.",
       "difficulty": "hard",
       "category": "ambiguous_or_trick",
       "ambiguous": true,
-      "answer_type": "scalar",
-      "sql": "SELECT 'both-directions' AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate\nFROM flights_v\nWHERE operated AND ((origin = 'DFW' AND dest = 'ORD') OR (origin = 'ORD' AND dest = 'DFW'))",
+      "answer_type": "set",
+      "sql": "SELECT 'DFW-ORD' AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin = 'DFW' AND dest = 'ORD'\nUNION ALL\nSELECT 'ORD-DFW' AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin = 'ORD' AND dest = 'DFW'\nUNION ALL\nSELECT 'both-directions' AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND ((origin = 'DFW' AND dest = 'ORD') OR (origin = 'ORD' AND dest = 'DFW'))",
       "key_columns": [
         "label"
       ],
@@ -4105,19 +4674,35 @@
           ]
         }
       ],
-      "notes": "Ambiguous direction. Candidate interpretation combines both directions. A one-way reading is a different answer.",
+      "notes": "Between means both directions. The answer names DFW-ORD, ORD-DFW, and the combined figure. Each row has an on-time arrival rate and a flight count.",
+      "interpretation": "I read between DFW and ORD as both directions, and I list each direction on its own plus the combined rate.",
+      "follow_up": "Want the same three figures by airline?",
+      "alternatives": "DFW to ORD, ORD to DFW, and both directions combined.",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q098",
       "expected": {
         "rows": [
           {
+            "label": "DFW-ORD",
+            "on_time_rate": 0.682652,
+            "n": 6756
+          },
+          {
+            "label": "ORD-DFW",
+            "on_time_rate": 0.704616,
+            "n": 6737
+          },
+          {
             "label": "both-directions",
-            "on_time_rate": 0.693619
+            "on_time_rate": 0.693619,
+            "n": 13493
           }
         ]
       }
     },
     {
-      "status": "DRAFT",
+      "status": "APPROVED",
       "question": "How late is American?",
       "difficulty": "hard",
       "category": "ambiguous_or_trick",
@@ -4152,7 +4737,12 @@
           ]
         }
       ],
-      "notes": "Ambiguous. Candidate interpretation returns both the systemwide on-time arrival rate and the mean signed arrival delay for reporting carrier AA. It does not roll up regional affiliates.",
+      "notes": "Ambiguous. The literal reading is reporting carrier AA, not the American brand. The answer gives the systemwide on-time arrival rate and the mean signed arrival delay in minutes. Phrasing variants of this question use the same SQL.",
+      "interpretation": "I read this as reporting-carrier American Airlines: on-time arrival rate and mean signed arrival delay in minutes. It does not roll up Envoy, PSA, or other partners.",
+      "follow_up": "Want the same two figures for the American brand, with Envoy and PSA and without them?",
+      "alternatives": "On-time arrival rate and mean signed arrival delay, both for reporting carrier AA.",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q099",
       "expected": {
         "rows": [
@@ -4165,13 +4755,13 @@
       }
     },
     {
-      "status": "DRAFT",
+      "status": "DRAFT-REVISED",
       "question": "Which airport is the worst?",
       "difficulty": "hard",
       "category": "ambiguous_or_trick",
       "ambiguous": true,
-      "answer_type": "ranking",
-      "sql": "SELECT origin AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated\nGROUP BY origin\nHAVING COUNT(*) >= 5000\nORDER BY on_time_rate ASC, label ASC\nLIMIT 1",
+      "answer_type": "set",
+      "sql": "WITH airport_n AS (\n    SELECT origin, COUNT(*) AS airport_flights\n    FROM flights_v\n    WHERE operated\n    GROUP BY origin\n),\nrates AS (\n    SELECT f.origin,\n           AVG(CASE WHEN f.on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n           COUNT(*) AS n,\n           a.airport_flights\n    FROM flights_v f\n    JOIN airport_n a ON f.origin = a.origin\n    WHERE f.operated\n    GROUP BY f.origin, a.airport_flights\n)\nSELECT * FROM (\n    SELECT 'overall_worst' AS label, origin AS airport, on_time_rate, n\n    FROM rates\n    WHERE airport_flights >= 5000\n    ORDER BY on_time_rate ASC, origin ASC\n    LIMIT 1\n)\nUNION ALL\nSELECT * FROM (\n    SELECT 'large_hub_worst' AS label, origin AS airport, on_time_rate, n\n    FROM rates\n    WHERE airport_flights >= 150000\n    ORDER BY on_time_rate ASC, origin ASC\n    LIMIT 1\n)",
       "key_columns": [
         "label"
       ],
@@ -4189,20 +4779,32 @@
           ]
         }
       ],
-      "notes": "Ambiguous. Candidate interpretation is the lowest on-time arrival rate among airports with at least 5000 operated departures.",
+      "notes": "Two cuts. overall_worst is the lowest on-time arrival rate among airports with at least 5,000 operated departures. large_hub_worst uses airports with at least 150,000 operated departures. The airport column names the airport. A large hub here is a volume bucket, not an FAA passenger-share designation, because this extract has no passenger counts.",
+      "interpretation": "I read worst as the lowest on-time arrival rate, and I give both the overall airport and the worst large airport.",
+      "follow_up": "Want the five worst large airports, each with its on-time rate?",
+      "alternatives": "Overall worst airport after 5,000 flights, and worst airport among those with 150,000 or more departures.",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q100",
       "expected": {
         "rows": [
           {
-            "label": "SFB",
+            "label": "overall_worst",
+            "airport": "SFB",
             "on_time_rate": 0.701667,
             "n": 10019
+          },
+          {
+            "label": "large_hub_worst",
+            "airport": "ORD",
+            "on_time_rate": 0.715911,
+            "n": 348736
           }
         ]
       }
     },
     {
-      "status": "DRAFT",
+      "status": "APPROVED",
       "question": "Does weather explain most delays? Return the weather share of late-arrival minutes, the NAS share, and 1 if the weather share is above one half.",
       "difficulty": "hard",
       "category": "ambiguous_or_trick",
@@ -4243,6 +4845,11 @@
         }
       ],
       "notes": "Ambiguous word: weather. Candidate interpretation uses the BTS weather-delay cause only, and puts the NAS share beside it so a weather-versus-system reading stays visible. Pending review.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "BTS delay codes are carrier, weather, national air system (NAS), security, and late aircraft. Cancellation code A is carrier, B is weather, C is national air system, and D is security. The codes are coarse and self-reported, and they are filled in only for arrivals that are 15 minutes or more late, or for cancellations. They cannot tell us the operational reason.",
+      "minimum_rule": "",
       "id": "q101",
       "expected": {
         "rows": [
@@ -4256,13 +4863,13 @@
       }
     },
     {
-      "status": "DRAFT",
+      "status": "DRAFT-REVISED",
       "question": "Including single-partner regional affiliates, how do American and Delta compare on systemwide on-time arrival rate? Return both rates.",
       "difficulty": "hard",
       "category": "ambiguous_or_trick",
       "ambiguous": false,
       "answer_type": "set",
-      "sql": "SELECT family_code AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate\nFROM flights_v\nWHERE operated AND family_code IN ('AA', 'DL')\nGROUP BY family_code",
+      "sql": "SELECT 'american_mainline' AS label, AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate, COUNT(*) AS n\nFROM flights_v WHERE operated AND airline_code = 'AA'\nUNION ALL\nSELECT 'american_with_partners' AS label, AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate, COUNT(*) AS n\nFROM flights_v WHERE operated AND airline_code IN ('AA', 'MQ', 'OH', 'PT')\nUNION ALL\nSELECT 'delta_mainline' AS label, AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate, COUNT(*) AS n\nFROM flights_v WHERE operated AND airline_code = 'DL'\nUNION ALL\nSELECT 'delta_with_partners' AS label, AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate, COUNT(*) AS n\nFROM flights_v WHERE operated AND airline_code IN ('DL', '9E')",
       "key_columns": [
         "label"
       ],
@@ -4280,23 +4887,40 @@
           ]
         }
       ],
-      "notes": "Uses carrier_families. SkyWest, Republic, and Mesa are excluded because they fly for more than one major. If a listed regional does not appear in this extract, it simply adds no rows.",
+      "notes": "Four rows: American and Delta, each with operating partners and without them. Partners are the single-partner codes only (Envoy, PSA, and Piedmont for American; Endeavor for Delta). Piedmont and Endeavor have no rows in this extract. SkyWest and Republic are not assigned: the reporting-carrier file has no marketing-airline column.",
+      "interpretation": "",
+      "follow_up": "Want United the same way? Its regional codes have no rows in this extract, so the two United figures match.",
+      "alternatives": "Mainline only, and mainline plus single-partner operating partners, for American and for Delta.",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q102",
       "expected": {
         "rows": [
           {
-            "label": "AA",
-            "on_time_rate": 0.757983
+            "label": "american_mainline",
+            "on_time_rate": 0.745604,
+            "n": 962421
           },
           {
-            "label": "DL",
-            "on_time_rate": 0.815294
+            "label": "american_with_partners",
+            "on_time_rate": 0.757983,
+            "n": 1503366
+          },
+          {
+            "label": "delta_mainline",
+            "on_time_rate": 0.815294,
+            "n": 1018096
+          },
+          {
+            "label": "delta_with_partners",
+            "on_time_rate": 0.815294,
+            "n": 1018096
           }
         ]
       }
     },
     {
-      "status": "DRAFT",
+      "status": "APPROVED",
       "question": "Which is more on time out of Dallas, American or Southwest? Return both on-time arrival rates.",
       "difficulty": "hard",
       "category": "ambiguous_or_trick",
@@ -4320,7 +4944,12 @@
           ]
         }
       ],
-      "notes": "Ambiguous airport. Candidate interpretation pools DFW and DAL. Dallas/Fort Worth alone would be a different cut.",
+      "notes": "Dallas with no airport code means DFW and DAL pooled. The answer states that pool. DFW alone would be a different cut. Southwest's Dallas flights in this extract are at DAL. American's are mostly at DFW.",
+      "interpretation": "I read Dallas as DFW and DAL combined, and I give both airlines' on-time arrival rates.",
+      "follow_up": "Is a lower on-time rate the dice of busy hubs, or the airline after the airport is held fixed?",
+      "alternatives": "Both rates are in the pooled DFW and DAL departures. DFW alone is a different cut.",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q103",
       "expected": {
         "rows": [
@@ -4348,6 +4977,11 @@
       "key_columns": [],
       "values": [],
       "notes": "The extract is a historical monthly file, not a live feed. The analyst should refuse rather than substitute the latest date in the file.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q104",
       "expected": {
         "behavior": "refuse",
@@ -4355,13 +4989,13 @@
       }
     },
     {
-      "status": "DRAFT",
+      "status": "DRAFT-REVISED",
       "question": "Which airline has the most delays?",
       "difficulty": "hard",
       "category": "ambiguous_or_trick",
       "ambiguous": true,
       "answer_type": "ranking",
-      "sql": "SELECT airline_code AS label,\n       COUNT(*) AS late_flights,\n       COUNT(*) AS n\nFROM flights_v\nWHERE late_arrival\nGROUP BY airline_code\nORDER BY late_flights DESC, label ASC\nLIMIT 1",
+      "sql": "SELECT airline_code AS label,\n       SUM(CASE WHEN late_arrival THEN 1 ELSE 0 END) AS late_flights,\n       AVG(CASE WHEN late_arrival THEN 1.0 ELSE 0.0 END) AS late_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated\nGROUP BY airline_code\nHAVING COUNT(*) >= 5000\nORDER BY late_flights DESC, label ASC\nLIMIT 1",
       "key_columns": [
         "label"
       ],
@@ -4375,22 +5009,37 @@
             "n_late",
             "late_count"
           ]
+        },
+        {
+          "name": "late_rate",
+          "tolerance": 0.005,
+          "unit": "fraction",
+          "aliases": [
+            "late_rate",
+            "late_arrival_rate"
+          ]
         }
       ],
-      "notes": "Ambiguous. Candidate interpretation is the greatest count of late arrivals, not the highest late rate. The rate is usually the better operational comparison. Pending review.",
+      "notes": "Most delays means the greatest count of late arrivals. The same row also has the late rate, so the count is not the only figure. The minimum is 5,000 operated flights. Both numbers are for that airline.",
+      "interpretation": "I read most delays as the greatest count of late arrivals, and I also give that airline's late rate.",
+      "follow_up": "Want the airline with the highest late rate, which is a different ranking?",
+      "alternatives": "Late-arrival count and late-arrival rate for the airline with the most late arrivals.",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q105",
       "expected": {
         "rows": [
           {
             "label": "WN",
             "late_flights": 324261,
-            "n": 324261
+            "late_rate": 0.23595,
+            "n": 1374279
           }
         ]
       }
     },
     {
-      "status": "DRAFT",
+      "status": "APPROVED",
       "question": "Are red-eye flights less on time than other flights? Return the night-departure on-time arrival rate and the rate for all other departures.",
       "difficulty": "hard",
       "category": "ambiguous_or_trick",
@@ -4415,6 +5064,11 @@
         }
       ],
       "notes": "Ambiguous word: red-eye. Candidate interpretation is the night bucket, 21:00 through 04:59, against every other operated departure.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q106",
       "expected": {
         "rows": [
@@ -4452,6 +5106,11 @@
         }
       ],
       "notes": "The question overrides the default own-fault convention and keeps late-aircraft minutes out of the numerator.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q107",
       "expected": {
         "rows": [
@@ -4473,6 +5132,11 @@
       "key_columns": [],
       "values": [],
       "notes": "The on-time extract has no passenger counts. The analyst should refuse rather than return an unweighted rate.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q108",
       "expected": {
         "behavior": "refuse",
@@ -4503,6 +5167,11 @@
         }
       ],
       "notes": "Departure metric, on the flights that have a departure delay. This is not the arrival standard.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q109",
       "expected": {
         "rows": [
@@ -4560,6 +5229,11 @@
         }
       ],
       "notes": "Overrides the operated-flight denominator. Every scheduled row is in the denominator. Only an arrival under 15 minutes counts as on time.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q110",
       "expected": {
         "rows": [
@@ -4594,6 +5268,11 @@
         }
       ],
       "notes": "SkyWest flies for more than one major, so the draft family table leaves it out. The expected figure is 0.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q111",
       "expected": {
         "rows": [
@@ -4630,6 +5309,11 @@
         }
       ],
       "notes": "Brand rollup for the dice-or-airline note. American is the reporting codes that fly only for American in this project: AA, MQ, OH, and PT. Piedmont has no rows in this extract. SkyWest and Republic fly for more than one brand, and the reporting-carrier file has no marketing-airline column, so they stay out. Pending review.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q112",
       "expected": {
         "rows": [
@@ -4666,16 +5350,21 @@
         }
       ],
       "notes": "Volume cut for the dice-or-airline note. Buckets are the origin airport's operated departures in this window. The two middle buckets are not both returned. Pending review.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q113",
       "expected": {
         "rows": [
           {
-            "label": "150k_or_more",
-            "on_time_rate": 0.760935
-          },
-          {
             "label": "10k_to_49999",
             "on_time_rate": 0.804337
+          },
+          {
+            "label": "150k_or_more",
+            "on_time_rate": 0.760935
           }
         ]
       }
@@ -4706,6 +5395,11 @@
         }
       ],
       "notes": "DFW spotlight. American is AA, MQ, OH, and PT. Other is every remaining reporting carrier at DFW, including SkyWest and Republic. This is the airport average, not the shared-route comparison. Pending review.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "",
+      "minimum_rule": "",
       "id": "q114",
       "expected": {
         "rows": [
@@ -4746,12 +5440,286 @@
         }
       ],
       "notes": "Own-fault share for the American brand rollup. Airline-controlled minutes are carrier plus late aircraft. SkyWest and Republic are excluded. Pending review.",
+      "interpretation": "",
+      "follow_up": "",
+      "alternatives": "",
+      "why_limit": "BTS delay codes are carrier, weather, national air system (NAS), security, and late aircraft. Cancellation code A is carrier, B is weather, C is national air system, and D is security. The codes are coarse and self-reported, and they are filled in only for arrivals that are 15 minutes or more late, or for cancellations. They cannot tell us the operational reason.",
+      "minimum_rule": "",
       "id": "q115",
       "expected": {
         "rows": [
           {
             "label": "American",
             "share": 0.78073
+          }
+        ]
+      }
+    },
+    {
+      "status": "DRAFT",
+      "question": "What is American's systemwide on-time arrival rate with its single-partner operating partners, and without them? Return both.",
+      "difficulty": "medium",
+      "category": "airline_reliability",
+      "ambiguous": false,
+      "answer_type": "set",
+      "sql": "SELECT 'american_mainline' AS label, AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate, COUNT(*) AS n\nFROM flights_v WHERE operated AND airline_code = 'AA'\nUNION ALL\nSELECT 'american_with_partners' AS label, AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate, COUNT(*) AS n\nFROM flights_v WHERE operated AND airline_code IN ('AA', 'MQ', 'OH', 'PT')",
+      "key_columns": [
+        "label"
+      ],
+      "values": [
+        {
+          "name": "on_time_rate",
+          "tolerance": 0.005,
+          "unit": "fraction",
+          "aliases": [
+            "on_time_rate",
+            "ontime_rate",
+            "on_time_arrival_rate",
+            "arrival_on_time_rate",
+            "otp"
+          ]
+        }
+      ],
+      "notes": "American Eagle in this extract is Envoy (MQ) and PSA (OH). Piedmont (PT) has no rows. SkyWest and Republic are not assigned to American: the July 2026 file has Reporting_Airline and no marketing-airline column.",
+      "interpretation": "",
+      "follow_up": "Want Delta and United on the same with-and-without cut?",
+      "alternatives": "Mainline AA only, and AA plus Envoy and PSA.",
+      "why_limit": "",
+      "minimum_rule": "",
+      "id": "q116",
+      "expected": {
+        "rows": [
+          {
+            "label": "american_mainline",
+            "on_time_rate": 0.745604,
+            "n": 962421
+          },
+          {
+            "label": "american_with_partners",
+            "on_time_rate": 0.757983,
+            "n": 1503366
+          }
+        ]
+      }
+    },
+    {
+      "status": "DRAFT",
+      "question": "Is American usually late?",
+      "difficulty": "hard",
+      "category": "ambiguous_or_trick",
+      "ambiguous": true,
+      "answer_type": "scalar",
+      "sql": "SELECT 'AA' AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       AVG(arr_delay) AS avg_arrival_delay\nFROM flights_v\nWHERE operated AND airline_code = 'AA'",
+      "key_columns": [
+        "label"
+      ],
+      "values": [
+        {
+          "name": "on_time_rate",
+          "tolerance": 0.005,
+          "unit": "fraction",
+          "aliases": [
+            "on_time_rate",
+            "ontime_rate",
+            "on_time_arrival_rate",
+            "arrival_on_time_rate",
+            "otp"
+          ]
+        },
+        {
+          "name": "avg_arrival_delay",
+          "tolerance": 0.05,
+          "unit": "minutes",
+          "aliases": [
+            "avg_arrival_delay",
+            "average_arrival_delay",
+            "mean_arrival_delay",
+            "avg_arr_delay"
+          ]
+        }
+      ],
+      "notes": "Phrasing variant of 'How late is American?'. Same SQL, same figures: reporting carrier AA, on-time arrival rate and mean signed arrival delay in minutes.",
+      "interpretation": "I read this as reporting-carrier American Airlines: on-time arrival rate and mean signed arrival delay in minutes. It does not roll up Envoy, PSA, or other partners.",
+      "follow_up": "Want the same two figures for the American brand, with Envoy and PSA and without them?",
+      "alternatives": "On-time arrival rate and mean signed arrival delay, both for reporting carrier AA.",
+      "why_limit": "",
+      "minimum_rule": "",
+      "id": "q117",
+      "expected": {
+        "rows": [
+          {
+            "label": "AA",
+            "on_time_rate": 0.745604,
+            "avg_arrival_delay": 13.263049
+          }
+        ]
+      }
+    },
+    {
+      "status": "DRAFT",
+      "question": "American's on-time record?",
+      "difficulty": "hard",
+      "category": "ambiguous_or_trick",
+      "ambiguous": true,
+      "answer_type": "scalar",
+      "sql": "SELECT 'AA' AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       AVG(arr_delay) AS avg_arrival_delay\nFROM flights_v\nWHERE operated AND airline_code = 'AA'",
+      "key_columns": [
+        "label"
+      ],
+      "values": [
+        {
+          "name": "on_time_rate",
+          "tolerance": 0.005,
+          "unit": "fraction",
+          "aliases": [
+            "on_time_rate",
+            "ontime_rate",
+            "on_time_arrival_rate",
+            "arrival_on_time_rate",
+            "otp"
+          ]
+        },
+        {
+          "name": "avg_arrival_delay",
+          "tolerance": 0.05,
+          "unit": "minutes",
+          "aliases": [
+            "avg_arrival_delay",
+            "average_arrival_delay",
+            "mean_arrival_delay",
+            "avg_arr_delay"
+          ]
+        }
+      ],
+      "notes": "Phrasing variant of 'How late is American?'. Same SQL, same figures: reporting carrier AA, on-time arrival rate and mean signed arrival delay in minutes.",
+      "interpretation": "I read this as reporting-carrier American Airlines: on-time arrival rate and mean signed arrival delay in minutes. It does not roll up Envoy, PSA, or other partners.",
+      "follow_up": "Want the same two figures for the American brand, with Envoy and PSA and without them?",
+      "alternatives": "On-time arrival rate and mean signed arrival delay, both for reporting carrier AA.",
+      "why_limit": "",
+      "minimum_rule": "",
+      "id": "q118",
+      "expected": {
+        "rows": [
+          {
+            "label": "AA",
+            "on_time_rate": 0.745604,
+            "avg_arrival_delay": 13.263049
+          }
+        ]
+      }
+    },
+    {
+      "status": "DRAFT",
+      "question": "Is a lower on-time rate the dice of busier airports, or the airline after the origin airport is held fixed? Return the on-time rate for the largest airports and for midsize airports, and the same-airport gap for American, Delta, United, and Southwest.",
+      "difficulty": "hard",
+      "category": "ambiguous_or_trick",
+      "ambiguous": true,
+      "answer_type": "set",
+      "sql": "WITH origin_n AS (\n    SELECT origin, COUNT(*) AS airport_flights\n    FROM flights_v\n    WHERE operated\n    GROUP BY origin\n),\nvolume AS (\n    SELECT CASE\n               WHEN a.airport_flights >= 150000 THEN 'largest_airports'\n               ELSE 'midsize_airports'\n           END AS label,\n           AVG(CASE WHEN f.on_time_arrival THEN 1.0 ELSE 0.0 END) AS figure\n    FROM flights_v f\n    JOIN origin_n a ON f.origin = a.origin\n    WHERE f.operated\n      AND (a.airport_flights >= 150000 OR (a.airport_flights >= 10000 AND a.airport_flights < 50000))\n    GROUP BY 1\n),\ncell AS (\n    SELECT CASE\n               WHEN airline_code IN ('AA', 'MQ', 'OH', 'PT') THEN 'american'\n               WHEN airline_code IN ('DL', '9E') THEN 'delta'\n               WHEN airline_code IN ('UA', 'C5', 'G7', 'ZW') THEN 'united'\n               WHEN airline_code = 'WN' THEN 'southwest'\n               ELSE 'other'\n           END AS brand,\n           origin,\n           COUNT(*) AS n,\n           AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS rate\n    FROM flights_v\n    WHERE operated\n    GROUP BY 1, 2\n),\ntotals AS (\n    SELECT origin, SUM(n) AS n_all, SUM(n * rate) AS on_time_all\n    FROM cell\n    GROUP BY origin\n),\ngaps AS (\n    SELECT c.brand AS label,\n           SUM(c.n * (c.rate - (t.on_time_all - c.n * c.rate) / (t.n_all - c.n))) / SUM(c.n) AS figure\n    FROM cell c\n    JOIN totals t USING (origin)\n    WHERE c.brand <> 'other'\n      AND c.n >= 100\n      AND (t.n_all - c.n) >= 100\n    GROUP BY c.brand\n)\nSELECT label, figure FROM volume\nUNION ALL\nSELECT label || '_same_airport_gap' AS label, figure FROM gaps",
+      "key_columns": [
+        "label"
+      ],
+      "values": [
+        {
+          "name": "figure",
+          "tolerance": 0.005,
+          "unit": "fraction",
+          "aliases": [
+            "figure",
+            "gap",
+            "on_time_rate"
+          ]
+        }
+      ],
+      "notes": "Largest airports have at least 150,000 operated departures. Midsize airports have 10,000 to 49,999. The same-airport gap is the flight-weighted difference between that brand and the other flights at the same origin, each side at least 100 flights. American includes Envoy and PSA. SkyWest and Republic stay in the other-flights side because they cannot be assigned to a marketing brand. A negative gap means the brand is behind the other flights at the same airports. This is a description, not a cause.",
+      "interpretation": "I read this as two cuts: airport size, and the airline after the origin airport is held fixed.",
+      "follow_up": "Want the hour-of-day slope next to the airport-size slope? Evening departures move the rate much more than hub size does.",
+      "alternatives": "Largest-airport rate, midsize-airport rate, and a same-airport gap for American, Delta, United, and Southwest.",
+      "why_limit": "",
+      "minimum_rule": "",
+      "id": "q119",
+      "expected": {
+        "rows": [
+          {
+            "label": "midsize_airports",
+            "figure": 0.804337
+          },
+          {
+            "label": "largest_airports",
+            "figure": 0.760935
+          },
+          {
+            "label": "united_same_airport_gap",
+            "figure": 0.026888
+          },
+          {
+            "label": "southwest_same_airport_gap",
+            "figure": -0.038014
+          },
+          {
+            "label": "american_same_airport_gap",
+            "figure": -0.016227
+          },
+          {
+            "label": "delta_same_airport_gap",
+            "figure": 0.048985
+          }
+        ]
+      }
+    },
+    {
+      "status": "DRAFT",
+      "question": "What can the BTS delay and cancellation codes tell us about why a flight was late or cancelled? Return the systemwide share of late-arrival minutes for each delay cause.",
+      "difficulty": "medium",
+      "category": "delay_causes",
+      "ambiguous": false,
+      "answer_type": "set",
+      "sql": "SELECT 'carrier' AS label,\n       SUM(carrier_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS share\nFROM flights_v\nWHERE late_arrival\nUNION ALL\nSELECT 'weather' AS label,\n       SUM(weather_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS share\nFROM flights_v\nWHERE late_arrival\nUNION ALL\nSELECT 'nas' AS label,\n       SUM(nas_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS share\nFROM flights_v\nWHERE late_arrival\nUNION ALL\nSELECT 'security' AS label,\n       SUM(security_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS share\nFROM flights_v\nWHERE late_arrival\nUNION ALL\nSELECT 'late_aircraft' AS label,\n       SUM(late_aircraft_delay) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS share\nFROM flights_v\nWHERE late_arrival",
+      "key_columns": [
+        "label"
+      ],
+      "values": [
+        {
+          "name": "share",
+          "tolerance": 0.005,
+          "unit": "fraction",
+          "aliases": [
+            "share",
+            "delay_share",
+            "minute_share",
+            "cause_share",
+            "cancellation_share"
+          ]
+        }
+      ],
+      "notes": "The five shares are what the codes can tell us. They cannot name the broken part, the crew, or the decision.",
+      "interpretation": "",
+      "follow_up": "The codes cannot say why. Want the same split for one airline?",
+      "alternatives": "Carrier, weather, NAS, security, and late aircraft, as shares of late-arrival minutes.",
+      "why_limit": "BTS delay codes are carrier, weather, national air system (NAS), security, and late aircraft. Cancellation code A is carrier, B is weather, C is national air system, and D is security. The codes are coarse and self-reported, and they are filled in only for arrivals that are 15 minutes or more late, or for cancellations. They cannot tell us the operational reason.",
+      "minimum_rule": "",
+      "id": "q120",
+      "expected": {
+        "rows": [
+          {
+            "label": "carrier",
+            "share": 0.333105
+          },
+          {
+            "label": "weather",
+            "share": 0.061143
+          },
+          {
+            "label": "nas",
+            "share": 0.206879
+          },
+          {
+            "label": "security",
+            "share": 0.001447
+          },
+          {
+            "label": "late_aircraft",
+            "share": 0.397426
           }
         ]
       }

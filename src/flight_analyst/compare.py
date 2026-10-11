@@ -28,6 +28,8 @@ METRIC_ALIASES = {
     "operated_flights": ["operated_flights", "n_operated", "flight_count"],
     "scheduled_flights": ["scheduled_flights", "n_scheduled", "scheduled"],
     "late_flights": ["late_flights", "n_late", "late_count"],
+    "late_rate": ["late_rate", "late_arrival_rate"],
+    "figure": ["figure", "gap", "on_time_rate"],
     "included": ["included", "is_included", "in_family"],
     "weather_is_majority": ["weather_is_majority", "is_majority", "weather_majority"],
 }
@@ -325,6 +327,35 @@ def compare_result(question: dict, result, resolver: EntityResolver | None = Non
             actual_labels,
         )
     return Comparison(True, "ok", "Metrics match.", expected_labels, actual_labels)
+
+
+_UNIT_WORDS = re.compile(r"\b(percent|minutes|flights)\b", re.IGNORECASE)
+_NUDGE = re.compile(r"follow-up\s*:", re.IGNORECASE)
+_READING = re.compile(r"i read this as", re.IGNORECASE)
+
+
+def prose_rubric(question: dict, answer_text: str | None) -> tuple[bool, str, bool]:
+    """Check the spoken answer. The third value is the advisory nudge, not a pass/fail.
+
+    Ambiguous questions need the literal labels, a stated reading, and a unit.
+    Every expected label has to appear, so a number for one item is not enough.
+    """
+    text = answer_text or ""
+    nudge = bool(_NUDGE.search(text))
+    if question.get("answer_type") == "refusal":
+        return True, "", nudge
+    rows = (question.get("expected") or {}).get("rows") or []
+    if not rows:
+        return True, "", nudge
+    missing = [str(row.get("label")) for row in rows if str(row.get("label", "")).lower() not in text.lower()]
+    if missing:
+        return False, "The answer left out " + ", ".join(missing) + ".", nudge
+    if not _UNIT_WORDS.search(text):
+        return False, "The answer gave figures without units.", nudge
+    needs_reading = bool(question.get("ambiguous")) or bool(question.get("alternatives"))
+    if needs_reading and not _READING.search(text):
+        return False, "The answer did not state how it read the question.", nudge
+    return True, "", nudge
 
 
 def categorize(question: dict, result, comparison: Comparison | None) -> str | None:

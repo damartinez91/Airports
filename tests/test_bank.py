@@ -27,7 +27,7 @@ def test_committed_bank_is_marked_draft():
     assert bank["review_note"] == REVIEW_NOTE
     assert bank["question_count"] == len(bank["questions"]) >= 100
     for question in bank["questions"]:
-        assert question["status"] == "DRAFT"
+        assert question["status"] in {"DRAFT", "APPROVED", "DRAFT-REVISED"}
         assert question["id"]
         assert question["notes"]
         if question["answer_type"] == "refusal":

@@ -55,7 +55,15 @@ Those rules are choices. The evening-airport floor is 2,000 operated departures.
 
 ## Question bank
 
-`questions/bank.json` holds 115 plain-English questions: easy, medium, and hard, across airline reliability, airport reliability, routes, time of day, seasonality, and delay causes, plus ambiguous and trick questions. Each answerable question stores reference SQL and the rows that SQL returned. Two questions are refusals (yesterday, and a passenger-weighted rate) because the extract cannot answer them. The last four are the dice-or-airline cuts: the American brand on-time rate, the two airport-size buckets, American versus everyone else at DFW, and the American brand's airline-controlled share of late minutes. The stub score below is the earlier 111-question run. Those four questions are in the bank and have not been scored.
+`questions/bank.json` holds 120 plain-English questions: easy, medium, and hard, across airline reliability, airport reliability, routes, time of day, seasonality, and delay causes, plus ambiguous and trick questions. Each answerable question stores reference SQL and the rows that SQL returned. Two questions are refusals (yesterday, and a passenger-weighted rate) because the extract cannot answer them.
+
+Daniel's 2026-10-11 review is applied question by question. The bank file stays `DRAFT` because most questions are still unread. Each question has its own status:
+
+- `APPROVED` (13): Daniel-approved, including the wording of "How late is American?"
+- `DRAFT-REVISED` (10): the reference SQL was changed from his note and is waiting for a recheck
+- `DRAFT` (97): not in that review pass
+
+The answering rules he approved are in the analyst briefing and the grader rubric (`docs/definitions.md`). An ambiguous answer has to give the literal figures, say how it was read, and include the alternative cuts, each with a unit. A follow-up question is an advisory nudge score. It does not change pass or fail.
 
 The file is marked:
 
@@ -108,9 +116,9 @@ The report records overall accuracy, accuracy by difficulty, accuracy by categor
 
 If `LLM_PROVIDER` is unset and neither key is set, the CLI uses the stub. This workspace had neither key, so the published report is the stub run. No model API was called.
 
-The stub is a rules baseline. It encodes the same definitions as the briefing and writes SQL for the patterns it recognizes. It does not implement medians, the airport morning-minus-evening gap, the 2025-11-26 versus October-Wednesdays comparison, "how late is ...", or "does weather explain most delays". On those it returns a flight count, and the harness marks a miss. A stub score is a pipeline check. It is not a model accuracy number.
+The stub is a rules baseline. It encodes the same definitions as the briefing and writes SQL for the patterns it recognizes. It does not implement medians, the airport morning-minus-evening gap, the 2025-11-26 versus October-Wednesdays comparison, or "does weather explain most delays". On those it returns a flight count, and the harness marks a miss. A stub score is a pipeline check. It is not a model accuracy number.
 
-On the loaded window (1 August 2025 through 31 July 2026, 7,043,858 flights) the stub was scored on the first 111 draft questions and matched 105 candidate answers: 32/32 easy, 50/51 medium, and 23/28 hard. The four questions added after that run are unscored. All six misses are labeled `misread_question`. The numbers are in `reports/latest.md` and `scoreboard/index.html`. No live model has been scored.
+On the loaded window (1 August 2025 through 31 July 2026, 7,043,858 flights, 120 questions) the stub matched 116 candidate answers: 32/32 easy, 56/56 medium, and 28/32 hard. All four misses are labeled `misread_question`. The advisory nudge, which does not change that score, was offered on 120 of 120 answers. The numbers are in `reports/latest.md` and `scoreboard/index.html`. No live model has been scored.
 
 SQL from the model is checked before it runs: one `SELECT` or `WITH`, the project tables only, no writes, no file or network readers. It then runs on a read-only DuckDB connection.
 
@@ -137,7 +145,7 @@ Two tiers. Neither one is turned on in this repository: GitHub Pages is not enab
 
 The database on disk is 367,538,176 bytes, about 351 MB, for 7,043,858 flights. That is too large to ship. DuckDB-WASM would make every visitor download it, and a Parquet extract of the same table is the same problem (`*.parquet` is gitignored as data). The published extracts are the candidate answers and the eval report.
 
-This build of `site/` is **297,573 bytes**. The JSON extracts are **136,868 bytes** (`explore.json` 128,839, `report.json` 8,029). `flight_rows_published` is 0. Those figures are also in `site/data/manifest.json`. The explore page includes all 115 draft questions. The scoreboard on the site is still the 105-of-111 stub run.
+This build of `site/` is **440,418 bytes**. The JSON extracts are **212,812 bytes** (`explore.json` 205,530, `report.json` 7,282). `flight_rows_published` is 0. Those figures are also in `site/data/manifest.json`. The explore page includes all 120 questions, with each question's status, the alternative cuts, the minimum-flights rule on rankings, and a likely follow-up. The scoreboard on the site is the 116-of-120 stub run.
 
 Preview locally, still without publishing:
 

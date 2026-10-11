@@ -71,9 +71,46 @@ DOC_PHRASES = [
     "The extract has no passenger counts, so a passenger-weighted rate cannot be computed.",
     "The extract is not a live feed. Questions about yesterday, tomorrow, or the current hour cannot be answered from it.",
     "Ties in a ranking break by label ascending.",
+    "Answer the question literally first, then offer one better follow-up question.",
+    "When a number is given for one listed item, give that number for every listed item, with its unit.",
+    "An ambiguous question gets the literal answer, a stated reading, and the natural alternative cuts.",
+    "Name every route, airport, and airline explicitly. A route named in one direction is not the reverse.",
+    "BTS delay codes are carrier, weather, national air system, security, and late aircraft. They are coarse and self-reported, and they often cannot say why.",
+    "A ranking states its minimum-flights rule. A sample under that floor does not win.",
+    "The same question asked in different words gets the same figures.",
+    "Brand figures are shown with operating partners and without them. This extract has no marketing-airline column, so SkyWest and Republic stay unassigned.",
     "status is DRAFT",
     "candidate answers pending Daniel's review",
 ]
+
+# Spoken answer rules. The analyst briefing includes them, and the grader applies them.
+GRADER_RUBRIC = (
+    "Grade the spoken answer as well as the rows. "
+    "An ambiguous question passes only when the answer has the literal figures, "
+    "a stated reading that begins 'I read this as', and the expected alternative cuts, each with a number and a unit. "
+    "If one listed item has a number, every listed item has that number, with its unit "
+    "(percent, minutes, or flights). "
+    "A follow-up question is an advisory nudge score. It does not change pass or fail. "
+    "Rankings must state the minimum-flights rule. "
+    "When BTS cause codes cannot say why, the answer says that plainly."
+)
+
+MINIMUM_RULE = (
+    "Rankings use a minimum-flights rule so a small sample cannot win. "
+    "An airline at one airport needs at least 100 operated flights. "
+    "A systemwide airline ranking needs at least 5,000. "
+    "An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. "
+    "A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. "
+    "A delay-cause ranking needs at least 1,000 late arrivals. "
+    "A cancellation-cause ranking needs at least 200 cancellations."
+)
+
+WHY_LIMIT = (
+    "BTS delay codes are carrier, weather, national air system (NAS), security, and late aircraft. "
+    "Cancellation code A is carrier, B is weather, C is national air system, and D is security. "
+    "The codes are coarse and self-reported, and they are filled in only for arrivals that are 15 minutes or more late, or for cancellations. "
+    "They cannot tell us the operational reason."
+)
 
 
 def briefing_block() -> str:
@@ -95,5 +132,6 @@ def briefing_block() -> str:
         "percentage_points, rate_gap, operated_flights, late_flights, carrier_only_share, "
         "weather_share, nas_share, or weather_is_majority, matching what the question asks.\n"
         "Return rates and shares as fractions from 0 to 1. Return one SELECT (or WITH ... SELECT). "
-        "Query only flights_v, carrier_families, carriers, and airports."
+        "Query only flights_v, carrier_families, carriers, and airports.\n"
+        f"Grader rubric: {GRADER_RUBRIC}"
     )

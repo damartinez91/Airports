@@ -89,6 +89,12 @@ def _public_question(item: dict) -> dict:
         "ambiguous": bool(item.get("ambiguous")),
         "answer_type": item.get("answer_type"),
         "notes": item.get("notes") or "",
+        "status": item.get("status") or "DRAFT",
+        "interpretation": item.get("interpretation") or "",
+        "follow_up": item.get("follow_up") or _default_follow_up(item),
+        "alternatives": item.get("alternatives") or "",
+        "why_limit": item.get("why_limit") or "",
+        "minimum_rule": item.get("minimum_rule") or "",
         "sql": item.get("sql"),
         "candidate": {
             "behavior": behavior,
@@ -179,9 +185,32 @@ def _table(rows: list[dict]) -> str:
     return f"<div class='table-wrap'><table><thead><tr>{head}</tr></thead><tbody>{''.join(body)}</tbody></table></div>"
 
 
+def _default_follow_up(item: dict) -> str:
+    category = item.get("category") or ""
+    if category == "delay_causes":
+        return "The BTS codes cannot say why. Want the carrier, weather, airspace, security, and late-aircraft split?"
+    if category in {"airport_reliability"}:
+        return "Want the same cut for large airports, with the minimum-flights rule stated?"
+    if category == "routes":
+        return "Want each direction named on its own, with the minutes on every route?"
+    return "Want to see this across the big 3 business airlines, with and without operating partners?"
+
+
+def _status_label(status: str) -> str:
+    if status == "APPROVED":
+        return "Daniel-approved"
+    if status == "DRAFT-REVISED":
+        return "Draft, revised"
+    return "Draft"
+
+
 def _question_card(item: dict) -> str:
     search = _esc(f"{item['id']} {item['question']} {item['category']}".lower(), quote=True)
-    badges = [f"<span class='badge'>{_esc(item['difficulty'])}</span>", f"<span class='badge'>{_esc(item['category'].replace('_', ' '))}</span>"]
+    badges = [
+        f"<span class='badge'>{_esc(_status_label(item.get('status') or 'DRAFT'))}</span>",
+        f"<span class='badge'>{_esc(item['difficulty'])}</span>",
+        f"<span class='badge'>{_esc(item['category'].replace('_', ' '))}</span>",
+    ]
     if item["ambiguous"]:
         badges.append("<span class='badge'>ambiguous</span>")
     if item["candidate"]["behavior"] == "refuse":
@@ -193,6 +222,11 @@ def _question_card(item: dict) -> str:
     sql = item.get("sql") or ""
     sql_block = f"<details><summary>Reference SQL</summary><pre>{_esc(sql)}</pre></details>" if sql else ""
     notes = f"<p class='note'>{_esc(item['notes'])}</p>" if item.get("notes") else ""
+    reading = f"<h3>Reading</h3><p>{_esc(item['interpretation'])}</p>" if item.get("interpretation") else ""
+    cuts = f"<h3>Alternative cuts</h3><p>{_esc(item['alternatives'])}</p>" if item.get("alternatives") else ""
+    why = f"<h3>What the codes cannot say</h3><p>{_esc(item['why_limit'])}</p>" if item.get("why_limit") else ""
+    floor = f"<h3>Minimum flights</h3><p>{_esc(item['minimum_rule'])}</p>" if item.get("minimum_rule") else ""
+    follow = f"<h3>Likely follow-up</h3><p>{_esc(item.get('follow_up') or '')}</p>" if item.get("follow_up") else ""
     return (
         f"<article class='question' id='{_esc(item['id'], quote=True)}' "
         f"data-difficulty='{_esc(item['difficulty'], quote=True)}' "
@@ -202,8 +236,13 @@ def _question_card(item: dict) -> str:
         f"<h2>{_esc(item['question'])}</h2>"
         f"<p class='badges'>{''.join(badges)}</p>"
         f"{notes}"
+        f"{reading}"
         f"<h3>Candidate answer</h3>"
         f"{answer}"
+        f"{cuts}"
+        f"{why}"
+        f"{floor}"
+        f"{follow}"
         f"{sql_block}"
         "</article>"
     )
