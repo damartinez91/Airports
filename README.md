@@ -55,7 +55,7 @@ Those rules are choices. The evening-airport floor is 2,000 operated departures.
 
 ## Question bank
 
-`questions/bank.json` holds 111 plain-English questions: easy, medium, and hard, across airline reliability, airport reliability, routes, time of day, seasonality, and delay causes, plus ambiguous and trick questions. Each answerable question stores reference SQL and the rows that SQL returned. Two questions are refusals (yesterday, and a passenger-weighted rate) because the extract cannot answer them.
+`questions/bank.json` holds 115 plain-English questions: easy, medium, and hard, across airline reliability, airport reliability, routes, time of day, seasonality, and delay causes, plus ambiguous and trick questions. Each answerable question stores reference SQL and the rows that SQL returned. Two questions are refusals (yesterday, and a passenger-weighted rate) because the extract cannot answer them. The last four are the dice-or-airline cuts: the American brand on-time rate, the two airport-size buckets, American versus everyone else at DFW, and the American brand's airline-controlled share of late minutes. The stub score below is the earlier 111-question run. Those four questions are in the bank and have not been scored.
 
 The file is marked:
 
@@ -110,7 +110,7 @@ If `LLM_PROVIDER` is unset and neither key is set, the CLI uses the stub. This w
 
 The stub is a rules baseline. It encodes the same definitions as the briefing and writes SQL for the patterns it recognizes. It does not implement medians, the airport morning-minus-evening gap, the 2025-11-26 versus October-Wednesdays comparison, "how late is ...", or "does weather explain most delays". On those it returns a flight count, and the harness marks a miss. A stub score is a pipeline check. It is not a model accuracy number.
 
-On the loaded window (1 August 2025 through 31 July 2026, 7,043,858 flights, 111 draft questions) the stub matched 105 candidate answers: 32/32 easy, 50/51 medium, and 23/28 hard. All six misses are labeled `misread_question`. The numbers are in `reports/latest.md` and `scoreboard/index.html`. No live model has been scored.
+On the loaded window (1 August 2025 through 31 July 2026, 7,043,858 flights) the stub was scored on the first 111 draft questions and matched 105 candidate answers: 32/32 easy, 50/51 medium, and 23/28 hard. The four questions added after that run are unscored. All six misses are labeled `misread_question`. The numbers are in `reports/latest.md` and `scoreboard/index.html`. No live model has been scored.
 
 SQL from the model is checked before it runs: one `SELECT` or `WITH`, the project tables only, no writes, no file or network readers. It then runs on a read-only DuckDB connection.
 
@@ -123,6 +123,10 @@ SQL from the model is checked before it runs: one `SELECT` or `WITH`, the projec
 - Reporting carrier is the default airline. Brand families are a separate, narrower table, and multi-partner regionals are left out rather than assigned by guess.
 - The question bank stays `DRAFT` in the file, the report, and the scoreboard until there is an explicit review.
 
+## Dice or airline
+
+`analysis/dice_or_airline/findings.md` is the note for the LinkedIn post. It compares raw brand on-time rates with the same comparison after the airport, the route, the hour, and the month are held fixed, plus a DFW spotlight and the delay-cause split. The charts are PNGs in `analysis/dice_or_airline/charts/`. Reproduce with `PYTHONPATH=src python3 analysis/dice_or_airline/run.py` (extra packages in `analysis/requirements.txt`). The note is not published. The four bank questions that come from it stay `DRAFT`.
+
 ## Publishing
 
 Two tiers. Neither one is turned on in this repository: GitHub Pages is not enabled, the Pages workflow does not run on push, and the live process refuses to listen unless `LIVE_ASK=1`.
@@ -133,7 +137,7 @@ Two tiers. Neither one is turned on in this repository: GitHub Pages is not enab
 
 The database on disk is 367,538,176 bytes, about 351 MB, for 7,043,858 flights. That is too large to ship. DuckDB-WASM would make every visitor download it, and a Parquet extract of the same table is the same problem (`*.parquet` is gitignored as data). The published extracts are the candidate answers and the eval report.
 
-This build of `site/` is **286,490 bytes**. The JSON extracts are **131,785 bytes** (`explore.json` 123,756, `report.json` 8,029). `flight_rows_published` is 0. Those figures are also in `site/data/manifest.json`.
+This build of `site/` is **297,573 bytes**. The JSON extracts are **136,868 bytes** (`explore.json` 128,839, `report.json` 8,029). `flight_rows_published` is 0. Those figures are also in `site/data/manifest.json`. The explore page includes all 115 draft questions. The scoreboard on the site is still the 105-of-111 stub run.
 
 Preview locally, still without publishing:
 

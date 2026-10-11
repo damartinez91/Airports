@@ -1228,5 +1228,70 @@ WHERE family_code = 'AA' AND airline_code = 'OO'""",
         _vals("included"),
         notes="SkyWest flies for more than one major, so the draft family table leaves it out. The expected figure is 0.",
     ))
+    add(_q(
+        "Including Envoy and PSA with American, what is the American brand's systemwide on-time arrival rate? Leave SkyWest and Republic out.",
+        "medium",
+        "airline_reliability",
+        _scalar(
+            "American",
+            "on_time_rate",
+            ONTIME,
+            "operated AND airline_code IN ('AA', 'MQ', 'OH', 'PT')",
+        ),
+        "scalar",
+        _vals("on_time_rate"),
+        notes="Brand rollup for the dice-or-airline note. American is the reporting codes that fly only for American in this project: AA, MQ, OH, and PT. Piedmont has no rows in this extract. SkyWest and Republic fly for more than one brand, and the reporting-carrier file has no marketing-airline column, so they stay out. Pending review.",
+    ))
+    add(_q(
+        "What is the on-time arrival rate for departures from airports with at least 150,000 operated departures, and for airports with 10,000 to 49,999? Return both.",
+        "medium",
+        "airport_reliability",
+        """WITH airport_n AS (
+    SELECT origin, COUNT(*) AS airport_flights
+    FROM flights_v
+    WHERE operated
+    GROUP BY origin
+)
+SELECT CASE
+           WHEN a.airport_flights >= 150000 THEN '150k_or_more'
+           ELSE '10k_to_49999'
+       END AS label,
+       AVG(CASE WHEN f.on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate
+FROM flights_v f
+JOIN airport_n a ON f.origin = a.origin
+WHERE f.operated
+  AND (a.airport_flights >= 150000 OR (a.airport_flights >= 10000 AND a.airport_flights < 50000))
+GROUP BY 1""",
+        "set",
+        _vals("on_time_rate"),
+        notes="Volume cut for the dice-or-airline note. Buckets are the origin airport's operated departures in this window. The two middle buckets are not both returned. Pending review.",
+    ))
+    add(_q(
+        "At DFW, what is the on-time arrival rate for the American brand and for every other carrier combined? Return both.",
+        "hard",
+        "airport_reliability",
+        """SELECT CASE WHEN airline_code IN ('AA', 'MQ', 'OH', 'PT') THEN 'American' ELSE 'other' END AS label,
+       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate
+FROM flights_v
+WHERE operated AND origin = 'DFW'
+GROUP BY 1""",
+        "set",
+        _vals("on_time_rate"),
+        notes="DFW spotlight. American is AA, MQ, OH, and PT. Other is every remaining reporting carrier at DFW, including SkyWest and Republic. This is the airport average, not the shared-route comparison. Pending review.",
+    ))
+    add(_q(
+        "What share of the American brand's late-arrival minutes is airline-controlled, counting carrier delay and late aircraft together?",
+        "medium",
+        "delay_causes",
+        _scalar(
+            "American",
+            "share",
+            "SUM(airline_controlled_minutes) * 1.0 / NULLIF(SUM(cause_minutes), 0)",
+            "late_arrival AND cause_minutes > 0 AND airline_code IN ('AA', 'MQ', 'OH', 'PT')",
+        ),
+        "scalar",
+        _vals("share"),
+        notes="Own-fault share for the American brand rollup. Airline-controlled minutes are carrier plus late aircraft. SkyWest and Republic are excluded. Pending review.",
+    ))
 
     return questions

@@ -23,7 +23,7 @@
     "origin_count": 359,
     "row_count": 7043858
   },
-  "question_count": 111,
+  "question_count": 115,
   "questions": [
     {
       "ambiguous": false,
@@ -1268,20 +1268,20 @@
         "behavior": null,
         "rows": [
           {
-            "avg_arrival_delay": null,
-            "cancellation_rate": null,
-            "label": "WN",
-            "on_time_rate": null,
-            "operated_flights": 0,
-            "scheduled_flights": 0
-          },
-          {
             "avg_arrival_delay": 20.34725,
             "cancellation_rate": 0.034629,
             "label": "AA",
             "on_time_rate": 0.6611,
             "operated_flights": 4072,
             "scheduled_flights": 4245
+          },
+          {
+            "avg_arrival_delay": null,
+            "cancellation_rate": null,
+            "label": "WN",
+            "on_time_rate": null,
+            "operated_flights": 0,
+            "scheduled_flights": 0
           }
         ],
         "truncated": false
@@ -1290,12 +1290,12 @@
       "chart": {
         "points": [
           {
-            "label": "WN",
-            "value": 0
-          },
-          {
             "label": "AA",
             "value": 4245
+          },
+          {
+            "label": "WN",
+            "value": 0
           }
         ],
         "type": "bar",
@@ -1609,20 +1609,20 @@
         "behavior": null,
         "rows": [
           {
-            "avg_arrival_delay": 1.157395,
-            "cancellation_rate": 0.006289,
-            "label": "DL",
-            "on_time_rate": 0.830846,
-            "operated_flights": 2211,
-            "scheduled_flights": 2226
-          },
-          {
             "avg_arrival_delay": 1.098527,
             "cancellation_rate": 0.009425,
             "label": "AS",
             "on_time_rate": 0.80663,
             "operated_flights": 3258,
             "scheduled_flights": 3289
+          },
+          {
+            "avg_arrival_delay": 1.157395,
+            "cancellation_rate": 0.006289,
+            "label": "DL",
+            "on_time_rate": 0.830846,
+            "operated_flights": 2211,
+            "scheduled_flights": 2226
           }
         ],
         "truncated": false
@@ -1631,12 +1631,12 @@
       "chart": {
         "points": [
           {
-            "label": "DL",
-            "value": 2226
-          },
-          {
             "label": "AS",
             "value": 3289
+          },
+          {
+            "label": "DL",
+            "value": 2226
           }
         ],
         "type": "bar",
@@ -3501,6 +3501,126 @@
       "notes": "SkyWest flies for more than one major, so the draft family table leaves it out. The expected figure is 0.",
       "question": "Is SkyWest part of the American single-partner family used in this project? Return 1 if it is and 0 if it is not.",
       "sql": "SELECT 'OO' AS label,\n       CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END AS included\nFROM carrier_families\nWHERE family_code = 'AA' AND airline_code = 'OO'"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "American",
+            "on_time_rate": 0.757983
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airline_reliability",
+      "chart": null,
+      "difficulty": "medium",
+      "id": "q112",
+      "notes": "Brand rollup for the dice-or-airline note. American is the reporting codes that fly only for American in this project: AA, MQ, OH, and PT. Piedmont has no rows in this extract. SkyWest and Republic fly for more than one brand, and the reporting-carrier file has no marketing-airline column, so they stay out. Pending review.",
+      "question": "Including Envoy and PSA with American, what is the American brand's systemwide on-time arrival rate? Leave SkyWest and Republic out.",
+      "sql": "SELECT 'American' AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate\nFROM flights_v\nWHERE operated AND airline_code IN ('AA', 'MQ', 'OH', 'PT')"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "set",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "150k_or_more",
+            "on_time_rate": 0.760935
+          },
+          {
+            "label": "10k_to_49999",
+            "on_time_rate": 0.804337
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airport_reliability",
+      "chart": {
+        "points": [
+          {
+            "label": "150k_or_more",
+            "value": 0.760935
+          },
+          {
+            "label": "10k_to_49999",
+            "value": 0.804337
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "on_time_rate"
+      },
+      "difficulty": "medium",
+      "id": "q113",
+      "notes": "Volume cut for the dice-or-airline note. Buckets are the origin airport's operated departures in this window. The two middle buckets are not both returned. Pending review.",
+      "question": "What is the on-time arrival rate for departures from airports with at least 150,000 operated departures, and for airports with 10,000 to 49,999? Return both.",
+      "sql": "WITH airport_n AS (\n    SELECT origin, COUNT(*) AS airport_flights\n    FROM flights_v\n    WHERE operated\n    GROUP BY origin\n)\nSELECT CASE\n           WHEN a.airport_flights >= 150000 THEN '150k_or_more'\n           ELSE '10k_to_49999'\n       END AS label,\n       AVG(CASE WHEN f.on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate\nFROM flights_v f\nJOIN airport_n a ON f.origin = a.origin\nWHERE f.operated\n  AND (a.airport_flights >= 150000 OR (a.airport_flights >= 10000 AND a.airport_flights < 50000))\nGROUP BY 1"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "set",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "other",
+            "on_time_rate": 0.768849
+          },
+          {
+            "label": "American",
+            "on_time_rate": 0.709824
+          }
+        ],
+        "truncated": false
+      },
+      "category": "airport_reliability",
+      "chart": {
+        "points": [
+          {
+            "label": "other",
+            "value": 0.768849
+          },
+          {
+            "label": "American",
+            "value": 0.709824
+          }
+        ],
+        "type": "bar",
+        "x": "label",
+        "y": "on_time_rate"
+      },
+      "difficulty": "hard",
+      "id": "q114",
+      "notes": "DFW spotlight. American is AA, MQ, OH, and PT. Other is every remaining reporting carrier at DFW, including SkyWest and Republic. This is the airport average, not the shared-route comparison. Pending review.",
+      "question": "At DFW, what is the on-time arrival rate for the American brand and for every other carrier combined? Return both.",
+      "sql": "SELECT CASE WHEN airline_code IN ('AA', 'MQ', 'OH', 'PT') THEN 'American' ELSE 'other' END AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate\nFROM flights_v\nWHERE operated AND origin = 'DFW'\nGROUP BY 1"
+    },
+    {
+      "ambiguous": false,
+      "answer_type": "scalar",
+      "candidate": {
+        "behavior": null,
+        "rows": [
+          {
+            "label": "American",
+            "share": 0.78073
+          }
+        ],
+        "truncated": false
+      },
+      "category": "delay_causes",
+      "chart": null,
+      "difficulty": "medium",
+      "id": "q115",
+      "notes": "Own-fault share for the American brand rollup. Airline-controlled minutes are carrier plus late aircraft. SkyWest and Republic are excluded. Pending review.",
+      "question": "What share of the American brand's late-arrival minutes is airline-controlled, counting carrier delay and late aircraft together?",
+      "sql": "SELECT 'American' AS label,\n       SUM(airline_controlled_minutes) * 1.0 / NULLIF(SUM(cause_minutes), 0) AS share\nFROM flights_v\nWHERE late_arrival AND cause_minutes > 0 AND airline_code IN ('AA', 'MQ', 'OH', 'PT')"
     }
   ],
   "review_note": "candidate answers pending Daniel's review",

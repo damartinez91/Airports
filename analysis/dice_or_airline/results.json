@@ -1,0 +1,1429 @@
+{
+  "carriers": [
+    {
+      "airline_code": "WN",
+      "scheduled": 1389951,
+      "operated": 1374279
+    },
+    {
+      "airline_code": "DL",
+      "scheduled": 1038644,
+      "operated": 1018096
+    },
+    {
+      "airline_code": "AA",
+      "scheduled": 987645,
+      "operated": 962421
+    },
+    {
+      "airline_code": "OO",
+      "scheduled": 854130,
+      "operated": 836175
+    },
+    {
+      "airline_code": "UA",
+      "scheduled": 825693,
+      "operated": 814734
+    },
+    {
+      "airline_code": "YX",
+      "scheduled": 363168,
+      "operated": 347315
+    },
+    {
+      "airline_code": "MQ",
+      "scheduled": 317726,
+      "operated": 309815
+    },
+    {
+      "airline_code": "AS",
+      "scheduled": 301435,
+      "operated": 297116
+    },
+    {
+      "airline_code": "OH",
+      "scheduled": 242215,
+      "operated": 231130
+    },
+    {
+      "airline_code": "B6",
+      "scheduled": 237090,
+      "operated": 229045
+    },
+    {
+      "airline_code": "F9",
+      "scheduled": 209405,
+      "operated": 204980
+    },
+    {
+      "airline_code": "G4",
+      "scheduled": 126499,
+      "operated": 125266
+    },
+    {
+      "airline_code": "NK",
+      "scheduled": 117136,
+      "operated": 112299
+    },
+    {
+      "airline_code": "HA",
+      "scheduled": 33121,
+      "operated": 32839
+    }
+  ],
+  "brands": [
+    {
+      "brand": "Hawaiian",
+      "operated": 32839,
+      "on_time_rate": 0.8185389323670027,
+      "first_month": "2025-08",
+      "last_month": "2025-12"
+    },
+    {
+      "brand": "Delta",
+      "operated": 1018096,
+      "on_time_rate": 0.8152944319592651,
+      "first_month": "2025-08",
+      "last_month": "2026-07"
+    },
+    {
+      "brand": "Alaska",
+      "operated": 297116,
+      "on_time_rate": 0.7960964741043902,
+      "first_month": "2025-08",
+      "last_month": "2026-07"
+    },
+    {
+      "brand": "United",
+      "operated": 814734,
+      "on_time_rate": 0.7926317055627972,
+      "first_month": "2025-08",
+      "last_month": "2026-07"
+    },
+    {
+      "brand": "SkyWest",
+      "operated": 836175,
+      "on_time_rate": 0.7902927018865669,
+      "first_month": "2025-08",
+      "last_month": "2026-07"
+    },
+    {
+      "brand": "Republic",
+      "operated": 347315,
+      "on_time_rate": 0.787017548910931,
+      "first_month": "2025-08",
+      "last_month": "2026-07"
+    },
+    {
+      "brand": "Southwest",
+      "operated": 1374279,
+      "on_time_rate": 0.7640500946314395,
+      "first_month": "2025-08",
+      "last_month": "2026-07"
+    },
+    {
+      "brand": "American",
+      "operated": 1503366,
+      "on_time_rate": 0.7579830859551168,
+      "first_month": "2025-08",
+      "last_month": "2026-07"
+    },
+    {
+      "brand": "Allegiant",
+      "operated": 125266,
+      "on_time_rate": 0.7405121900595533,
+      "first_month": "2025-08",
+      "last_month": "2026-07"
+    },
+    {
+      "brand": "Frontier",
+      "operated": 204980,
+      "on_time_rate": 0.7312859791199141,
+      "first_month": "2025-08",
+      "last_month": "2026-07"
+    },
+    {
+      "brand": "Spirit",
+      "operated": 112299,
+      "on_time_rate": 0.7280474447679854,
+      "first_month": "2025-08",
+      "last_month": "2026-05"
+    },
+    {
+      "brand": "JetBlue",
+      "operated": 229045,
+      "on_time_rate": 0.7231766683402825,
+      "first_month": "2025-08",
+      "last_month": "2026-07"
+    }
+  ],
+  "national_operated": 6895510,
+  "national_on_time_rate": 0.7763042907631198,
+  "composition": [
+    {
+      "brand": "Alaska",
+      "airline_code": "AS",
+      "operated": 297116
+    },
+    {
+      "brand": "Allegiant",
+      "airline_code": "G4",
+      "operated": 125266
+    },
+    {
+      "brand": "American",
+      "airline_code": "AA",
+      "operated": 962421
+    },
+    {
+      "brand": "American",
+      "airline_code": "MQ",
+      "operated": 309815
+    },
+    {
+      "brand": "American",
+      "airline_code": "OH",
+      "operated": 231130
+    },
+    {
+      "brand": "Delta",
+      "airline_code": "DL",
+      "operated": 1018096
+    },
+    {
+      "brand": "Frontier",
+      "airline_code": "F9",
+      "operated": 204980
+    },
+    {
+      "brand": "Hawaiian",
+      "airline_code": "HA",
+      "operated": 32839
+    },
+    {
+      "brand": "JetBlue",
+      "airline_code": "B6",
+      "operated": 229045
+    },
+    {
+      "brand": "Republic",
+      "airline_code": "YX",
+      "operated": 347315
+    },
+    {
+      "brand": "SkyWest",
+      "airline_code": "OO",
+      "operated": 836175
+    },
+    {
+      "brand": "Southwest",
+      "airline_code": "WN",
+      "operated": 1374279
+    },
+    {
+      "brand": "Spirit",
+      "airline_code": "NK",
+      "operated": 112299
+    },
+    {
+      "brand": "United",
+      "airline_code": "UA",
+      "operated": 814734
+    }
+  ],
+  "airport_buckets": [
+    {
+      "bucket": "Under 10,000 departures",
+      "airports": 258,
+      "operated": 595645,
+      "on_time_rate": 0.7940048183062058
+    },
+    {
+      "bucket": "10,000 to 49,999",
+      "airports": 64,
+      "operated": 1436313,
+      "on_time_rate": 0.8043365199646595
+    },
+    {
+      "bucket": "50,000 to 149,999",
+      "airports": 27,
+      "operated": 2534964,
+      "on_time_rate": 0.7703805655622723
+    },
+    {
+      "bucket": "150,000 or more",
+      "airports": 10,
+      "operated": 2328588,
+      "on_time_rate": 0.7609345234107536
+    }
+  ],
+  "airport_log_volume_correlation": -0.09153078581818513,
+  "airports_in_correlation": 318,
+  "hours": [
+    {
+      "hour": 0,
+      "operated": 10160,
+      "on_time_rate": 0.8317913385826772
+    },
+    {
+      "hour": 1,
+      "operated": 3344,
+      "on_time_rate": 0.8145933014354066
+    },
+    {
+      "hour": 2,
+      "operated": 1251,
+      "on_time_rate": 0.7953637090327738
+    },
+    {
+      "hour": 3,
+      "operated": 654,
+      "on_time_rate": 0.8012232415902141
+    },
+    {
+      "hour": 4,
+      "operated": 165,
+      "on_time_rate": 0.8242424242424242
+    },
+    {
+      "hour": 5,
+      "operated": 188230,
+      "on_time_rate": 0.9168729745524092
+    },
+    {
+      "hour": 6,
+      "operated": 473284,
+      "on_time_rate": 0.9015052273053811
+    },
+    {
+      "hour": 7,
+      "operated": 512712,
+      "on_time_rate": 0.8746235703474855
+    },
+    {
+      "hour": 8,
+      "operated": 478738,
+      "on_time_rate": 0.8556768002540012
+    },
+    {
+      "hour": 9,
+      "operated": 392034,
+      "on_time_rate": 0.8376135743328385
+    },
+    {
+      "hour": 10,
+      "operated": 439060,
+      "on_time_rate": 0.8214845351432606
+    },
+    {
+      "hour": 11,
+      "operated": 425918,
+      "on_time_rate": 0.8026474579613916
+    },
+    {
+      "hour": 12,
+      "operated": 414998,
+      "on_time_rate": 0.7825700364821035
+    },
+    {
+      "hour": 13,
+      "operated": 413691,
+      "on_time_rate": 0.7679040636610417
+    },
+    {
+      "hour": 14,
+      "operated": 391257,
+      "on_time_rate": 0.7390819844756771
+    },
+    {
+      "hour": 15,
+      "operated": 398252,
+      "on_time_rate": 0.7235243011962275
+    },
+    {
+      "hour": 16,
+      "operated": 396394,
+      "on_time_rate": 0.7023264731554968
+    },
+    {
+      "hour": 17,
+      "operated": 436115,
+      "on_time_rate": 0.6937940680783738
+    },
+    {
+      "hour": 18,
+      "operated": 404818,
+      "on_time_rate": 0.6811060772989344
+    },
+    {
+      "hour": 19,
+      "operated": 372684,
+      "on_time_rate": 0.6776142791211858
+    },
+    {
+      "hour": 20,
+      "operated": 300806,
+      "on_time_rate": 0.6773601590393808
+    },
+    {
+      "hour": 21,
+      "operated": 231552,
+      "on_time_rate": 0.7074264096185738
+    },
+    {
+      "hour": 22,
+      "operated": 151426,
+      "on_time_rate": 0.7191103245149446
+    },
+    {
+      "hour": 23,
+      "operated": 57967,
+      "on_time_rate": 0.8022150533924475
+    }
+  ],
+  "causes": [
+    {
+      "brand": "Alaska",
+      "late_flights": 60583,
+      "carrier_share": 0.33122792678040625,
+      "weather_share": 0.04418695446499176,
+      "nas_share": 0.2414716942336031,
+      "security_share": 0.0039000358392059136,
+      "late_aircraft_share": 0.379213388681793,
+      "airline_controlled_share": 0.7104413154621992
+    },
+    {
+      "brand": "Allegiant",
+      "late_flights": 32505,
+      "carrier_share": 0.3138712747160698,
+      "weather_share": 0.11245160618182301,
+      "nas_share": 0.1779777274815357,
+      "security_share": 0.002481483268342105,
+      "late_aircraft_share": 0.39321790835222936,
+      "airline_controlled_share": 0.7070891830682992
+    },
+    {
+      "brand": "American",
+      "late_flights": 363840,
+      "carrier_share": 0.30992096496570165,
+      "weather_share": 0.07038071832520419,
+      "nas_share": 0.14744301728304982,
+      "security_share": 0.0014463716168454188,
+      "late_aircraft_share": 0.4708089278091989,
+      "airline_controlled_share": 0.7807298927749006
+    },
+    {
+      "brand": "Delta",
+      "late_flights": 188048,
+      "carrier_share": 0.4470828405024629,
+      "weather_share": 0.041056953781198065,
+      "nas_share": 0.21616273150574178,
+      "security_share": 0.0007831893518587833,
+      "late_aircraft_share": 0.29491428485873844,
+      "airline_controlled_share": 0.7419971253612013
+    },
+    {
+      "brand": "Frontier",
+      "late_flights": 55080,
+      "carrier_share": 0.2608820359470678,
+      "weather_share": 0.028370132962521808,
+      "nas_share": 0.19460456154842873,
+      "security_share": 0.0,
+      "late_aircraft_share": 0.5161432695419816,
+      "airline_controlled_share": 0.7770253054890495
+    },
+    {
+      "brand": "Hawaiian",
+      "late_flights": 5959,
+      "carrier_share": 0.65126272463453,
+      "weather_share": 0.022941334565407114,
+      "nas_share": 0.012924695529806823,
+      "security_share": 0.0038562701382157277,
+      "late_aircraft_share": 0.30901497513204024,
+      "airline_controlled_share": 0.9602776997665703
+    },
+    {
+      "brand": "JetBlue",
+      "late_flights": 63405,
+      "carrier_share": 0.2743851750017676,
+      "weather_share": 0.025605453526915577,
+      "nas_share": 0.25413191935681584,
+      "security_share": 0.0018184419677914245,
+      "late_aircraft_share": 0.44405901014670957,
+      "airline_controlled_share": 0.7184441851484772
+    },
+    {
+      "brand": "Republic",
+      "late_flights": 73972,
+      "carrier_share": 0.23495443465216576,
+      "weather_share": 0.05731258203637728,
+      "nas_share": 0.3182578286142884,
+      "security_share": 0.000843615225951622,
+      "late_aircraft_share": 0.3886315394712169,
+      "airline_controlled_share": 0.6235859741233827
+    },
+    {
+      "brand": "SkyWest",
+      "late_flights": 175352,
+      "carrier_share": 0.46979380480222543,
+      "weather_share": 0.1401016703731287,
+      "nas_share": 0.17241023398717573,
+      "security_share": 0.0008465394965266515,
+      "late_aircraft_share": 0.21684775134094347,
+      "airline_controlled_share": 0.6866415561431689
+    },
+    {
+      "brand": "Southwest",
+      "late_flights": 324143,
+      "carrier_share": 0.28414308610187067,
+      "weather_share": 0.023236096696185798,
+      "nas_share": 0.1787888486416967,
+      "security_share": 0.0031046247859138894,
+      "late_aircraft_share": 0.5107273437743329,
+      "airline_controlled_share": 0.7948704298762036
+    },
+    {
+      "brand": "Spirit",
+      "late_flights": 30540,
+      "carrier_share": 0.3059207070225283,
+      "weather_share": 0.02044462341176879,
+      "nas_share": 0.36970976081632545,
+      "security_share": 0.0026653138612586103,
+      "late_aircraft_share": 0.3012595948881188,
+      "airline_controlled_share": 0.6071803019106471
+    },
+    {
+      "brand": "United",
+      "late_flights": 168950,
+      "carrier_share": 0.2561044514870508,
+      "weather_share": 0.042072733928809884,
+      "nas_share": 0.34014800842805765,
+      "security_share": 9.239040043870539e-05,
+      "late_aircraft_share": 0.3615824157556429,
+      "airline_controlled_share": 0.6176868672426937
+    }
+  ],
+  "origin_matched": [
+    {
+      "brand": "Alaska",
+      "matched_flights": 287120,
+      "gap": -0.017123973834742984
+    },
+    {
+      "brand": "Allegiant",
+      "matched_flights": 83875,
+      "gap": -0.04527738292129534
+    },
+    {
+      "brand": "American",
+      "matched_flights": 1491329,
+      "gap": -0.016226690166864278
+    },
+    {
+      "brand": "Delta",
+      "matched_flights": 1017820,
+      "gap": 0.04898489278152317
+    },
+    {
+      "brand": "Frontier",
+      "matched_flights": 204539,
+      "gap": -0.042143172984719576
+    },
+    {
+      "brand": "Hawaiian",
+      "matched_flights": 32645,
+      "gap": -0.010096496501044501
+    },
+    {
+      "brand": "JetBlue",
+      "matched_flights": 227602,
+      "gap": -0.04513185253523477
+    },
+    {
+      "brand": "Republic",
+      "matched_flights": 346591,
+      "gap": 0.027322114950184297
+    },
+    {
+      "brand": "SkyWest",
+      "matched_flights": 754716,
+      "gap": 0.006878439247558059
+    },
+    {
+      "brand": "Southwest",
+      "matched_flights": 1374279,
+      "gap": -0.03801445102961135
+    },
+    {
+      "brand": "Spirit",
+      "matched_flights": 111475,
+      "gap": -0.029220716461672375
+    },
+    {
+      "brand": "United",
+      "matched_flights": 813163,
+      "gap": 0.026887808453066275
+    }
+  ],
+  "route_matched": [
+    {
+      "brand": "Alaska",
+      "matched_flights": 231533,
+      "gap": -0.02247084909104383
+    },
+    {
+      "brand": "Allegiant",
+      "matched_flights": 7213,
+      "gap": -0.056790659846392116
+    },
+    {
+      "brand": "American",
+      "matched_flights": 896500,
+      "gap": -0.0072620688100206695
+    },
+    {
+      "brand": "Delta",
+      "matched_flights": 699683,
+      "gap": 0.056657411527003404
+    },
+    {
+      "brand": "Frontier",
+      "matched_flights": 188269,
+      "gap": -0.042181717425006274
+    },
+    {
+      "brand": "Hawaiian",
+      "matched_flights": 32150,
+      "gap": -0.004519469622757679
+    },
+    {
+      "brand": "JetBlue",
+      "matched_flights": 187372,
+      "gap": -0.030732720383623992
+    },
+    {
+      "brand": "Republic",
+      "matched_flights": 234196,
+      "gap": 0.042733184725458645
+    },
+    {
+      "brand": "SkyWest",
+      "matched_flights": 478042,
+      "gap": 0.00447933279784529
+    },
+    {
+      "brand": "Southwest",
+      "matched_flights": 683700,
+      "gap": -0.04828161672450831
+    },
+    {
+      "brand": "Spirit",
+      "matched_flights": 96465,
+      "gap": -0.030393182363728323
+    },
+    {
+      "brand": "United",
+      "matched_flights": 698540,
+      "gap": 0.05264616808730452
+    }
+  ],
+  "hour_matched": [
+    {
+      "brand": "Alaska",
+      "matched_flights": 297101,
+      "gap": 0.020448444363956042
+    },
+    {
+      "brand": "Allegiant",
+      "matched_flights": 125191,
+      "gap": -0.030753860442195892
+    },
+    {
+      "brand": "American",
+      "matched_flights": 1503366,
+      "gap": -0.024551574313676165
+    },
+    {
+      "brand": "Delta",
+      "matched_flights": 1018083,
+      "gap": 0.04426244920939221
+    },
+    {
+      "brand": "Frontier",
+      "matched_flights": 204980,
+      "gap": -0.04282444670091173
+    },
+    {
+      "brand": "Hawaiian",
+      "matched_flights": 32817,
+      "gap": 0.03730582453292877
+    },
+    {
+      "brand": "JetBlue",
+      "matched_flights": 228734,
+      "gap": -0.05631081707553054
+    },
+    {
+      "brand": "Republic",
+      "matched_flights": 347221,
+      "gap": 0.011802539683913088
+    },
+    {
+      "brand": "SkyWest",
+      "matched_flights": 836159,
+      "gap": 0.01909005903951584
+    },
+    {
+      "brand": "Southwest",
+      "matched_flights": 1374279,
+      "gap": -0.015468847415225041
+    },
+    {
+      "brand": "Spirit",
+      "matched_flights": 112272,
+      "gap": -0.048091909614865314
+    },
+    {
+      "brand": "United",
+      "matched_flights": 814734,
+      "gap": 0.017922171213972993
+    }
+  ],
+  "dfw": {
+    "origin_dfw": [
+      {
+        "brand": "American",
+        "operated": 243256,
+        "on_time_rate": 0.7098242181076726
+      },
+      {
+        "brand": "SkyWest",
+        "operated": 21812,
+        "on_time_rate": 0.7715477718686962
+      },
+      {
+        "brand": "Delta",
+        "operated": 11358,
+        "on_time_rate": 0.8094734988554323
+      },
+      {
+        "brand": "Frontier",
+        "operated": 10195,
+        "on_time_rate": 0.7427170181461501
+      },
+      {
+        "brand": "United",
+        "operated": 9785,
+        "on_time_rate": 0.7614716402657128
+      },
+      {
+        "brand": "Spirit",
+        "operated": 3612,
+        "on_time_rate": 0.7450166112956811
+      },
+      {
+        "brand": "Alaska",
+        "operated": 2393,
+        "on_time_rate": 0.7488508148767238
+      },
+      {
+        "brand": "JetBlue",
+        "operated": 403,
+        "on_time_rate": 0.6625310173697271
+      },
+      {
+        "brand": "Republic",
+        "operated": 48,
+        "on_time_rate": 0.6666666666666666
+      }
+    ],
+    "shared_dfw_routes": [
+      {
+        "brand": "Alaska",
+        "routes": 3,
+        "operated": 2393,
+        "gap_vs_others": 0.08322296902471336
+      },
+      {
+        "brand": "American",
+        "routes": 65,
+        "operated": 131091,
+        "gap_vs_others": -0.07988216886034287
+      },
+      {
+        "brand": "Delta",
+        "routes": 9,
+        "operated": 11357,
+        "gap_vs_others": 0.13627735164769114
+      },
+      {
+        "brand": "Frontier",
+        "routes": 26,
+        "operated": 9307,
+        "gap_vs_others": 0.050219280375220575
+      },
+      {
+        "brand": "JetBlue",
+        "routes": 2,
+        "operated": 403,
+        "gap_vs_others": -0.0210730368748087
+      },
+      {
+        "brand": "SkyWest",
+        "routes": 30,
+        "operated": 12274,
+        "gap_vs_others": 0.01525956631054032
+      },
+      {
+        "brand": "Spirit",
+        "routes": 12,
+        "operated": 3395,
+        "gap_vs_others": 0.05298976498416138
+      },
+      {
+        "brand": "United",
+        "routes": 6,
+        "operated": 9785,
+        "gap_vs_others": 0.10529519797143935
+      }
+    ],
+    "dallas_city_pairs": [
+      {
+        "city": "Houston, TX",
+        "american_flights": 4700,
+        "american_on_time_rate": 0.6746808510638298,
+        "southwest_flights": 3971,
+        "southwest_on_time_rate": 0.748677914882901,
+        "gap_american_minus_southwest": -0.07399706381907123
+      },
+      {
+        "city": "Phoenix, AZ",
+        "american_flights": 4493,
+        "american_on_time_rate": 0.7184509236590252,
+        "southwest_flights": 2810,
+        "southwest_on_time_rate": 0.7423487544483985,
+        "gap_american_minus_southwest": -0.023897830789373353
+      },
+      {
+        "city": "New York, NY",
+        "american_flights": 5434,
+        "american_on_time_rate": 0.6543982333456018,
+        "southwest_flights": 1460,
+        "southwest_on_time_rate": 0.6095890410958904,
+        "gap_american_minus_southwest": 0.04480919224971136
+      },
+      {
+        "city": "Chicago, IL",
+        "american_flights": 4203,
+        "american_on_time_rate": 0.661908160837497,
+        "southwest_flights": 2564,
+        "southwest_on_time_rate": 0.7067082683307332,
+        "gap_american_minus_southwest": -0.04480010749323615
+      },
+      {
+        "city": "Las Vegas, NV",
+        "american_flights": 3864,
+        "american_on_time_rate": 0.6684782608695652,
+        "southwest_flights": 2818,
+        "southwest_on_time_rate": 0.7434350603264727,
+        "gap_american_minus_southwest": -0.07495679945690747
+      },
+      {
+        "city": "San Antonio, TX",
+        "american_flights": 3895,
+        "american_on_time_rate": 0.6557124518613607,
+        "southwest_flights": 2709,
+        "southwest_on_time_rate": 0.7733480989294943,
+        "gap_american_minus_southwest": -0.11763564706813356
+      },
+      {
+        "city": "Austin, TX",
+        "american_flights": 4227,
+        "american_on_time_rate": 0.6721078779276083,
+        "southwest_flights": 2312,
+        "southwest_on_time_rate": 0.7707612456747405,
+        "gap_american_minus_southwest": -0.09865336774713218
+      },
+      {
+        "city": "Orlando, FL",
+        "american_flights": 3551,
+        "american_on_time_rate": 0.607716136299634,
+        "southwest_flights": 2579,
+        "southwest_on_time_rate": 0.7022101589763474,
+        "gap_american_minus_southwest": -0.09449402267671347
+      },
+      {
+        "city": "Los Angeles, CA",
+        "american_flights": 4459,
+        "american_on_time_rate": 0.6923076923076923,
+        "southwest_flights": 1453,
+        "southwest_on_time_rate": 0.6882312456985548,
+        "gap_american_minus_southwest": 0.0040764466091375295
+      },
+      {
+        "city": "Denver, CO",
+        "american_flights": 2855,
+        "american_on_time_rate": 0.624168126094571,
+        "southwest_flights": 2936,
+        "southwest_on_time_rate": 0.6978882833787466,
+        "gap_american_minus_southwest": -0.07372015728417569
+      },
+      {
+        "city": "Nashville, TN",
+        "american_flights": 3322,
+        "american_on_time_rate": 0.6676700782661048,
+        "southwest_flights": 2395,
+        "southwest_on_time_rate": 0.7148225469728601,
+        "gap_american_minus_southwest": -0.04715246870675527
+      },
+      {
+        "city": "Washington, DC",
+        "american_flights": 4008,
+        "american_on_time_rate": 0.7255489021956087,
+        "southwest_flights": 1690,
+        "southwest_on_time_rate": 0.6668639053254438,
+        "gap_american_minus_southwest": 0.05868499687016493
+      },
+      {
+        "city": "New Orleans, LA",
+        "american_flights": 2496,
+        "american_on_time_rate": 0.6770833333333334,
+        "southwest_flights": 2258,
+        "southwest_on_time_rate": 0.7577502214348981,
+        "gap_american_minus_southwest": -0.08066688810156475
+      },
+      {
+        "city": "San Diego, CA",
+        "american_flights": 3104,
+        "american_on_time_rate": 0.6401417525773195,
+        "southwest_flights": 1548,
+        "southwest_on_time_rate": 0.7383720930232558,
+        "gap_american_minus_southwest": -0.09823034044593626
+      },
+      {
+        "city": "Miami, FL",
+        "american_flights": 4183,
+        "american_on_time_rate": 0.6763088692326081,
+        "southwest_flights": 406,
+        "southwest_on_time_rate": 0.7044334975369458,
+        "gap_american_minus_southwest": -0.028124628304337707
+      },
+      {
+        "city": "Kansas City, MO",
+        "american_flights": 2407,
+        "american_on_time_rate": 0.6983797257997507,
+        "southwest_flights": 2024,
+        "southwest_on_time_rate": 0.7509881422924901,
+        "gap_american_minus_southwest": -0.052608416492739396
+      },
+      {
+        "city": "El Paso, TX",
+        "american_flights": 2417,
+        "american_on_time_rate": 0.6789408357467935,
+        "southwest_flights": 1751,
+        "southwest_on_time_rate": 0.7350085665334095,
+        "gap_american_minus_southwest": -0.05606773078661598
+      },
+      {
+        "city": "Atlanta, GA",
+        "american_flights": 2634,
+        "american_on_time_rate": 0.7095671981776766,
+        "southwest_flights": 1493,
+        "southwest_on_time_rate": 0.7488278633623576,
+        "gap_american_minus_southwest": -0.039260665184681076
+      },
+      {
+        "city": "St. Louis, MO",
+        "american_flights": 2138,
+        "american_on_time_rate": 0.676800748362956,
+        "southwest_flights": 1907,
+        "southwest_on_time_rate": 0.7635028841111694,
+        "gap_american_minus_southwest": -0.0867021357482134
+      },
+      {
+        "city": "Charlotte, NC",
+        "american_flights": 3499,
+        "american_on_time_rate": 0.7353529579879966,
+        "southwest_flights": 372,
+        "southwest_on_time_rate": 0.5913978494623656,
+        "gap_american_minus_southwest": 0.14395510852563098
+      },
+      {
+        "city": "Tampa, FL",
+        "american_flights": 2515,
+        "american_on_time_rate": 0.6520874751491054,
+        "southwest_flights": 1271,
+        "southwest_on_time_rate": 0.7041699449252558,
+        "gap_american_minus_southwest": -0.052082469776150386
+      },
+      {
+        "city": "Albuquerque, NM",
+        "american_flights": 2155,
+        "american_on_time_rate": 0.6737819025522042,
+        "southwest_flights": 1602,
+        "southwest_on_time_rate": 0.7709113607990012,
+        "gap_american_minus_southwest": -0.09712945824679708
+      },
+      {
+        "city": "Lubbock, TX",
+        "american_flights": 2158,
+        "american_on_time_rate": 0.7998146431881371,
+        "southwest_flights": 1487,
+        "southwest_on_time_rate": 0.7706792199058508,
+        "gap_american_minus_southwest": 0.029135423282286355
+      },
+      {
+        "city": "Tulsa, OK",
+        "american_flights": 2515,
+        "american_on_time_rate": 0.7176938369781312,
+        "southwest_flights": 1038,
+        "southwest_on_time_rate": 0.779383429672447,
+        "gap_american_minus_southwest": -0.06168959269431584
+      },
+      {
+        "city": "Midland/Odessa, TX",
+        "american_flights": 2074,
+        "american_on_time_rate": 0.8206364513018322,
+        "southwest_flights": 1338,
+        "southwest_on_time_rate": 0.7847533632286996,
+        "gap_american_minus_southwest": 0.03588308807313256
+      },
+      {
+        "city": "Philadelphia, PA",
+        "american_flights": 3082,
+        "american_on_time_rate": 0.7034393251135627,
+        "southwest_flights": 321,
+        "southwest_on_time_rate": 0.7383177570093458,
+        "gap_american_minus_southwest": -0.0348784318957831
+      },
+      {
+        "city": "Little Rock, AR",
+        "american_flights": 2236,
+        "american_on_time_rate": 0.7710196779964222,
+        "southwest_flights": 1031,
+        "southwest_on_time_rate": 0.7235693501454898,
+        "gap_american_minus_southwest": 0.047450327850932394
+      },
+      {
+        "city": "Amarillo, TX",
+        "american_flights": 2007,
+        "american_on_time_rate": 0.8161434977578476,
+        "southwest_flights": 1247,
+        "southwest_on_time_rate": 0.7514033680834001,
+        "gap_american_minus_southwest": 0.06474012967444742
+      },
+      {
+        "city": "Santa Ana, CA",
+        "american_flights": 2795,
+        "american_on_time_rate": 0.7810375670840787,
+        "southwest_flights": 360,
+        "southwest_on_time_rate": 0.7194444444444444,
+        "gap_american_minus_southwest": 0.061593122639634235
+      },
+      {
+        "city": "Oklahoma City, OK",
+        "american_flights": 2816,
+        "american_on_time_rate": 0.7105823863636364,
+        "southwest_flights": 295,
+        "southwest_on_time_rate": 0.6610169491525424,
+        "gap_american_minus_southwest": 0.049565437211093966
+      },
+      {
+        "city": "Birmingham, AL",
+        "american_flights": 1926,
+        "american_on_time_rate": 0.7388369678089304,
+        "southwest_flights": 963,
+        "southwest_on_time_rate": 0.7082035306334372,
+        "gap_american_minus_southwest": 0.03063343717549316
+      },
+      {
+        "city": "Seattle, WA",
+        "american_flights": 2663,
+        "american_on_time_rate": 0.6518963574915508,
+        "southwest_flights": 219,
+        "southwest_on_time_rate": 0.726027397260274,
+        "gap_american_minus_southwest": -0.07413103976872315
+      },
+      {
+        "city": "Boston, MA",
+        "american_flights": 2549,
+        "american_on_time_rate": 0.6461357395056885,
+        "southwest_flights": 258,
+        "southwest_on_time_rate": 0.6937984496124031,
+        "gap_american_minus_southwest": -0.047662710106714634
+      },
+      {
+        "city": "Salt Lake City, UT",
+        "american_flights": 2138,
+        "american_on_time_rate": 0.607577174929841,
+        "southwest_flights": 666,
+        "southwest_on_time_rate": 0.7162162162162162,
+        "gap_american_minus_southwest": -0.10863904128637525
+      },
+      {
+        "city": "Baltimore, MD",
+        "american_flights": 933,
+        "american_on_time_rate": 0.6816720257234726,
+        "southwest_flights": 1768,
+        "southwest_on_time_rate": 0.7460407239819005,
+        "gap_american_minus_southwest": -0.06436869825842784
+      },
+      {
+        "city": "Memphis, TN",
+        "american_flights": 2246,
+        "american_on_time_rate": 0.6763134461264471,
+        "southwest_flights": 450,
+        "southwest_on_time_rate": 0.74,
+        "gap_american_minus_southwest": -0.06368655387355293
+      },
+      {
+        "city": "Indianapolis, IN",
+        "american_flights": 1848,
+        "american_on_time_rate": 0.6747835497835498,
+        "southwest_flights": 666,
+        "southwest_on_time_rate": 0.7387387387387387,
+        "gap_american_minus_southwest": -0.06395518895518892
+      },
+      {
+        "city": "Fort Lauderdale, FL",
+        "american_flights": 1933,
+        "american_on_time_rate": 0.6813243662700466,
+        "southwest_flights": 540,
+        "southwest_on_time_rate": 0.6092592592592593,
+        "gap_american_minus_southwest": 0.07206510701078728
+      },
+      {
+        "city": "Raleigh/Durham, NC",
+        "american_flights": 1965,
+        "american_on_time_rate": 0.6880407124681934,
+        "southwest_flights": 414,
+        "southwest_on_time_rate": 0.6352657004830918,
+        "gap_american_minus_southwest": 0.052775011985101594
+      },
+      {
+        "city": "Ontario, CA",
+        "american_flights": 1915,
+        "american_on_time_rate": 0.6861618798955613,
+        "southwest_flights": 394,
+        "southwest_on_time_rate": 0.6802030456852792,
+        "gap_american_minus_southwest": 0.0059588342102820935
+      },
+      {
+        "city": "Tucson, AZ",
+        "american_flights": 2075,
+        "american_on_time_rate": 0.6828915662650602,
+        "southwest_flights": 220,
+        "southwest_on_time_rate": 0.7363636363636363,
+        "gap_american_minus_southwest": -0.05347207009857613
+      },
+      {
+        "city": "Sacramento, CA",
+        "american_flights": 1588,
+        "american_on_time_rate": 0.6706549118387909,
+        "southwest_flights": 656,
+        "southwest_on_time_rate": 0.7042682926829268,
+        "gap_american_minus_southwest": -0.0336133808441359
+      },
+      {
+        "city": "Louisville, KY",
+        "american_flights": 1874,
+        "american_on_time_rate": 0.7065101387406617,
+        "southwest_flights": 346,
+        "southwest_on_time_rate": 0.7456647398843931,
+        "gap_american_minus_southwest": -0.03915460114373137
+      },
+      {
+        "city": "Columbus, OH",
+        "american_flights": 1685,
+        "american_on_time_rate": 0.7062314540059347,
+        "southwest_flights": 529,
+        "southwest_on_time_rate": 0.7107750472589792,
+        "gap_american_minus_southwest": -0.004543593253044542
+      },
+      {
+        "city": "Pensacola, FL",
+        "american_flights": 1649,
+        "american_on_time_rate": 0.6664645239539114,
+        "southwest_flights": 484,
+        "southwest_on_time_rate": 0.7045454545454546,
+        "gap_american_minus_southwest": -0.03808093059154316
+      },
+      {
+        "city": "Jacksonville, FL",
+        "american_flights": 1744,
+        "american_on_time_rate": 0.6278669724770642,
+        "southwest_flights": 349,
+        "southwest_on_time_rate": 0.5959885386819485,
+        "gap_american_minus_southwest": 0.03187843379511579
+      },
+      {
+        "city": "Portland, OR",
+        "american_flights": 1859,
+        "american_on_time_rate": 0.6223776223776224,
+        "southwest_flights": 227,
+        "southwest_on_time_rate": 0.7929515418502202,
+        "gap_american_minus_southwest": -0.1705739194725978
+      },
+      {
+        "city": "Colorado Springs, CO",
+        "american_flights": 1256,
+        "american_on_time_rate": 0.7006369426751592,
+        "southwest_flights": 791,
+        "southwest_on_time_rate": 0.7408343868520859,
+        "gap_american_minus_southwest": -0.04019744417692672
+      },
+      {
+        "city": "Omaha, NE",
+        "american_flights": 1514,
+        "american_on_time_rate": 0.678996036988111,
+        "southwest_flights": 429,
+        "southwest_on_time_rate": 0.7062937062937062,
+        "gap_american_minus_southwest": -0.027297669305595296
+      },
+      {
+        "city": "Panama City, FL",
+        "american_flights": 1248,
+        "american_on_time_rate": 0.7475961538461539,
+        "southwest_flights": 687,
+        "southwest_on_time_rate": 0.7016011644832606,
+        "gap_american_minus_southwest": 0.04599498936289326
+      },
+      {
+        "city": "Pittsburgh, PA",
+        "american_flights": 1485,
+        "american_on_time_rate": 0.7232323232323232,
+        "southwest_flights": 363,
+        "southwest_on_time_rate": 0.7052341597796143,
+        "gap_american_minus_southwest": 0.017998163452708882
+      },
+      {
+        "city": "Harlingen/San Benito, TX",
+        "american_flights": 1437,
+        "american_on_time_rate": 0.8462073764787752,
+        "southwest_flights": 376,
+        "southwest_on_time_rate": 0.6941489361702128,
+        "gap_american_minus_southwest": 0.15205844030856241
+      },
+      {
+        "city": "Valparaiso, FL",
+        "american_flights": 1298,
+        "american_on_time_rate": 0.6687211093990755,
+        "southwest_flights": 440,
+        "southwest_on_time_rate": 0.8,
+        "gap_american_minus_southwest": -0.13127889060092457
+      },
+      {
+        "city": "Charleston, SC",
+        "american_flights": 1178,
+        "american_on_time_rate": 0.702037351443124,
+        "southwest_flights": 360,
+        "southwest_on_time_rate": 0.6833333333333333,
+        "gap_american_minus_southwest": 0.01870401810979061
+      },
+      {
+        "city": "San Jose, CA",
+        "american_flights": 1072,
+        "american_on_time_rate": 0.7192164179104478,
+        "southwest_flights": 419,
+        "southwest_on_time_rate": 0.6634844868735084,
+        "gap_american_minus_southwest": 0.05573193103693941
+      },
+      {
+        "city": "Milwaukee, WI",
+        "american_flights": 1039,
+        "american_on_time_rate": 0.6766121270452358,
+        "southwest_flights": 396,
+        "southwest_on_time_rate": 0.7045454545454546,
+        "gap_american_minus_southwest": -0.02793332750021882
+      },
+      {
+        "city": "Savannah, GA",
+        "american_flights": 1000,
+        "american_on_time_rate": 0.653,
+        "southwest_flights": 324,
+        "southwest_on_time_rate": 0.6265432098765432,
+        "gap_american_minus_southwest": 0.026456790123456808
+      },
+      {
+        "city": "Burbank, CA",
+        "american_flights": 705,
+        "american_on_time_rate": 0.6723404255319149,
+        "southwest_flights": 387,
+        "southwest_on_time_rate": 0.7131782945736435,
+        "gap_american_minus_southwest": -0.04083786904172859
+      }
+    ],
+    "dallas_weighted_gap_american_minus_southwest": -0.025628874844900233,
+    "dallas_pair_rule": "American-brand departures from DFW versus Southwest departures from DAL to the same BTS destination city, each side at least 200 operated flights. The gap is weighted by American's flights."
+  },
+  "lpm": [
+    {
+      "brand": "Alaska",
+      "gap_after_origin_dest_hour_month": -0.014502377098674293
+    },
+    {
+      "brand": "Allegiant",
+      "gap_after_origin_dest_hour_month": -0.04838954397449444
+    },
+    {
+      "brand": "American",
+      "gap_after_origin_dest_hour_month": -0.0036861479820003377
+    },
+    {
+      "brand": "Delta",
+      "gap_after_origin_dest_hour_month": 0.031224754431060597
+    },
+    {
+      "brand": "Frontier",
+      "gap_after_origin_dest_hour_month": -0.03554700366642987
+    },
+    {
+      "brand": "Hawaiian",
+      "gap_after_origin_dest_hour_month": -0.05169597271991375
+    },
+    {
+      "brand": "JetBlue",
+      "gap_after_origin_dest_hour_month": -0.022397510180017788
+    },
+    {
+      "brand": "Republic",
+      "gap_after_origin_dest_hour_month": 0.048485396997932216
+    },
+    {
+      "brand": "SkyWest",
+      "gap_after_origin_dest_hour_month": 0.00678437483208722
+    },
+    {
+      "brand": "Southwest",
+      "gap_after_origin_dest_hour_month": -0.04104106513029004
+    },
+    {
+      "brand": "Spirit",
+      "gap_after_origin_dest_hour_month": -0.03974629969918662
+    },
+    {
+      "brand": "United",
+      "gap_after_origin_dest_hour_month": 0.0449092646199241
+    }
+  ],
+  "logit": [
+    {
+      "brand": "Alaska",
+      "predicted_on_time_rate": 0.7587597559302857,
+      "gap_vs_sample_prediction": -0.009155966710058694
+    },
+    {
+      "brand": "Allegiant",
+      "predicted_on_time_rate": 0.7240637956205149,
+      "gap_vs_sample_prediction": -0.04385192701982943
+    },
+    {
+      "brand": "American",
+      "predicted_on_time_rate": 0.7678652187654881,
+      "gap_vs_sample_prediction": -5.050387485627805e-05
+    },
+    {
+      "brand": "Delta",
+      "predicted_on_time_rate": 0.8058702835267819,
+      "gap_vs_sample_prediction": 0.03795456088643756
+    },
+    {
+      "brand": "Frontier",
+      "predicted_on_time_rate": 0.7379796787268524,
+      "gap_vs_sample_prediction": -0.029936043913491917
+    },
+    {
+      "brand": "Hawaiian",
+      "predicted_on_time_rate": 0.7127795739939587,
+      "gap_vs_sample_prediction": -0.05513614864638561
+    },
+    {
+      "brand": "JetBlue",
+      "predicted_on_time_rate": 0.752417961244593,
+      "gap_vs_sample_prediction": -0.01549776139575132
+    },
+    {
+      "brand": "Republic",
+      "predicted_on_time_rate": 0.8166446803812845,
+      "gap_vs_sample_prediction": 0.048728957740940104
+    },
+    {
+      "brand": "SkyWest",
+      "predicted_on_time_rate": 0.7792277148160952,
+      "gap_vs_sample_prediction": 0.011311992175750851
+    },
+    {
+      "brand": "Southwest",
+      "predicted_on_time_rate": 0.7302704494114769,
+      "gap_vs_sample_prediction": -0.03764527322886746
+    },
+    {
+      "brand": "Spirit",
+      "predicted_on_time_rate": 0.7308552032636416,
+      "gap_vs_sample_prediction": -0.03706051937670274
+    },
+    {
+      "brand": "United",
+      "predicted_on_time_rate": 0.8114235423633174,
+      "gap_vs_sample_prediction": 0.04350781972297302
+    }
+  ],
+  "logit_rows": 980762,
+  "logit_rows_before_airport_floor": 985634,
+  "logit_converged": true,
+  "logit_iterations": 22,
+  "logit_sample": "about 1 in 7 operated flights, abs(hash(airline, origin, dest, date, flight number)) % 7 = 0, then origins and destinations with at least 80 sample flights",
+  "lpm_rows": 6895510,
+  "brand_names_in_lpm": [
+    "Alaska",
+    "Allegiant",
+    "American",
+    "Delta",
+    "Frontier",
+    "Hawaiian",
+    "JetBlue",
+    "Republic",
+    "SkyWest",
+    "Southwest",
+    "Spirit",
+    "United"
+  ],
+  "sample_brand_names": [
+    "Alaska",
+    "Allegiant",
+    "American",
+    "Delta",
+    "Frontier",
+    "Hawaiian",
+    "JetBlue",
+    "Republic",
+    "SkyWest",
+    "Southwest",
+    "Spirit",
+    "United"
+  ],
+  "sample_airports_kept": {
+    "origins": 303,
+    "destinations": 310
+  },
+  "unused_name_counts": {
+    "origins_in_sample": 357,
+    "destinations_in_sample": 359,
+    "months": 12
+  },
+  "definitions": {
+    "on_time": "Operated flight with arrival delay under 15 minutes. Exactly 15 minutes is late.",
+    "operated": "Not cancelled, not diverted, and arrival delay is present.",
+    "brand_rule": "American is AA, MQ, OH, PT. Delta is DL, 9E. United is UA, C5, G7, ZW. Alaska is AS, QX. Other marketing brands are their own reporting code. SkyWest (OO) and Republic (YX) are not assigned.",
+    "marketing_carrier_field": "The BTS reporting-carrier extract used here has no marketing-airline column. Checked on the July 2026 file header.",
+    "matched_minimum": 100,
+    "own_fault": "Carrier delay plus late-aircraft delay, divided by the five BTS cause columns, on late arrivals.",
+    "source": "BTS On-Time Performance, Aug 2025 to Jul 2026"
+  },
+  "charts": [
+    "analysis/dice_or_airline/charts/01_who_arrives_on_time.png",
+    "analysis/dice_or_airline/charts/02_busier_airports.png",
+    "analysis/dice_or_airline/charts/03_airline_still_shows.png",
+    "analysis/dice_or_airline/charts/04_whose_minutes.png"
+  ]
+}
