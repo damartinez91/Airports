@@ -1,10 +1,10 @@
 {
   "database_included": false,
-  "extract_bytes": 384382,
+  "extract_bytes": 543212,
   "flight_rows_published": 0,
   "omitted_database_bytes": 367538176,
   "question_count": 120,
   "review_note": "candidate answers pending Daniel's review",
-  "site_bytes": 795073,
+  "site_bytes": 1092450,
   "status": "DRAFT"
 }

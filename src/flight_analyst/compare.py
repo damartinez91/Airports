@@ -54,6 +54,7 @@ NAME_ALIASES = {
     "skywest": "OO",
     "skywest airlines": "OO",
     "skywest flies for several airlines": "OO",
+    "american brand": "AA",
     "envoy": "MQ",
     "envoy air": "MQ",
     "republic": "YX",
@@ -127,6 +128,33 @@ class EntityResolver:
         if re.fullmatch(r"[A-Za-z]{3}", text):
             return text.upper()
         key = _norm_text(text)
+        months = {
+            "january": 1,
+            "february": 2,
+            "march": 3,
+            "april": 4,
+            "may": 5,
+            "june": 6,
+            "july": 7,
+            "august": 8,
+            "september": 9,
+            "october": 10,
+            "november": 11,
+            "december": 12,
+        }
+        named_wednesdays = re.fullmatch(r"([a-z]+)\s+(\d{4})\s+wednesdays", key)
+        if named_wednesdays and named_wednesdays.group(1) in months:
+            month = months[named_wednesdays.group(1)]
+            return f"{named_wednesdays.group(2)}-{month:02d}-wednesdays"
+        numbered_wednesdays = re.fullmatch(r"(\d{4})\s+(\d{1,2})\s+wednesdays", key)
+        if numbered_wednesdays and 1 <= int(numbered_wednesdays.group(2)) <= 12:
+            return f"{numbered_wednesdays.group(1)}-{int(numbered_wednesdays.group(2)):02d}-wednesdays"
+        if "150k" in key and ("large" in key or "or more" in key):
+            return "150k_or_more"
+        if "10k" in key and "49" in key:
+            return "10k_to_49999"
+        if key in {"other carriers", "other carrier", "all other carriers"}:
+            return "other"
         if key in self.name_to_code:
             return self.name_to_code[key]
         for token in re.findall(r"\b([A-Za-z0-9]{2}|[A-Za-z]{3})\b", text):
@@ -179,45 +207,71 @@ def _numeric_columns(row: dict, columns: list[str]) -> list[str]:
     return [column for column in columns if _is_number(row.get(column))]
 
 
-def _match_values(actual_row: dict, expected_row: dict, specs: list[dict], columns: list[str]) -> tuple[bool, str]:
-    if not specs:
-        return True, ""
-    numeric = _numeric_columns(actual_row, columns)
-    alias_hits = []
-    for spec in specs:
-        aliases = _alias_set(spec)
-        hit = next((column for column in numeric if column.lower() in aliases), None)
-        alias_hits.append(hit)
-    if all(alias_hits):
-        chosen = alias_hits
-        if all(_close(actual_row.get(column), expected_row.get(spec["name"]), spec, column) for spec, column in zip(specs, chosen)):
-            return True, ""
-        detail = _value_detail(actual_row, expected_row, specs, chosen)
-        return False, detail
-
-    def window_ok(chosen: list[str]) -> bool:
-        return all(
-            _close(actual_row.get(column), expected_row.get(spec["name"]), spec, column)
-            for spec, column in zip(specs, chosen)
-        )
-
-    if len(numeric) >= len(specs):
-        prefix = numeric[: len(specs)]
-        suffix = numeric[-len(specs) :]
-        if window_ok(prefix) or window_ok(suffix):
-            return True, ""
-        detail = _value_detail(actual_row, expected_row, specs, prefix)
-        return False, detail
-    return False, "not enough numeric columns"
+def _rate_flip(actual, expected, spec) -> bool:
+    """True when a fraction is the late share instead of the on-time share."""
+    if spec.get("unit") != "fraction":
+        return False
+    if not _is_number(actual) or not _is_number(expected):
+        return False
+    tolerance = float(spec["tolerance"])
+    complement = 1.0 - float(expected)
+    options = [float(actual)]
+    if abs(float(actual)) > 1.5:
+        options.append(float(actual) / 100.0)
+    return any(abs(option - complement) <= tolerance + 1e-9 for option in options)
 
 
 def _value_detail(actual_row, expected_row, specs, columns) -> str:
     bits = []
     for spec, column in zip(specs, columns):
-        bits.append(
-            f"{spec['name']} expected {expected_row.get(spec['name'])} actual {actual_row.get(column)}"
-        )
+        actual = actual_row.get(column) if column else None
+        expected = expected_row.get(spec["name"])
+        note = " late-vs-on-time flip" if column and _rate_flip(actual, expected, spec) else ""
+        bits.append(f"{spec['name']} expected {expected} actual {actual}{note}")
     return "; ".join(bits)
+
+
+def _match_values(actual_row: dict, expected_row: dict, specs: list[dict], columns: list[str]) -> tuple[bool, str]:
+    if not specs:
+        return True, ""
+    numeric = _numeric_columns(actual_row, columns)
+    chosen = []
+    missing = []
+    for spec in specs:
+        aliases = _alias_set(spec)
+        hit = next((column for column in numeric if column.lower() in aliases), None)
+        if hit:
+            chosen.append(hit)
+        else:
+            chosen.append(None)
+            missing.append(spec["name"])
+    if not missing:
+        if all(
+            _close(actual_row.get(column), expected_row.get(spec["name"]), spec, column)
+            for spec, column in zip(specs, chosen)
+        ):
+            return True, ""
+        return False, _value_detail(actual_row, expected_row, specs, chosen)
+
+    def window_ok(picked: list[str]) -> bool:
+        return all(
+            _close(actual_row.get(column), expected_row.get(spec["name"]), spec, column)
+            for spec, column in zip(specs, picked)
+        )
+
+    # Positional alignment only when no metric name matched. A named metric
+    # beside an unnamed extra column is not a substitute for a missing one.
+    if chosen.count(None) == len(specs) and len(numeric) >= len(specs):
+        prefix = numeric[: len(specs)]
+        suffix = numeric[-len(specs) :]
+        if window_ok(prefix):
+            return True, ""
+        if suffix != prefix and window_ok(suffix):
+            return True, ""
+        return False, _value_detail(actual_row, expected_row, specs, prefix)
+    if missing:
+        return False, "missing " + ", ".join(missing)
+    return False, "not enough numeric columns"
 
 
 def _label_candidates(rows: list[dict], columns: list[str]) -> list[tuple[str, list]]:
@@ -236,19 +290,71 @@ def _label_candidates(rows: list[dict], columns: list[str]) -> list[tuple[str, l
     return candidates
 
 
+def _refine_label(value, resolver: EntityResolver, expected_set: set[str]) -> str | None:
+    label = resolver.canon(value)
+    if label in expected_set:
+        return label
+    text = str(value).strip() if value is not None and not isinstance(value, bool) else ""
+    if re.fullmatch(r"\d{1,2}", text):
+        hour = f"hour_{int(text):02d}"
+        if hour in expected_set:
+            return hour
+    named_month = re.fullmatch(r"(\d{1,2})\s*\(\s*([A-Za-z]+)\s*\)", text)
+    if named_month:
+        month_names = {
+            "january": 1, "february": 2, "march": 3, "april": 4, "may": 5, "june": 6,
+            "july": 7, "august": 8, "september": 9, "october": 10, "november": 11, "december": 12,
+        }
+        month_number = month_names.get(named_month.group(2).lower())
+        if month_number:
+            hits = [item for item in expected_set if re.fullmatch(rf"\d{{4}}-{month_number:02d}", str(item))]
+            if len(hits) == 1:
+                return hits[0]
+    return label
+
+
+def _month_labels(rows: list[dict], expected: list[str]) -> list[str | None]:
+    """Map a month column onto YYYY-MM when that candidate label is the only match."""
+    labels = []
+    for row in rows:
+        month = row.get("month")
+        found = None
+        if isinstance(month, (int, float)) and not isinstance(month, bool) and float(month).is_integer():
+            month_number = int(month)
+            year = row.get("year")
+            hits = []
+            for label in expected:
+                match = re.fullmatch(r"(\d{4})-(\d{2})", str(label))
+                if not match or int(match.group(2)) != month_number:
+                    continue
+                if year is None or int(year) == int(match.group(1)):
+                    hits.append(label)
+            if len(hits) == 1:
+                found = hits[0]
+        labels.append(found)
+    return labels
+
+
 def _choose_labels(rows, columns, resolver: EntityResolver, expected: list[str]) -> list[str] | None:
     expected_set = set(expected)
     best_name = None
     best_labels: list[str] | None = None
     best_score = -1
-    for name, raw_values in _label_candidates(rows, columns):
-        labels = [resolver.canon(value) for value in raw_values]
-        if any(label is None for label in labels):
-            continue
+    best_bonus = -1
+    candidates = _label_candidates(rows, columns)
+    month_labels = _month_labels(rows, expected)
+    if any(month_labels):
+        candidates.append(("month-number", month_labels))
+    for name, raw_values in candidates:
+        if name == "month-number":
+            labels = list(raw_values)
+        else:
+            labels = [_refine_label(value, resolver, expected_set) for value in raw_values]
         score = sum(1 for label in labels if label in expected_set)
         bonus = 1 if name == "label" else 0
-        if score > best_score or (score == best_score and bonus and best_name != "label"):
+        if score > best_score or (score == best_score and bonus > best_bonus):
             best_score = score
+            best_bonus = bonus
             best_name = name
             best_labels = labels
     if best_labels is None or best_score <= 0:
@@ -256,7 +362,24 @@ def _choose_labels(rows, columns, resolver: EntityResolver, expected: list[str])
     return best_labels
 
 
+def _spec_value(row: dict, spec: dict, columns: list[str]):
+    numeric = _numeric_columns(row, columns)
+    aliases = _alias_set(spec)
+    hit = next((column for column in numeric if column.lower() in aliases), None)
+    if hit is None:
+        return None
+    return row.get(hit)
+
+
 def compare_result(question: dict, result, resolver: EntityResolver | None = None) -> Comparison:
+    """Grade required rows.
+
+    Every candidate row has to be present, with its numbers inside the existing
+    tolerance. On a ranking the literal answer is the first row, and the required
+    labels stay in that order. Extra rows are allowed: major carriers, the other
+    direction, and other documented cuts. An extra copy of a required entity, or
+    two copies of any other entity, fail when the numbers disagree.
+    """
     resolver = resolver or EntityResolver()
     if question.get("answer_type") == "refusal":
         if result.refused and not result.rows:
@@ -268,65 +391,107 @@ def compare_result(question: dict, result, resolver: EntityResolver | None = Non
     expected_rows = question.get("expected", {}).get("rows", [])
     if not rows:
         return Comparison(False, "empty", "Analyst SQL returned no rows.")
-    if len(rows) != len(expected_rows):
-        return Comparison(
-            False,
-            "shape",
-            f"Expected {len(expected_rows)} rows and got {len(rows)}.",
-        )
 
     keyed = bool(question.get("key_columns"))
-    expected_labels = [resolver.canon(row.get("label")) for row in expected_rows] if keyed else []
+    raw_expected = [row.get("label") for row in expected_rows] if keyed else []
+    expected_labels = [resolver.canon(label) for label in raw_expected] if keyed else []
     if keyed and any(label is None for label in expected_labels):
         return Comparison(False, "key_mismatch", "Candidate label could not be resolved.", expected_labels, [])
     actual_labels = _choose_labels(rows, columns, resolver, expected_labels) if keyed else [""] * len(rows)
     if keyed and actual_labels is None:
-        return Comparison(False, "key_mismatch", "No result column matched the candidate entities.", expected_labels, [])
+        # One unlabeled row can still be the scalar answer when its numbers match.
+        unlabeled = len(rows) == 1 and resolver.canon(rows[0].get("label")) is None
+        if unlabeled and len(expected_rows) == 1:
+            ok, detail = _match_values(rows[0], expected_rows[0], question.get("values") or [], columns)
+            if ok:
+                actual_labels = list(expected_labels)
+            else:
+                reason = "no_numeric" if "numeric" in detail else "value_mismatch"
+                return Comparison(False, reason, detail, expected_labels, [])
+        else:
+            return Comparison(False, "key_mismatch", "No result column matched the candidate entities.", expected_labels, [])
 
     specs = question.get("values") or []
-    order = question.get("answer_type") == "ranking"
-
-    def values_for(alignment: list[tuple[int, int]]) -> tuple[bool, str]:
-        for actual_index, expected_index in alignment:
-            ok, detail = _match_values(rows[actual_index], expected_rows[expected_index], specs, columns)
-            if not ok:
-                return False, detail or "values differed"
-        return True, ""
 
     if not keyed:
-        ok, detail = values_for([(0, 0)] if len(rows) == 1 else list(enumerate(range(len(rows)))))
-        # Unkeyed questions in this bank are not used; keep a direct row-order check.
-        if len(rows) != 1:
+        if len(expected_rows) != 1:
             return Comparison(False, "shape", "Unkeyed comparison expected one row.")
         ok, detail = _match_values(rows[0], expected_rows[0], specs, columns)
         if ok:
             return Comparison(True, "ok", "Metrics match.")
-        return Comparison(False, "value_mismatch" if "numeric" not in detail else "no_numeric", detail)
+        reason = "no_numeric" if "numeric" in detail else "value_mismatch"
+        return Comparison(False, reason, detail)
 
-    pairs = {label: index for index, label in enumerate(actual_labels)}
-    if len(pairs) != len(actual_labels):
-        return Comparison(False, "key_mismatch", "Duplicate labels in the analyst result.", expected_labels, actual_labels)
-    if set(actual_labels) != set(expected_labels):
+    expected_set = set(expected_labels)
+    present = set(actual_labels)
+    missing = [str(raw) for raw, label in zip(raw_expected, expected_labels) if label not in present]
+    if missing:
         return Comparison(
             False,
             "key_mismatch",
-            f"Expected labels {expected_labels} and got {actual_labels}.",
+            f"Missing required labels {missing}. Expected {raw_expected}, got {actual_labels}.",
             expected_labels,
             actual_labels,
         )
-    alignment = [(pairs[label], index) for index, label in enumerate(expected_labels)]
-    ok, detail = values_for(alignment)
-    if not ok:
-        reason = "no_numeric" if "numeric" in detail else "value_mismatch"
-        return Comparison(False, reason, detail, expected_labels, actual_labels)
-    if order and actual_labels != expected_labels:
-        return Comparison(
-            False,
-            "order_mismatch",
-            f"Entities match but order differs. Expected {expected_labels}, got {actual_labels}.",
-            expected_labels,
-            actual_labels,
-        )
+
+    expected_by_label = {}
+    for label, row in zip(expected_labels, expected_rows):
+        expected_by_label.setdefault(label, row)
+    for label, expected_row in expected_by_label.items():
+        matched = [index for index, actual in enumerate(actual_labels) if actual == label]
+        for index in matched:
+            ok, detail = _match_values(rows[index], expected_row, specs, columns)
+            if not ok:
+                reason = "no_numeric" if "numeric" in detail else "value_mismatch"
+                return Comparison(False, reason, f"{label}: {detail}", expected_labels, actual_labels)
+
+    extras: dict[str, list[int]] = {}
+    for index, label in enumerate(actual_labels):
+        if label is None or label in expected_set:
+            continue
+        extras.setdefault(label, []).append(index)
+    for label, indexes in extras.items():
+        if len(indexes) < 2:
+            continue
+        for spec in specs:
+            values = [(index, _spec_value(rows[index], spec, columns)) for index in indexes]
+            present_values = [(index, value) for index, value in values if value is not None]
+            if len(present_values) < 2:
+                continue
+            base = present_values[0][1]
+            for index, value in present_values[1:]:
+                if not _close(value, base, spec, spec["name"]):
+                    return Comparison(
+                        False,
+                        "value_mismatch",
+                        f"Contradictory extra values for {label}: {spec['name']} {base} and {value}.",
+                        expected_labels,
+                        actual_labels,
+                    )
+
+    if question.get("answer_type") == "ranking":
+        if actual_labels[0] != expected_labels[0]:
+            return Comparison(
+                False,
+                "order_mismatch",
+                f"The literal answer was not first. Expected {expected_labels[0]} first, got {actual_labels}.",
+                expected_labels,
+                actual_labels,
+            )
+        collapsed = []
+        seen = set()
+        for label in actual_labels:
+            if label in expected_set and label not in seen:
+                collapsed.append(label)
+                seen.add(label)
+        if collapsed != expected_labels:
+            return Comparison(
+                False,
+                "order_mismatch",
+                f"Required ranking order differs. Expected {expected_labels}, got {actual_labels}.",
+                expected_labels,
+                actual_labels,
+            )
     return Comparison(True, "ok", "Metrics match.", expected_labels, actual_labels)
 
 
@@ -335,11 +500,37 @@ _NUDGE = re.compile(r"follow-up\s*:", re.IGNORECASE)
 _READING = re.compile(r"i read this as", re.IGNORECASE)
 
 
-def prose_rubric(question: dict, answer_text: str | None) -> tuple[bool, str, bool]:
+def _label_mentioned(label: str, text: str, resolver: EntityResolver) -> bool:
+    if label.lower() in text.lower():
+        return True
+    target = resolver.canon(label)
+    if not target:
+        return False
+    if re.search(rf"\b{re.escape(target)}\b", text, flags=re.IGNORECASE):
+        return True
+    low = f" {_norm_text(text)} "
+    for alias, code in resolver.name_to_code.items():
+        if code == target and alias and f" {alias} " in low:
+            return True
+    for line in text.splitlines():
+        head = line.split(":", 1)[0].strip()
+        if resolver.canon(head) == target:
+            return True
+        if re.fullmatch(r"\d{1,2}", head) and target == f"hour_{int(head):02d}":
+            return True
+        if target and _refine_label(head, resolver, {target}) == target:
+            return True
+    month = re.fullmatch(r"(\d{4})-(\d{2})", target or "")
+    if month and re.search(rf"\bmonth\s+0?{int(month.group(2))}\b", text, flags=re.IGNORECASE):
+        return True
+    return False
+
+
+def prose_rubric(question: dict, answer_text: str | None, resolver: EntityResolver | None = None) -> tuple[bool, str, bool]:
     """Check the spoken answer. The third value is the advisory nudge, not a pass/fail.
 
-    Ambiguous questions need the literal labels, a stated reading, and a unit.
-    Every expected label has to appear, so a number for one item is not enough.
+    Ambiguous questions need the required entities, a stated reading, and a unit.
+    A code, a known name, or the same canon label counts. Extra entities are fine.
     """
     text = answer_text or ""
     nudge = bool(_NUDGE.search(text))
@@ -348,7 +539,14 @@ def prose_rubric(question: dict, answer_text: str | None) -> tuple[bool, str, bo
     rows = (question.get("expected") or {}).get("rows") or []
     if not rows:
         return True, "", nudge
-    missing = [str(row.get("label")) for row in rows if str(row.get("label", "")).lower() not in text.lower()]
+    resolver = resolver or EntityResolver()
+    missing = []
+    for row in rows:
+        label = str(row.get("label", ""))
+        if label.lower() == "systemwide" and len(rows) == 1:
+            continue
+        if not _label_mentioned(label, text, resolver):
+            missing.append(label)
     if missing:
         return False, "The answer left out " + ", ".join(missing) + ".", nudge
     if not _UNIT_WORDS.search(text):
@@ -381,3 +579,51 @@ def categorize(question: dict, result, comparison: Comparison | None) -> str | N
     if comparison.reason in {"key_mismatch", "shape", "empty", "no_numeric", "not_refused"}:
         return "misread_question"
     return "error"
+
+
+_NUMBER_FIELD = re.compile(
+    r"\b([A-Za-z_][A-Za-z0-9_]*)\s+"
+    r"([-+]?(?:\d+(?:\.\d*)?|\.\d+))"
+    r"(?:\s+(percent|minutes|flights))?"
+)
+_CODE_FIELD = re.compile(r"\b(airline_code|origin|dest)\s+([A-Za-z0-9]{2,3})\b")
+_TEXT_FIELD = re.compile(
+    r"\b(dep_time_bucket|season|category|route|airline_name|airport_name|origin_airport_name|dest_airport_name|who)\s+([^,\n]+)"
+)
+_SKIP_LABEL = re.compile(r"^(?:i read|units|follow-up)\b", re.IGNORECASE)
+
+
+def rows_from_answer(text: str) -> tuple[list[dict], list[str]]:
+    """Rebuild result rows from a saved spoken answer. Percent figures become fractions."""
+    rows = []
+    for raw in (text or "").splitlines():
+        line = raw.strip()
+        if ":" not in line:
+            continue
+        label, rest = line.split(":", 1)
+        label = label.strip()
+        if _SKIP_LABEL.match(label):
+            continue
+        fields: dict = {}
+        for match in _NUMBER_FIELD.finditer(rest):
+            name, num, unit = match.group(1), match.group(2), match.group(3)
+            if unit == "percent":
+                value = float(num) / 100.0
+            elif "." in num:
+                value = float(num)
+            else:
+                value = int(num)
+            fields[name] = value
+        for match in _CODE_FIELD.finditer(rest):
+            fields[match.group(1)] = match.group(2)
+        for match in _TEXT_FIELD.finditer(rest):
+            fields[match.group(1)] = match.group(2).strip()
+        if not fields:
+            continue
+        rows.append({"label": label, **fields})
+    columns: list[str] = []
+    for row in rows:
+        for key in row:
+            if key not in columns:
+                columns.append(key)
+    return rows, columns

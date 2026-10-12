@@ -78,7 +78,7 @@ def build_bank(con, data_window: dict | None = None) -> dict:
             for spec in question["values"]:
                 if row.get(spec["name"]) is None:
                     raise RuntimeError(f"{question['id']} has a null {spec['name']}: {question['question']}")
-        question["expected"] = {"rows": rows}
+        question["expected"] = {"rows": rows, "match": "required_present"}
         built.append(question)
     return {
         "status": "DRAFT",

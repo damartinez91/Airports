@@ -30,7 +30,7 @@ The live ask process is not a page. It stays off unless `LIVE_ASK=1`, and this m
 | Chart | Top of Compare | One dot per saved run. Horizontal axis is cost per 100 questions. Vertical axis is accuracy on every scored question. Pending providers are not dots |
 | Saved-run table | Under the chart | Model, provider, both accuracies, cost per 100, price source. A provider with no file says pending |
 | Question menu | Under "One question, each saved answer" | Picks the question. A hash such as `#q007` selects that question on load |
-| Model buttons | Under the menu | Switches the saved answer. With only the stub, one button is pressed |
+| Model buttons | Under the menu | Switches the saved answer. Stub and Claude Haiku 4.5 are both saved. Press each one and confirm the answer and the receipt change |
 | Grade line | Under the buttons | Matched, or the miss label |
 | Cost receipt | Under the grade | This answer's list-price cost, tokens, latency, and the dearest saved model on that question. A single saved run says a top-model comparison is pending |
 | Answer | Under the receipt | The saved prose for that model and question |

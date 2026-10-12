@@ -39,6 +39,7 @@ TOLERANCE_PERCENTAGE_POINTS = 0.05
 # Sentences that must appear in docs/definitions.md and in the analyst briefing.
 DOC_PHRASES = [
     "A flight is on time when its arrival delay is under 15 minutes.",
+    "The on-time arrival rate is the share of operated flights that arrive under 15 minutes late, not the share that are late.",
     "Operated flights are not cancelled, not diverted, and have a non-null arrival delay.",
     "Cancelled and diverted flights are left out of the on-time arrival denominator.",
     "On-time departure means the flight was not cancelled, the departure delay is non-null, and that delay is under 15 minutes.",
@@ -81,6 +82,7 @@ DOC_PHRASES = [
     "Brand figures are shown with operating partners and without them. This extract has no marketing-airline column, so SkyWest and Republic stay unassigned.",
     "A question that asks which airline is most on time out of an airport returns the literal winner and the major carriers at that airport. Major carriers are the top 3 by operated departures, plus any further carriers needed so the listed majors cover about 80 percent of operated departures. Each of those rows has the on-time arrival rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines).",
     "When Hawaiian is in a systemwide on-time ranking, the answer notes that Hawaiian benefits from island weather.",
+    "Do not put a window function in a WHERE clause. Put the window in a CTE, or filter the window with QUALIFY.",
     "status is DRAFT",
     "candidate answers pending Daniel's review",
 ]

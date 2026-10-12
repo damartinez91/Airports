@@ -3,12 +3,21 @@
 from __future__ import annotations
 
 import json
+import re
 from datetime import datetime, timezone
 from pathlib import Path
+from types import SimpleNamespace
 
 from flight_analyst.analyst import Analyst
 from flight_analyst.bank import load_bank
-from flight_analyst.compare import Comparison, EntityResolver, categorize, compare_result, prose_rubric
+from flight_analyst.compare import (
+    Comparison,
+    EntityResolver,
+    categorize,
+    compare_result,
+    prose_rubric,
+    rows_from_answer,
+)
 from flight_analyst.definitions import GRADER_RUBRIC
 from flight_analyst.ingest import connect_readonly
 from flight_analyst.paths import BANK_PATH, DB_PATH, REPORTS_DIR, RESULTS_DIR
@@ -90,6 +99,63 @@ def model_run_document(report: dict) -> dict:
         },
         "results": results,
     }
+
+
+def regrade_saved_run(document: dict, bank: dict, resolver: EntityResolver | None = None) -> dict:
+    """Score a saved model-run file from its spoken answers. Does not call a model."""
+    resolver = resolver or EntityResolver()
+    by_id = {item["id"]: item for item in bank["questions"]}
+    results = []
+    for row in document["results"]:
+        item = by_id[row["id"]]
+        answer = row.get("answer") or ""
+        parsed_rows, columns = rows_from_answer(answer)
+        outcome = SimpleNamespace(
+            rows=parsed_rows,
+            columns=columns,
+            answer_text=answer,
+            refused=False,
+            sql=None,
+            sql_error=None,
+            infrastructure_error=None,
+        )
+        if item.get("answer_type") == "refusal" and not parsed_rows and not re.search(r"\berror\b", answer, re.IGNORECASE):
+            outcome.refused = True
+        elif not parsed_rows and re.match(r"(?i)\s*(?:binder |parser |catalog |conversion )?error\b", answer):
+            outcome.sql_error = (answer.splitlines() or ["SQL error"])[0][:500]
+        elif parsed_rows or "i read this as" in answer.lower():
+            outcome.sql = "parsed-from-answer"
+        comparison = compare_result(item, outcome, resolver)
+        prose_ok, prose_detail, _nudge = prose_rubric(item, answer, resolver)
+        failure = categorize(item, outcome, comparison)
+        detail = comparison.detail if comparison else ""
+        if outcome.sql_error and failure == "wrong_sql":
+            detail = outcome.sql_error
+        if failure is None and not prose_ok:
+            failure = "misread_question"
+            detail = prose_detail
+        updated = dict(row)
+        updated["grade"] = {
+            "passed": failure is None,
+            "failure_category": failure,
+            "detail": detail,
+        }
+        results.append(updated)
+
+    def block(rows: list[dict]) -> dict:
+        graded = [row for row in rows if "grade" in row]
+        n_correct = sum(int(row["grade"]["passed"]) for row in graded)
+        n = len(graded)
+        return {"n": n, "n_correct": n_correct, "accuracy": round(n_correct / n, 6) if n else None}
+
+    summary = dict(document.get("summary") or {})
+    summary["all"] = block(results)
+    summary["approved"] = block([row for row in results if row.get("status") == "APPROVED"])
+    rewritten = dict(document)
+    rewritten["summary"] = summary
+    rewritten["results"] = results
+    rewritten["graded_by"] = "required_present"
+    return rewritten
 
 
 def write_model_run(report: dict, path: Path) -> Path:

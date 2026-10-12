@@ -4056,40 +4056,10 @@
             "who": "DL"
           },
           {
-            "label": "brand_skywest_unassigned",
-            "n": 21812,
-            "on_time_rate": 0.771548,
-            "who": "brand_skywest_unassigned"
-          },
-          {
-            "label": "brand_frontier",
-            "n": 10195,
-            "on_time_rate": 0.742717,
-            "who": "brand_frontier"
-          },
-          {
-            "label": "brand_united",
-            "n": 9785,
-            "on_time_rate": 0.761472,
-            "who": "brand_united"
-          },
-          {
             "label": "brand_alaska",
             "n": 2393,
             "on_time_rate": 0.748851,
             "who": "brand_alaska"
-          },
-          {
-            "label": "brand_spirit",
-            "n": 3612,
-            "on_time_rate": 0.745017,
-            "who": "brand_spirit"
-          },
-          {
-            "label": "brand_delta",
-            "n": 11358,
-            "on_time_rate": 0.809473,
-            "who": "brand_delta"
           },
           {
             "label": "brand_american",
@@ -4098,10 +4068,40 @@
             "who": "brand_american"
           },
           {
+            "label": "brand_delta",
+            "n": 11358,
+            "on_time_rate": 0.809473,
+            "who": "brand_delta"
+          },
+          {
+            "label": "brand_frontier",
+            "n": 10195,
+            "on_time_rate": 0.742717,
+            "who": "brand_frontier"
+          },
+          {
             "label": "brand_jetblue",
             "n": 403,
             "on_time_rate": 0.662531,
             "who": "brand_jetblue"
+          },
+          {
+            "label": "brand_skywest_unassigned",
+            "n": 21812,
+            "on_time_rate": 0.771548,
+            "who": "brand_skywest_unassigned"
+          },
+          {
+            "label": "brand_spirit",
+            "n": 3612,
+            "on_time_rate": 0.745017,
+            "who": "brand_spirit"
+          },
+          {
+            "label": "brand_united",
+            "n": 9785,
+            "on_time_rate": 0.761472,
+            "who": "brand_united"
           }
         ],
         "truncated": false
@@ -4118,36 +4118,36 @@
             "value": 0.809473
           },
           {
-            "label": "brand_skywest_unassigned",
-            "value": 0.771548
-          },
-          {
-            "label": "brand_frontier",
-            "value": 0.742717
-          },
-          {
-            "label": "brand_united",
-            "value": 0.761472
-          },
-          {
             "label": "brand_alaska",
             "value": 0.748851
-          },
-          {
-            "label": "brand_spirit",
-            "value": 0.745017
-          },
-          {
-            "label": "brand_delta",
-            "value": 0.809473
           },
           {
             "label": "brand_american",
             "value": 0.709824
           },
           {
+            "label": "brand_delta",
+            "value": 0.809473
+          },
+          {
+            "label": "brand_frontier",
+            "value": 0.742717
+          },
+          {
             "label": "brand_jetblue",
             "value": 0.662531
+          },
+          {
+            "label": "brand_skywest_unassigned",
+            "value": 0.771548
+          },
+          {
+            "label": "brand_spirit",
+            "value": 0.745017
+          },
+          {
+            "label": "brand_united",
+            "value": 0.761472
           }
         ],
         "type": "bar",

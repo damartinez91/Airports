@@ -246,19 +246,27 @@ branded AS (
     GROUP BY 1
     HAVING COUNT(*) >= {MIN_AIRLINE_AT_AIRPORT}
 )
-SELECT 'reporting_best' AS label,
-       CASE airline_code WHEN 'MQ' THEN 'Envoy (American Eagle)' ELSE airline_code END AS who,
-       on_time_rate,
-       n
-FROM best_reporting
-UNION ALL
-SELECT 'mainline_best' AS label,
-       airline_code AS who,
-       on_time_rate,
-       n
-FROM best_mainline
-UNION ALL
-SELECT label, label AS who, on_time_rate, n FROM branded"""
+SELECT * FROM (
+    SELECT 'reporting_best' AS label,
+           CASE airline_code WHEN 'MQ' THEN 'Envoy (American Eagle)' ELSE airline_code END AS who,
+           on_time_rate,
+           n
+    FROM best_reporting
+    UNION ALL
+    SELECT 'mainline_best' AS label,
+           airline_code AS who,
+           on_time_rate,
+           n
+    FROM best_mainline
+    UNION ALL
+    SELECT label, label AS who, on_time_rate, n FROM branded
+) cuts
+ORDER BY CASE label
+             WHEN 'reporting_best' THEN 0
+             WHEN 'mainline_best' THEN 1
+             ELSE 2
+         END,
+         label ASC"""
 
 
 def sql_dfw_ord_both_ways() -> str:

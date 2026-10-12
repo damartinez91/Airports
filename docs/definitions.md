@@ -4,6 +4,8 @@ These are the draft conventions for this project. Candidate answers in `question
 
 A flight is on time when its arrival delay is under 15 minutes.
 
+The on-time arrival rate is the share of operated flights that arrive under 15 minutes late, not the share that are late.
+
 That is the US Department of Transportation cut: a delay of exactly 15 minutes is late. The project applies it to arrival, not departure, unless a question says otherwise.
 
 Operated flights are not cancelled, not diverted, and have a non-null arrival delay.
@@ -103,6 +105,8 @@ Brand figures are shown with operating partners and without them. This extract h
 A question that asks which airline is most on time out of an airport returns the literal winner and the major carriers at that airport. Major carriers are the top 3 by operated departures, plus any further carriers needed so the listed majors cover about 80 percent of operated departures. Each of those rows has the on-time arrival rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines).
 
 When Hawaiian is in a systemwide on-time ranking, the answer notes that Hawaiian benefits from island weather.
+
+Do not put a window function in a WHERE clause. Put the window in a CTE, or filter the window with QUALIFY.
 
 The July 2026 reporting-carrier header has `Reporting_Airline` and no marketing-airline column. Envoy, PSA, and Piedmont can roll into American because they fly for one brand. SkyWest and Republic fly for more than one brand, and this file cannot assign those flights to a marketing brand.
 
