@@ -10,12 +10,14 @@ from __future__ import annotations
 
 import html
 import json
+import re
 import shutil
 from pathlib import Path
 
 from flight_analyst.analyst import _chart
 from flight_analyst.bank import REVIEW_NOTE, load_bank
-from flight_analyst.paths import BANK_PATH, DB_PATH, REPORTS_DIR, ROOT, SITE_DIR
+from flight_analyst.paths import BANK_PATH, DB_PATH, REPORTS_DIR, RESULTS_DIR, ROOT, SITE_DIR
+from flight_analyst.pricing import SCHEMA_VERSION
 from flight_analyst.scoreboard import render_scoreboard
 
 _ROW_CAP = 12
@@ -56,7 +58,8 @@ def _format_value(name: str, value: object) -> str:
         return "true" if value else "false"
     if isinstance(value, (int, float)) and not isinstance(value, bool):
         lowered = name.lower()
-        if any(token in lowered for token in ("rate", "share", "pct", "percent")):
+        # Match rate/share as a whole word so "operated_flights" is a count.
+        if re.search(r"(?:^|_)(?:rate|share|pct|percent)(?:_|$)", lowered):
             return f"{float(value) * 100:.1f}%"
         if isinstance(value, float):
             text = f"{value:.2f}".rstrip("0").rstrip(".")
@@ -227,6 +230,7 @@ def _question_card(item: dict) -> str:
     why = f"<h3>What the codes cannot say</h3><p>{_esc(item['why_limit'])}</p>" if item.get("why_limit") else ""
     floor = f"<h3>Minimum flights</h3><p>{_esc(item['minimum_rule'])}</p>" if item.get("minimum_rule") else ""
     follow = f"<h3>Likely follow-up</h3><p>{_esc(item.get('follow_up') or '')}</p>" if item.get("follow_up") else ""
+    compare = f"<p class='meta'><a href='../compare/#{_esc(item['id'], quote=True)}'>Compare saved models on this question</a></p>"
     return (
         f"<article class='question' id='{_esc(item['id'], quote=True)}' "
         f"data-difficulty='{_esc(item['difficulty'], quote=True)}' "
@@ -243,6 +247,7 @@ def _question_card(item: dict) -> str:
         f"{why}"
         f"{floor}"
         f"{follow}"
+        f"{compare}"
         f"{sql_block}"
         "</article>"
     )
@@ -254,6 +259,7 @@ def _nav(prefix: str) -> str:
         f"<a href='{prefix}index.html'>Overview</a>"
         f"<a href='{prefix}explore/'>Explore</a>"
         f"<a href='{prefix}scoreboard/'>Scoreboard</a>"
+        f"<a href='{prefix}compare/'>Compare</a>"
         "</nav>"
     )
 
@@ -287,6 +293,9 @@ pre { white-space: pre-wrap; font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo,
 .track { background: #efe6d2; height: 10px; }
 .fill { display: block; height: 10px; background: #8c4a2f; }
 article[hidden] { display: none; }
+.scatter { background: white; border: 1px solid #e2dccd; padding: 12px; }
+.switcher button { margin: 0 6px 6px 0; }
+#answer { white-space: pre-wrap; background: white; border: 1px solid #e2dccd; padding: 12px; }
 .table-wrap { overflow-x: auto; }
 @media (max-width: 700px) { .cards { grid-template-columns: 1fr; } .bar { grid-template-columns: 4.5rem 1fr auto; } }
 """
@@ -359,6 +368,7 @@ def _overview(bank: dict, manifest_hint: str) -> str:
 <div class="cards">
   <a href="explore/"><strong>Explore</strong> Draft candidate answers, charts, and reference SQL for the question bank.</a>
   <a href="scoreboard/"><strong>Scoreboard</strong> Latest eval: overall accuracy, difficulty, and misses with both SQL statements.</a>
+  <a href="compare/"><strong>Compare</strong> Price against accuracy, and a switcher for each saved answer with its cost.</a>
 </div>
 <p class="meta">{_esc(manifest_hint)} Live questions are a separate process and are off on this site.</p>
 """,
@@ -397,10 +407,232 @@ def _directory_bytes(dest: Path) -> int:
     return sum(path.stat().st_size for path in dest.rglob("*") if path.is_file())
 
 
+_PENDING_MODELS = (
+    ("anthropic", "A cheap, a mid, and a top Claude model"),
+    ("openai", "An OpenAI model"),
+    ("xai", "An xAI Grok model"),
+    ("local", "Daniel's local Qwen"),
+)
+
+
+def load_model_runs(results_dir: Path | None = None) -> list[dict]:
+    folder = results_dir if results_dir is not None else RESULTS_DIR
+    runs = []
+    if not folder.exists():
+        return runs
+    for path in sorted(folder.glob("*.json")):
+        try:
+            payload = json.loads(path.read_text())
+        except json.JSONDecodeError:
+            continue
+        if payload.get("schema_version") != SCHEMA_VERSION:
+            continue
+        if not isinstance(payload.get("results"), list):
+            continue
+        runs.append(payload)
+    return runs
+
+
+def _money(value: object) -> str:
+    if not isinstance(value, (int, float)) or isinstance(value, bool):
+        return "n/a"
+    return f"${float(value):.4f}"
+
+
+def _pct(value: object) -> str:
+    if not isinstance(value, (int, float)) or isinstance(value, bool):
+        return "n/a"
+    return f"{float(value) * 100:.1f}%"
+
+
+def _compare_page(questions: list[dict], runs: list[dict], review_note: str) -> str:
+    saved_providers = {str(run.get("provider") or "") for run in runs}
+    rows = []
+    for run in runs:
+        summary = run.get("summary") or {}
+        overall = summary.get("all") or {}
+        approved = summary.get("approved") or {}
+        price = run.get("price") or {}
+        rows.append(
+            "<tr>"
+            f"<td>{_esc(run.get('model'))}</td>"
+            f"<td>{_esc(run.get('provider'))}</td>"
+            f"<td>{_esc(_pct(overall.get('accuracy')))}</td>"
+            f"<td>{_esc(_pct(approved.get('accuracy')))}</td>"
+            f"<td>{_esc(_money(summary.get('cost_per_100_usd')))}</td>"
+            f"<td>{_esc(price.get('source'))}</td>"
+            "<td>saved</td>"
+            "</tr>"
+        )
+    for provider, label in _PENDING_MODELS:
+        if provider in saved_providers:
+            continue
+        rows.append(
+            "<tr>"
+            f"<td>{_esc(label)}</td>"
+            f"<td>{_esc(provider)}</td>"
+            "<td>pending</td><td>pending</td><td>pending</td><td></td><td>not run</td>"
+            "</tr>"
+        )
+    payload = json.dumps({"questions": [{"id": item["id"], "question": item["question"]} for item in questions], "runs": runs})
+    payload = payload.replace("<", "\\u003c")
+    table = (
+        "<table><thead><tr><th>Model</th><th>Provider</th><th>Accuracy, all scored</th>"
+        "<th>Accuracy, Daniel-approved</th><th>Cost per 100</th><th>Price source</th><th></th></tr></thead>"
+        f"<tbody>{''.join(rows)}</tbody></table>"
+    )
+    body = f"""
+<p class="meta">US DOT on-time performance</p>
+<h1>Compare models</h1>
+<div class="banner"><strong>DRAFT.</strong> {_esc(review_note)}. The chart uses saved runs only. A missing model is pending, not a score.</div>
+<p>Price against accuracy. The dot is cost per 100 questions, at the list price stored with that run, against accuracy on every question that run scored. Qwen, when a local file is saved, stays in this chart and does not replace the paid headline on the scoreboard.</p>
+<div id="chart" class="scatter" role="img" aria-label="Price versus accuracy"></div>
+<h2>Saved runs</h2>
+<div class="table-wrap">{table}</div>
+<h2>One question, each saved answer</h2>
+<div class="filters">
+  <label>Question <select id="question"></select></label>
+</div>
+<div id="models" class="switcher"></div>
+<p id="grade" class="meta"></p>
+<p id="receipt" class="note"></p>
+<pre id="answer"></pre>
+<script id="compare-data" type="application/json">{payload}</script>
+<script>{_COMPARE_JS}</script>
+"""
+    return _page("Compare models", "../", body)
+
+
+_COMPARE_JS = """
+(function () {
+  var data = JSON.parse(document.getElementById("compare-data").textContent);
+  var runs = data.runs || [];
+  var questions = data.questions || [];
+  var select = document.getElementById("question");
+  var chart = document.getElementById("chart");
+  var modelBox = document.getElementById("models");
+  var selected = 0;
+
+  function accuracy(run) {
+    var all = (run.summary || {}).all || {};
+    return typeof all.accuracy === "number" ? all.accuracy : null;
+  }
+  function cost100(run) {
+    var value = (run.summary || {}).cost_per_100_usd;
+    return typeof value === "number" ? value : null;
+  }
+  function money(value) {
+    if (typeof value !== "number") return "n/a";
+    return "$" + value.toFixed(4);
+  }
+
+  var points = [];
+  runs.forEach(function (run) {
+    var y = accuracy(run);
+    var x = cost100(run);
+    if (y === null || x === null) return;
+    points.push({ x: x, y: y, label: run.model || run.provider || "model" });
+  });
+  var width = 640, height = 320, left = 48, right = 16, top = 16, bottom = 36;
+  var maxX = 1;
+  points.forEach(function (point) { if (point.x > maxX) maxX = point.x; });
+  maxX = maxX * 1.25;
+  function sx(x) { return left + (x / maxX) * (width - left - right); }
+  function sy(y) { return top + (1 - y) * (height - top - bottom); }
+  var svg = '<svg viewBox="0 0 ' + width + ' ' + height + '" width="100%" role="img">';
+  svg += '<line x1="' + left + '" y1="' + sy(0) + '" x2="' + (width - right) + '" y2="' + sy(0) + '" stroke="#d9cba8"/>';
+  svg += '<line x1="' + left + '" y1="' + top + '" x2="' + left + '" y2="' + sy(0) + '" stroke="#d9cba8"/>';
+  svg += '<text x="' + left + '" y="' + (height - 8) + '" font-size="12" fill="#5c564c">$0</text>';
+  svg += '<text x="' + (width - right - 70) + '" y="' + (height - 8) + '" font-size="12" fill="#5c564c">$' + maxX.toFixed(2) + ' / 100</text>';
+  svg += '<text x="8" y="' + (top + 12) + '" font-size="12" fill="#5c564c">100%</text>';
+  if (!points.length) {
+    svg += '<text x="' + (left + 12) + '" y="160" font-size="14" fill="#5c564c">No saved run yet.</text>';
+  }
+  points.forEach(function (point) {
+    svg += '<circle cx="' + sx(point.x).toFixed(1) + '" cy="' + sy(point.y).toFixed(1) + '" r="6" fill="#8c4a2f"/>';
+    var safeLabel = String(point.label).replace(/&/g, "&amp;").replace(/</g, "&lt;");
+    svg += '<text x="' + (sx(point.x) + 10).toFixed(1) + '" y="' + (sy(point.y) + 4).toFixed(1) + '" font-size="13" fill="#1c1915">' + safeLabel + " " + Math.round(point.y * 1000) / 10 + "%</text>";
+  });
+  svg += "</svg>";
+  chart.innerHTML = svg;
+
+  questions.forEach(function (item) {
+    var option = document.createElement("option");
+    option.value = item.id;
+    option.textContent = item.id + " " + item.question;
+    select.appendChild(option);
+  });
+  if (location.hash) {
+    var wanted = location.hash.replace("#", "");
+    if (questions.some(function (item) { return item.id === wanted; })) select.value = wanted;
+  }
+
+  function rowFor(run, id) {
+    var found = null;
+    (run.results || []).forEach(function (row) { if (row.id === id) found = row; });
+    return found;
+  }
+  function render() {
+    var id = select.value;
+    var run = runs[selected];
+    modelBox.innerHTML = "";
+    if (!runs.length) {
+      document.getElementById("grade").textContent = "No saved model run.";
+      document.getElementById("receipt").textContent = "A paid-model receipt is pending.";
+      document.getElementById("answer").textContent = "";
+      return;
+    }
+    runs.forEach(function (item, index) {
+      var button = document.createElement("button");
+      button.type = "button";
+      button.textContent = (item.model || item.provider || "model");
+      button.setAttribute("aria-pressed", index === selected ? "true" : "false");
+      button.addEventListener("click", function () { selected = index; render(); });
+      modelBox.appendChild(button);
+    });
+    var row = rowFor(run, id);
+    var grade = document.getElementById("grade");
+    var receipt = document.getElementById("receipt");
+    var answer = document.getElementById("answer");
+    if (!row) {
+      grade.textContent = "This run did not score " + id + ".";
+      receipt.textContent = "";
+      answer.textContent = "";
+      return;
+    }
+    var passed = row.grade && row.grade.passed;
+    grade.textContent = passed ? "Grade: matched the candidate answer." : "Grade: miss (" + ((row.grade && row.grade.failure_category) || "unscored") + ").";
+    var costs = [];
+    runs.forEach(function (item) {
+      var other = rowFor(item, id);
+      if (other && typeof other.cost_usd === "number") costs.push(other.cost_usd);
+    });
+    var mine = typeof row.cost_usd === "number" ? row.cost_usd : null;
+    var line = "This answer cost " + money(mine) + " at the list price stored with this run.";
+    line += " Input tokens " + (row.input_tokens || 0) + ", output tokens " + (row.output_tokens || 0) + ", latency " + (row.latency_seconds || 0) + " seconds.";
+    if (costs.length > 1 && mine !== null) {
+      var dearest = costs[0];
+      costs.forEach(function (value) { if (value > dearest) dearest = value; });
+      line += " The dearest saved model on this question cost " + money(dearest) + ".";
+    } else {
+      line += " No dearer saved run yet, so a top-model comparison is pending.";
+    }
+    var price = run.price || {};
+    if (price.source) line += " Price source: " + price.source + (price.as_of ? " (" + price.as_of + ")." : ".");
+    receipt.textContent = line;
+    answer.textContent = row.answer || "";
+  }
+  select.addEventListener("change", function () { history.replaceState(null, "", "#" + select.value); render(); });
+  render();
+})();
+"""
+
+
 def build_site(
     bank_path: Path | None = None,
     report_path: Path | None = None,
     dest: Path | None = None,
+    results_dir: Path | None = None,
 ) -> dict:
     bank_path = bank_path or BANK_PATH
     report_path = report_path or (REPORTS_DIR / "latest.json")
@@ -432,6 +664,7 @@ def build_site(
     (dest / "data").mkdir()
     (dest / "explore").mkdir()
     (dest / "scoreboard").mkdir()
+    (dest / "compare").mkdir()
     (dest / "assets" / "site.css").write_text(_CSS)
     (dest / ".nojekyll").write_text("")
     _write_json(dest / "data" / "explore.json", explore_payload)
@@ -439,12 +672,17 @@ def build_site(
     (dest / "explore" / "index.html").write_text(_explore(questions, REVIEW_NOTE))
     score_nav = _nav("../")
     (dest / "scoreboard" / "index.html").write_text(render_scoreboard(report, nav=score_nav))
+    runs = load_model_runs(results_dir)
+    _write_json(dest / "data" / "models.json", {"schema_version": SCHEMA_VERSION, "runs": runs})
+    (dest / "compare" / "index.html").write_text(_compare_page(questions, runs, REVIEW_NOTE))
 
-    extract_bytes = (dest / "data" / "explore.json").stat().st_size + (dest / "data" / "report.json").stat().st_size
+    extract_bytes = sum(
+        (dest / "data" / name).stat().st_size for name in ("explore.json", "report.json", "models.json")
+    )
     omitted = DB_PATH.stat().st_size if DB_PATH.exists() else None
     hint = (
         f"Published extracts are {extract_bytes / 1000:.1f} KB "
-        "(data/explore.json and data/report.json). "
+        "(data/explore.json, data/report.json, and data/models.json). "
         "The folder total is in data/manifest.json. Flight-level rows published: 0."
     )
     (dest / "index.html").write_text(_overview(bank, hint))

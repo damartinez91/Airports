@@ -79,6 +79,8 @@ DOC_PHRASES = [
     "A ranking states its minimum-flights rule. A sample under that floor does not win.",
     "The same question asked in different words gets the same figures.",
     "Brand figures are shown with operating partners and without them. This extract has no marketing-airline column, so SkyWest and Republic stay unassigned.",
+    "A question that asks which airline is most on time out of an airport returns the literal winner and the major carriers at that airport. Major carriers are the top 3 by operated departures, plus any further carriers needed so the listed majors cover about 80 percent of operated departures. Each of those rows has the on-time arrival rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines).",
+    "When Hawaiian is in a systemwide on-time ranking, the answer notes that Hawaiian benefits from island weather.",
     "status is DRAFT",
     "candidate answers pending Daniel's review",
 ]

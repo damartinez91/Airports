@@ -100,6 +100,10 @@ The same question asked in different words gets the same figures.
 
 Brand figures are shown with operating partners and without them. This extract has no marketing-airline column, so SkyWest and Republic stay unassigned.
 
+A question that asks which airline is most on time out of an airport returns the literal winner and the major carriers at that airport. Major carriers are the top 3 by operated departures, plus any further carriers needed so the listed majors cover about 80 percent of operated departures. Each of those rows has the on-time arrival rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines).
+
+When Hawaiian is in a systemwide on-time ranking, the answer notes that Hawaiian benefits from island weather.
+
 The July 2026 reporting-carrier header has `Reporting_Airline` and no marketing-airline column. Envoy, PSA, and Piedmont can roll into American because they fly for one brand. SkyWest and Republic fly for more than one brand, and this file cannot assign those flights to a marketing brand.
 
 These cutoffs are choices. A smaller airport can still clear the evening floor. Changing the floor will change who sits at the bottom of that list. That is a review item, not a hidden constant.

@@ -1,0 +1,1961 @@
+{
+  "runs": [
+    {
+      "budget_cap_usd": 3.0,
+      "created_at": "2026-10-12T02:45:18+00:00",
+      "model": "stub",
+      "price": {
+        "as_of": "2026-10-12",
+        "input_per_million_usd": 0,
+        "output_per_million_usd": 0,
+        "source": "Rules baseline. No API call."
+      },
+      "provider": "stub",
+      "results": [
+        {
+          "answer": "I read this as: the literal winner by on-time arrival rate, and the major carriers at that airport (top 3 by flights, extended to about 80 percent of departures), each with a rate and a flight count. SkyWest is labeled as flying for several airlines.\nMQ: on_time_rate 82.7 percent, operated_flights 62560 flights\nAA: on_time_rate 65.9 percent, operated_flights 159366 flights\nSkyWest (flies for several airlines): on_time_rate 77.2 percent, operated_flights 21812 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "easy",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q001",
+          "input_tokens": 0,
+          "latency_seconds": 0.0004,
+          "output_tokens": 0,
+          "question": "Which airline is most on time out of DFW?",
+          "status": "DRAFT-REVISED"
+        },
+        {
+          "answer": "I read this as: the literal winner by on-time arrival rate, and the major carriers at that airport (top 3 by flights, extended to about 80 percent of departures), each with a rate and a flight count. SkyWest is labeled as flying for several airlines.\nMQ: on_time_rate 77.2 percent, operated_flights 55570 flights\nUA: on_time_rate 73.8 percent, operated_flights 99071 flights\nSkyWest (flies for several airlines): on_time_rate 66.6 percent, operated_flights 74644 flights\nAA: on_time_rate 67.1 percent, operated_flights 59107 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "easy",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q002",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which airline is most on time out of ORD?",
+          "status": "DRAFT-REVISED"
+        },
+        {
+          "answer": "I read this as: the literal winner by on-time arrival rate, and the major carriers at that airport (top 3 by flights, extended to about 80 percent of departures), each with a rate and a flight count. SkyWest is labeled as flying for several airlines.\nUA: on_time_rate 80.2 percent, operated_flights 7457 flights\nDL: on_time_rate 79.9 percent, operated_flights 236110 flights\nF9: on_time_rate 64.2 percent, operated_flights 19766 flights\nWN: on_time_rate 76.9 percent, operated_flights 17227 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "easy",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q003",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which airline is most on time out of ATL?",
+          "status": "DRAFT-REVISED"
+        },
+        {
+          "answer": "I read this as: the literal winner by on-time arrival rate, and the major carriers at that airport (top 3 by flights, extended to about 80 percent of departures), each with a rate and a flight count. SkyWest is labeled as flying for several airlines.\nDL: on_time_rate 83.5 percent, operated_flights 11353 flights\nUA: on_time_rate 79.1 percent, operated_flights 106764 flights\nWN: on_time_rate 70.0 percent, operated_flights 87699 flights\nSkyWest (flies for several airlines): on_time_rate 80.4 percent, operated_flights 74195 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q004",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which airline is most on time out of DEN?",
+          "status": "DRAFT-REVISED"
+        },
+        {
+          "answer": "I read this as: the literal winner by on-time arrival rate, and the major carriers at that airport (top 3 by flights, extended to about 80 percent of departures), each with a rate and a flight count. SkyWest is labeled as flying for several airlines.\nSkyWest (flies for several airlines): on_time_rate 85.2 percent, operated_flights 40364 flights\nDL: on_time_rate 81.4 percent, operated_flights 36910 flights\nAA: on_time_rate 76.0 percent, operated_flights 29338 flights\nUA: on_time_rate 83.1 percent, operated_flights 29115 flights\nWN: on_time_rate 73.5 percent, operated_flights 25245 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "easy",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q005",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which airline is most on time out of LAX?",
+          "status": "DRAFT-REVISED"
+        },
+        {
+          "answer": "I read this as: the literal winner by on-time arrival rate, and the major carriers at that airport (top 3 by flights, extended to about 80 percent of departures), each with a rate and a flight count. SkyWest is labeled as flying for several airlines.\nYX: on_time_rate 75.4 percent, operated_flights 53347 flights\nDL: on_time_rate 75.0 percent, operated_flights 28304 flights\nAA: on_time_rate 71.6 percent, operated_flights 16132 flights\nWN: on_time_rate 70.3 percent, operated_flights 11220 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q006",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which airline is most on time out of LGA?",
+          "status": "DRAFT-REVISED"
+        },
+        {
+          "answer": "I read this as: the literal winner by on-time arrival rate, and the major carriers at that airport (top 3 by flights, extended to about 80 percent of departures), each with a rate and a flight count. SkyWest is labeled as flying for several airlines.\nG4: on_time_rate 83.6 percent, operated_flights 603 flights\nB6: on_time_rate 71.6 percent, operated_flights 36190 flights\nYX: on_time_rate 78.0 percent, operated_flights 32736 flights\nDL: on_time_rate 76.9 percent, operated_flights 25819 flights\nAA: on_time_rate 78.6 percent, operated_flights 16617 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q007",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which airline is most on time out of BOS?",
+          "status": "DRAFT-REVISED"
+        },
+        {
+          "answer": "I read this as: the literal winner by on-time arrival rate, and the major carriers at that airport (top 3 by flights, extended to about 80 percent of departures), each with a rate and a flight count. SkyWest is labeled as flying for several airlines.\nSkyWest (flies for several airlines): on_time_rate 85.6 percent, operated_flights 28516 flights\nAS: on_time_rate 78.1 percent, operated_flights 75845 flights\nDL: on_time_rate 81.1 percent, operated_flights 31842 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q008",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which airline is most on time out of SEA?",
+          "status": "DRAFT-REVISED"
+        },
+        {
+          "answer": "I read this as: the literal winner by on-time arrival rate, and the major carriers at that airport (top 3 by flights, extended to about 80 percent of departures), each with a rate and a flight count. SkyWest is labeled as flying for several airlines.\nYX: on_time_rate 83.5 percent, operated_flights 23026 flights\nUA: on_time_rate 77.0 percent, operated_flights 66467 flights\nDL: on_time_rate 79.5 percent, operated_flights 6381 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q009",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which airline is most on time out of EWR?",
+          "status": "DRAFT-REVISED"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nHA: on_time_rate 81.9 percent, n 32839 flights\nDL: on_time_rate 81.5 percent, n 1018096 flights\nMQ: on_time_rate 80.9 percent, n 309815 flights\nAS: on_time_rate 79.6 percent, n 297116 flights\nUA: on_time_rate 79.3 percent, n 814734 flights\nHawaiian benefits from island weather.\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q010",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which five airlines have the highest systemwide on-time arrival rate?",
+          "status": "DRAFT-REVISED"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nB6: on_time_rate 72.3 percent, n 229045 flights\nNK: on_time_rate 72.8 percent, n 112299 flights\nF9: on_time_rate 73.1 percent, n 204980 flights\nG4: on_time_rate 74.1 percent, n 125266 flights\nOH: on_time_rate 74.1 percent, n 231130 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q011",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which five airlines have the lowest systemwide on-time arrival rate?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nWN: on_time_rate 76.4 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "easy",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q012",
+          "input_tokens": 0,
+          "latency_seconds": 0.0002,
+          "output_tokens": 0,
+          "question": "What is Southwest's systemwide on-time arrival rate?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nAA: on_time_rate 74.6 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "easy",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q013",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "What is American's systemwide on-time arrival rate?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nDL: cancellation_rate 1.7 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "easy",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q014",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "What is Delta's systemwide cancellation rate?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nOH: cancellation_rate 4.3 percent, n 242215 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q015",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which airline has the highest systemwide cancellation rate?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nG4: avg_arrival_delay 15.2 minutes, n 125266 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nBTS delay codes are carrier, weather, national air system (NAS), security, and late aircraft. Cancellation code A is carrier, B is weather, C is national air system, and D is security. The codes are coarse and self-reported, and they are filled in only for arrivals that are 15 minutes or more late, or for cancellations. They cannot tell us the operational reason.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q016",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which airline has the highest average signed arrival delay among operated flights, systemwide?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nAA: on_time_rate 65.9 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "easy",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q017",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "What is American's on-time arrival rate for flights out of DFW?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nOH: severe_late_rate 11.6 percent, n 231130 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q018",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which airline has the highest share of operated flights that arrive at least 60 minutes late, systemwide?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nsystemwide: diversion_rate 0.3 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "easy",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q019",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "What share of scheduled flights are diverted, systemwide?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nsystemwide: operated_flights 6895510 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nBTS delay codes are carrier, weather, national air system (NAS), security, and late aircraft. Cancellation code A is carrier, B is weather, C is national air system, and D is security. The codes are coarse and self-reported, and they are filled in only for arrivals that are 15 minutes or more late, or for cancellations. They cannot tell us the operational reason.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "hard",
+          "grade": {
+            "detail": "No result column matched the candidate entities.",
+            "failure_category": "misread_question",
+            "passed": false
+          },
+          "id": "q020",
+          "input_tokens": 0,
+          "latency_seconds": 0.0,
+          "output_tokens": 0,
+          "question": "Which airline has the lowest median arrival delay systemwide?",
+          "status": "APPROVED"
+        },
+        {
+          "answer": "I read this as: the literal winner by on-time arrival rate, and the major carriers at that airport (top 3 by flights, extended to about 80 percent of departures), each with a rate and a flight count. SkyWest is labeled as flying for several airlines.\nMQ: on_time_rate 82.6 percent, operated_flights 13976 flights\nAA: on_time_rate 71.9 percent, operated_flights 62945 flights\nDL: on_time_rate 74.4 percent, operated_flights 11356 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q021",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which airline is most on time out of MIA?",
+          "status": "DRAFT-REVISED"
+        },
+        {
+          "answer": "I read this as: the on-time arrival rate after the minimum-flights rule, with the natural alternative cut beside it.\nSFB: on_time_rate 50.3 percent, n 2081 flights\nDAL: on_time_rate 59.4 percent, n 15914 flights\nFLL: on_time_rate 59.8 percent, n 25241 flights\nMCO: on_time_rate 61.3 percent, n 40654 flights\nBOS: on_time_rate 61.8 percent, n 32483 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nBTS delay codes are carrier, weather, national air system (NAS), security, and late aircraft. Cancellation code A is carrier, B is weather, C is national air system, and D is security. The codes are coarse and self-reported, and they are filled in only for arrivals that are 15 minutes or more late, or for cancellations. They cannot tell us the operational reason.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want the same cut limited to large airports, with the minimum-flights rule stated?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q022",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "What are the five worst airports for evening delays?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the on-time arrival rate after the minimum-flights rule, with the natural alternative cut beside it.\nSBN: on_time_rate 78.9 percent, n 2489 flights\nSYR: on_time_rate 82.6 percent, n 3903 flights\nBTV: on_time_rate 82.7 percent, n 2245 flights\nORD: on_time_rate 82.8 percent, n 68590 flights\nGRR: on_time_rate 83.5 percent, n 6502 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nBTS delay codes are carrier, weather, national air system (NAS), security, and late aircraft. Cancellation code A is carrier, B is weather, C is national air system, and D is security. The codes are coarse and self-reported, and they are filled in only for arrivals that are 15 minutes or more late, or for cancellations. They cannot tell us the operational reason.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want the same cut limited to large airports, with the minimum-flights rule stated?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q023",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "What are the five worst airports for morning delays?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the on-time arrival rate after the minimum-flights rule, with the natural alternative cut beside it.\nPSC: on_time_rate 87.3 percent, n 6146 flights\nKOA: on_time_rate 85.8 percent, n 15855 flights\nLGB: on_time_rate 85.3 percent, n 15028 flights\nLIH: on_time_rate 84.8 percent, n 15607 flights\nSLC: on_time_rate 84.7 percent, n 116642 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want the same cut limited to large airports, with the minimum-flights rule stated?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q024",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "What are the five best airports by on-time arrival rate?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the on-time arrival rate after the minimum-flights rule, with the natural alternative cut beside it.\nSFB: on_time_rate 70.2 percent, n 10019 flights\nFLL: on_time_rate 70.8 percent, n 87958 flights\nASE: on_time_rate 71.1 percent, n 7548 flights\nORD: on_time_rate 71.6 percent, n 348736 flights\nDFW: on_time_rate 72.1 percent, n 302862 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want the same cut limited to large airports, with the minimum-flights rule stated?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q025",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "What are the five worst airports by on-time arrival rate?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nJFK: on_time_rate 75.6 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "easy",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q026",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "What is the on-time arrival rate for flights departing JFK?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nORD: cancellation_rate 2.8 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "easy",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q027",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "What is the cancellation rate for flights departing ORD?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nLGA: cancellation_rate 4.6 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "easy",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q028",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "What is the cancellation rate for flights departing LGA?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nASE: cancellation_rate 5.9 percent, n 8072 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want the same cut limited to large airports, with the minimum-flights rule stated?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q029",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which airport has the highest cancellation rate?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nASE: avg_arrival_delay 20.4 minutes, n 7548 flights\nSFB: avg_arrival_delay 20.0 minutes, n 10019 flights\nFWA: avg_arrival_delay 19.7 minutes, n 6078 flights\nSBN: avg_arrival_delay 19.6 minutes, n 7870 flights\nTVC: avg_arrival_delay 17.8 minutes, n 5367 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nBTS delay codes are carrier, weather, national air system (NAS), security, and late aircraft. Cancellation code A is carrier, B is weather, C is national air system, and D is security. The codes are coarse and self-reported, and they are filled in only for arrivals that are 15 minutes or more late, or for cancellations. They cannot tell us the operational reason.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want the same cut limited to large airports, with the minimum-flights rule stated?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q030",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which five airports have the highest average signed arrival delay?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nDAL: on_time_rate 72.8 percent, n 69286 flights\nDFW: on_time_rate 72.1 percent, n 302862 flights\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q031",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "How do DFW and DAL compare on on-time arrival rate for departures? Return both rates.",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nEWR: on_time_rate 70.3 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "easy",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q032",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "What is the evening on-time arrival rate for flights departing EWR?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nSFO: irregular_rate 1.3 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "easy",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q033",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "What share of flights departing SFO are cancelled or diverted?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nTPA: on_time_rate 78.3 percent, n 75392 flights\nRSW: on_time_rate 78.2 percent, n 34055 flights\nMCO: on_time_rate 74.5 percent, n 157442 flights\nMIA: on_time_rate 73.7 percent, n 109030 flights\nFLL: on_time_rate 70.8 percent, n 87958 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q034",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Rank MCO, MIA, FLL, TPA, and RSW by on-time arrival rate for departures.",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nDCA: on_time_rate 71.6 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q035",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "What is the on-time arrival rate for flights arriving at DCA?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nATL: on_time_rate 78.2 percent, n 309347 flights\nDEN: on_time_rate 76.9 percent, n 315950 flights\nCLT: on_time_rate 76.6 percent, n 177415 flights\nDFW: on_time_rate 72.1 percent, n 302862 flights\nORD: on_time_rate 71.6 percent, n 348736 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "easy",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q036",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Rank ATL, DFW, DEN, ORD, and CLT by on-time arrival rate for departures.",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nsystemwide: operated_flights 6895510 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want the same cut limited to large airports, with the minimum-flights rule stated?",
+          "cost_usd": 0.0,
+          "difficulty": "hard",
+          "grade": {
+            "detail": "No result column matched the candidate entities.",
+            "failure_category": "misread_question",
+            "passed": false
+          },
+          "id": "q037",
+          "input_tokens": 0,
+          "latency_seconds": 0.0,
+          "output_tokens": 0,
+          "question": "Which airport has the largest morning-minus-evening on-time arrival gap?",
+          "status": "APPROVED"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nWN: scheduled_flights 0 flights, operated_flights 0.0 percent, on_time_rate None, cancellation_rate None, avg_arrival_delay None\nAA: scheduled_flights 4245 flights, operated_flights 4072 flights, on_time_rate 66.1 percent, cancellation_rate 3.5 percent, avg_arrival_delay 20.3 minutes\nBTS delay codes are carrier, weather, national air system (NAS), security, and late aircraft. Cancellation code A is carrier, B is weather, C is national air system, and D is security. The codes are coarse and self-reported, and they are filled in only for arrivals that are 15 minutes or more late, or for cancellations. They cannot tell us the operational reason.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want each direction named on its own, with the minutes on every route?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q038",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "How do American and Southwest compare on DFW to ORD? For each airline return scheduled flights and operated flights, plus the on-time arrival rate, cancellation rate, and average signed arrival delay when that airline flew the route.",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nUA: scheduled_flights 3825 flights, operated_flights 3724 flights, on_time_rate 68.3 percent, cancellation_rate 2.5 percent, avg_arrival_delay 21.0 minutes\nAA: scheduled_flights 0 flights, operated_flights 0.0 percent, on_time_rate None, cancellation_rate None, avg_arrival_delay None\nBTS delay codes are carrier, weather, national air system (NAS), security, and late aircraft. Cancellation code A is carrier, B is weather, C is national air system, and D is security. The codes are coarse and self-reported, and they are filled in only for arrivals that are 15 minutes or more late, or for cancellations. They cannot tell us the operational reason.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want each direction named on its own, with the minutes on every route?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q039",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "How do United and American compare on EWR to SFO? For each airline return scheduled flights and operated flights, plus the on-time arrival rate, cancellation rate, and average signed arrival delay when that airline flew the route.",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nDL: scheduled_flights 4935 flights, operated_flights 4739 flights, on_time_rate 76.7 percent, cancellation_rate 3.2 percent, avg_arrival_delay 7.9 minutes\nWN: scheduled_flights 815 flights, operated_flights 789 flights, on_time_rate 71.2 percent, cancellation_rate 2.5 percent, avg_arrival_delay 14.9 minutes\nBTS delay codes are carrier, weather, national air system (NAS), security, and late aircraft. Cancellation code A is carrier, B is weather, C is national air system, and D is security. The codes are coarse and self-reported, and they are filled in only for arrivals that are 15 minutes or more late, or for cancellations. They cannot tell us the operational reason.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q040",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "How do Delta and Southwest compare on ATL to LGA? For each airline return the on-time arrival rate, the cancellation rate, and the average signed arrival delay.",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nLAX-JFK: on_time_rate 79.0 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "easy",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q041",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "What is the on-time arrival rate on LAX to JFK?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nOO: on_time_rate 69.1 percent, n 2541 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q042",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which airline is most on time on LAX to SFO?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nPHL-DCA: on_time_rate 58.2 percent, n 753 flights\nFLL-AVL: on_time_rate 59.1 percent, n 648 flights\nACV-SFO: on_time_rate 59.6 percent, n 1251 flights\nDFW-BUF: on_time_rate 59.7 percent, n 561 flights\nSBP-SFO: on_time_rate 59.7 percent, n 1130 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want each direction named on its own, with the minutes on every route?",
+          "cost_usd": 0.0,
+          "difficulty": "hard",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q043",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which five routes have the lowest on-time arrival rate?",
+          "status": "APPROVED"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nDTW-PLN: cancellation_rate 14.0 percent, n 659 flights\nPLN-DTW: cancellation_rate 14.0 percent, n 659 flights\nMCW-ORD: cancellation_rate 7.3 percent, n 627 flights\nASE-DFW: cancellation_rate 7.2 percent, n 1185 flights\nCLE-DCA: cancellation_rate 7.1 percent, n 1611 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want each direction named on its own, with the minutes on every route?",
+          "cost_usd": 0.0,
+          "difficulty": "hard",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q044",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which five routes have the highest cancellation rate?",
+          "status": "DRAFT-REVISED"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nDFW-ORD: avg_arrival_delay 20.0 minutes\nBTS delay codes are carrier, weather, national air system (NAS), security, and late aircraft. Cancellation code A is carrier, B is weather, C is national air system, and D is security. The codes are coarse and self-reported, and they are filled in only for arrivals that are 15 minutes or more late, or for cancellations. They cannot tell us the operational reason.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "easy",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q045",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "What is the average signed arrival delay on DFW to ORD?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nDL: scheduled_flights 2226 flights, operated_flights 2211 flights, on_time_rate 83.1 percent, cancellation_rate 0.6 percent, avg_arrival_delay 1.2 minutes\nAS: scheduled_flights 3289 flights, operated_flights 3258 flights, on_time_rate 80.7 percent, cancellation_rate 0.9 percent, avg_arrival_delay 1.1 minutes\nBTS delay codes are carrier, weather, national air system (NAS), security, and late aircraft. Cancellation code A is carrier, B is weather, C is national air system, and D is security. The codes are coarse and self-reported, and they are filled in only for arrivals that are 15 minutes or more late, or for cancellations. They cannot tell us the operational reason.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q046",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "How do Alaska and Delta compare on SEA to LAX? For each airline return the on-time arrival rate, the cancellation rate, and the average signed arrival delay.",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nDFW-ORD: cancellation_rate 3.0 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "easy",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q047",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "What share of DFW to ORD flights are cancelled?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nORD-LGA: on_time_rate 67.4 percent\nLGA-ORD: on_time_rate 68.0 percent\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q048",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which direction is more on time, ORD to LGA or LGA to ORD? Return both on-time arrival rates.",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nB6: scheduled_flights 2516 flights, operated_flights 2412 flights, on_time_rate 68.2 percent, cancellation_rate 3.3 percent, avg_arrival_delay 15.6 minutes\nDL: scheduled_flights 1257 flights, operated_flights 1228 flights, on_time_rate 76.2 percent, cancellation_rate 2.1 percent, avg_arrival_delay 8.7 minutes\nBTS delay codes are carrier, weather, national air system (NAS), security, and late aircraft. Cancellation code A is carrier, B is weather, C is national air system, and D is security. The codes are coarse and self-reported, and they are filled in only for arrivals that are 15 minutes or more late, or for cancellations. They cannot tell us the operational reason.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q049",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "How do JetBlue and Delta compare on BOS to MCO? For each airline return the on-time arrival rate, the cancellation rate, and the average signed arrival delay.",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nWN: operated_flights 3971 flights, n 3971 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "easy",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q050",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which airline operates the most flights from DAL to HOU?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nUA: scheduled_flights 2043 flights, operated_flights 1999 flights, on_time_rate 74.2 percent, cancellation_rate 1.3 percent, avg_arrival_delay 10.4 minutes\nAA: scheduled_flights 4242 flights, operated_flights 4056 flights, on_time_rate 68.8 percent, cancellation_rate 3.5 percent, avg_arrival_delay 20.7 minutes\nBTS delay codes are carrier, weather, national air system (NAS), security, and late aircraft. Cancellation code A is carrier, B is weather, C is national air system, and D is security. The codes are coarse and self-reported, and they are filled in only for arrivals that are 15 minutes or more late, or for cancellations. They cannot tell us the operational reason.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q051",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "How do American and United compare on ORD to DFW? For each airline return the on-time arrival rate, the cancellation rate, and the average signed arrival delay.",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nDFW-BFL: avg_arrival_delay 59.0 minutes, n 296 flights\nDFW-MDT: avg_arrival_delay 40.6 minutes, n 354 flights\nDFW-OGG: avg_arrival_delay 39.7 minutes, n 491 flights\nDFW-EYW: avg_arrival_delay 32.3 minutes, n 321 flights\nDFW-EGE: avg_arrival_delay 30.9 minutes, n 846 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nBTS delay codes are carrier, weather, national air system (NAS), security, and late aircraft. Cancellation code A is carrier, B is weather, C is national air system, and D is security. The codes are coarse and self-reported, and they are filled in only for arrivals that are 15 minutes or more late, or for cancellations. They cannot tell us the operational reason.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want each direction named on its own, with the minutes on every route?",
+          "cost_usd": 0.0,
+          "difficulty": "hard",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q052",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "What are the five routes out of DFW with the highest average signed arrival delay?",
+          "status": "DRAFT-REVISED"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nF9: on_time_rate 76.4 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q053",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "What is Frontier's on-time arrival rate on DEN to LAS?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the on-time arrival rate after the minimum-flights rule, with the natural alternative cut beside it.\nhour_20: on_time_rate 67.7 percent, n 300806 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want the same cut limited to large airports, with the minimum-flights rule stated?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q054",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which scheduled departure hour has the worst systemwide on-time arrival rate, among hours with at least 10000 operated flights?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nhour_06: on_time_rate 89.8 percent, n 5673 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q055",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "At ATL, which scheduled departure hour is most on time among hours with at least 400 operated departures?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nmorning: on_time_rate 88.2 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "easy",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q056",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "What is the systemwide on-time arrival rate for morning departures?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nevening: on_time_rate 68.3 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "easy",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q057",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "What is the systemwide on-time arrival rate for evening departures?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: red-eye as the night bucket, 21:00 through 04:59, against every other departure.\nnight: on_time_rate 72.7 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "easy",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q058",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "What is the systemwide on-time arrival rate for night departures?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nsystemwide: percentage_points 19.848757 flights\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q059",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "By how many percentage points is the systemwide morning on-time arrival rate higher than the evening rate? Return morning minus evening.",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nhour_17: on_time_rate 71.9 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q060",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "What is the on-time arrival rate for EWR departures scheduled in the 17:00 hour?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nTuesday: on_time_rate 81.4 percent, n 931681 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "easy",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q061",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which day of week has the highest systemwide on-time arrival rate?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nSunday: on_time_rate 73.6 percent, n 1020227 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "easy",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q062",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which day of week has the lowest systemwide on-time arrival rate?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nfriday_evening: on_time_rate 66.4 percent\nwednesday_morning: on_time_rate 89.8 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q063",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "What are the systemwide on-time arrival rates for Friday evening departures and Wednesday morning departures?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nhour_06: on_time_rate 86.1 percent\nhour_18: on_time_rate 61.6 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "hard",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q064",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "At ORD, what are the on-time arrival rates for departures in hour 06 and hour 18?",
+          "status": "APPROVED"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nLGA: avg_arrival_delay 20.5 minutes\nBTS delay codes are carrier, weather, national air system (NAS), security, and late aircraft. Cancellation code A is carrier, B is weather, C is national air system, and D is security. The codes are coarse and self-reported, and they are filled in only for arrivals that are 15 minutes or more late, or for cancellations. They cannot tell us the operational reason.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q065",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "What is the average signed arrival delay for evening departures from LGA?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nnight: cancellation_rate 2.5 percent, n 469196 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q066",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which time-of-day bucket has the highest cancellation rate systemwide?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nhour_08: on_time_rate 89.0 percent\nhour_20: on_time_rate 67.5 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "hard",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q067",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "At DEN, what are the on-time arrival rates for departures in hour 08 and hour 20?",
+          "status": "APPROVED"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nfall: on_time_rate 80.8 percent, n 1715194 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "easy",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q068",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which season has the highest systemwide on-time arrival rate?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nsummer: on_time_rate 74.4 percent, n 1800966 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "easy",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q069",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which season has the lowest systemwide on-time arrival rate?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nORD: on_time_rate 67.2 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "easy",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q070",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "What is the winter on-time arrival rate for flights departing ORD?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nORD: on_time_rate 72.2 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "easy",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q071",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "What is the summer on-time arrival rate for flights departing ORD?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nDFW: cancellation_rate 2.8 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q072",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "What is the summer cancellation rate for flights departing DFW?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\n2026-07: on_time_rate 71.7 percent, n 612038 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q073",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which month has the lowest systemwide on-time arrival rate?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\n2026-01: cancellation_rate 4.7 percent, n 544003 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q074",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which month has the highest systemwide cancellation rate?",
+          "status": "APPROVED"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nfall: on_time_rate 77.8 percent, n 24999 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q075",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "At MIA, which season has the highest on-time arrival rate for departures?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nwinter: on_time_rate 79.5 percent\nsummer: on_time_rate 68.9 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q076",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "What are the winter and summer on-time arrival rates for flights departing DEN?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the literal winner by on-time arrival rate, and the major carriers at that airport (top 3 by flights, extended to about 80 percent of departures), each with a rate and a flight count. SkyWest is labeled as flying for several airlines.\nAS: on_time_rate 73.5 percent, operated_flights 113 flights\nDL: on_time_rate 68.1 percent, operated_flights 21249 flights\nF9: on_time_rate 52.4 percent, operated_flights 1868 flights\nWN: on_time_rate 64.0 percent, operated_flights 1326 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "hard",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q077",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "In July 2026, which airline is most on time out of ATL?",
+          "status": "DRAFT-REVISED"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\n2025-12: on_time_rate 73.2 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "easy",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q078",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "What is the December 2025 systemwide on-time arrival rate?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nsystemwide: operated_flights 6895510 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "hard",
+          "grade": {
+            "detail": "Expected 2 rows and got 1.",
+            "failure_category": "misread_question",
+            "passed": false
+          },
+          "id": "q079",
+          "input_tokens": 0,
+          "latency_seconds": 0.0,
+          "output_tokens": 0,
+          "question": "Which on-time arrival rate is lower: 2025-11-26, the Wednesday before Thanksgiving 2025, or Wednesdays in October 2025? Return both rates.",
+          "status": "APPROVED"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nairline_controlled: share 80.6 percent\nweather: share 5.6 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q080",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "How much of American's lateness is its own fault versus weather?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nairline_controlled: share 79.5 percent\nweather: share 2.3 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q081",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "How much of Southwest's lateness is its own fault versus weather?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nairline_controlled: share 74.2 percent\nweather: share 4.1 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q082",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "How much of Delta's lateness is its own fault versus weather?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nairline_controlled: share 61.8 percent\nweather: share 4.2 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q083",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "How much of United's lateness is its own fault versus weather?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nairline_controlled: share 71.8 percent\nweather: share 2.6 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q084",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "How much of JetBlue's lateness is its own fault versus weather?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\ncarrier: share 33.3 percent\nweather: share 6.1 percent\nnas: share 20.7 percent\nsecurity: share 0.1 percent\nlate_aircraft: share 39.7 percent\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nBTS delay codes are carrier, weather, national air system (NAS), security, and late aircraft. Cancellation code A is carrier, B is weather, C is national air system, and D is security. The codes are coarse and self-reported, and they are filled in only for arrivals that are 15 minutes or more late, or for cancellations. They cannot tell us the operational reason.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: The BTS codes cannot say why. Want the carrier, weather, airspace, security, and late-aircraft split for one airline?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q085",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Systemwide, what share of late-arrival minutes falls on each of the five BTS delay causes?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nlate_aircraft: share 39.7 percent\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nBTS delay codes are carrier, weather, national air system (NAS), security, and late aircraft. Cancellation code A is carrier, B is weather, C is national air system, and D is security. The codes are coarse and self-reported, and they are filled in only for arrivals that are 15 minutes or more late, or for cancellations. They cannot tell us the operational reason.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: The BTS codes cannot say why. Want the carrier, weather, airspace, security, and late-aircraft split for one airline?",
+          "cost_usd": 0.0,
+          "difficulty": "easy",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q086",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which BTS delay cause accounts for the largest share of late-arrival minutes systemwide?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nSFO: share 22.1 percent\nBTS delay codes are carrier, weather, national air system (NAS), security, and late aircraft. Cancellation code A is carrier, B is weather, C is national air system, and D is security. The codes are coarse and self-reported, and they are filled in only for arrivals that are 15 minutes or more late, or for cancellations. They cannot tell us the operational reason.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: The BTS codes cannot say why. Want the carrier, weather, airspace, security, and late-aircraft split for one airline?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q087",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "For late departures from SFO, what share of late-arrival minutes is NAS delay?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nHA: share 65.1 percent, n 5959 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nBTS delay codes are carrier, weather, national air system (NAS), security, and late aircraft. Cancellation code A is carrier, B is weather, C is national air system, and D is security. The codes are coarse and self-reported, and they are filled in only for arrivals that are 15 minutes or more late, or for cancellations. They cannot tell us the operational reason.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: The BTS codes cannot say why. Want the carrier, weather, airspace, security, and late-aircraft split for one airline?",
+          "cost_usd": 0.0,
+          "difficulty": "hard",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q088",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which airline has the highest share of its late-arrival minutes labeled carrier delay, not counting late aircraft?",
+          "status": "DRAFT-REVISED"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nlate_aircraft: share 39.9 percent\nweather: share 6.5 percent\nBTS delay codes are carrier, weather, national air system (NAS), security, and late aircraft. Cancellation code A is carrier, B is weather, C is national air system, and D is security. The codes are coarse and self-reported, and they are filled in only for arrivals that are 15 minutes or more late, or for cancellations. They cannot tell us the operational reason.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: The BTS codes cannot say why. Want the carrier, weather, airspace, security, and late-aircraft split for one airline?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q089",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "On DFW to ORD, what are the late-aircraft share and the weather share of late-arrival minutes?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nAA: share 81.6 percent\nBTS delay codes are carrier, weather, national air system (NAS), security, and late aircraft. Cancellation code A is carrier, B is weather, C is national air system, and D is security. The codes are coarse and self-reported, and they are filled in only for arrivals that are 15 minutes or more late, or for cancellations. They cannot tell us the operational reason.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: The BTS codes cannot say why. Want the carrier, weather, airspace, security, and late-aircraft split for one airline?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q090",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "For American flights out of DFW, what share of late-arrival minutes is airline-controlled?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nsystemwide: share 62.1 percent\nBTS delay codes are carrier, weather, national air system (NAS), security, and late aircraft. Cancellation code A is carrier, B is weather, C is national air system, and D is security. The codes are coarse and self-reported, and they are filled in only for arrivals that are 15 minutes or more late, or for cancellations. They cannot tell us the operational reason.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: The BTS codes cannot say why. Want the carrier, weather, airspace, security, and late-aircraft split for one airline?",
+          "cost_usd": 0.0,
+          "difficulty": "easy",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q091",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Systemwide, what share of cancelled flights carry cancellation code B (weather)?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nDL: share 58.8 percent, n 17789 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "hard",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q092",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which airline has the highest share of its cancellations coded A (carrier)?",
+          "status": "DRAFT-REVISED"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nORD: share 14.0 percent\nBTS delay codes are carrier, weather, national air system (NAS), security, and late aircraft. Cancellation code A is carrier, B is weather, C is national air system, and D is security. The codes are coarse and self-reported, and they are filled in only for arrivals that are 15 minutes or more late, or for cancellations. They cannot tell us the operational reason.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: The BTS codes cannot say why. Want the carrier, weather, airspace, security, and late-aircraft split for one airline?",
+          "cost_usd": 0.0,
+          "difficulty": "hard",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q093",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "For winter departures from ORD, what share of late-arrival minutes is weather delay?",
+          "status": "APPROVED"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nAA: share 80.6 percent\nWN: share 79.5 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q094",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Compare the airline-controlled share of late minutes for American and Southwest, systemwide.",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nsecurity: share 0.1 percent\nBTS delay codes are carrier, weather, national air system (NAS), security, and late aircraft. Cancellation code A is carrier, B is weather, C is national air system, and D is security. The codes are coarse and self-reported, and they are filled in only for arrivals that are 15 minutes or more late, or for cancellations. They cannot tell us the operational reason.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: The BTS codes cannot say why. Want the carrier, weather, airspace, security, and late-aircraft split for one airline?",
+          "cost_usd": 0.0,
+          "difficulty": "easy",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q095",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Systemwide, what share of late-arrival minutes is security delay?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the on-time arrival rate after the minimum-flights rule, with the natural alternative cut beside it.\nreporting_best: who Envoy (American Eagle), on_time_rate 82.7 percent, n 62560 flights\nmainline_best: who DL, on_time_rate 80.9 percent, n 11358 flights\nbrand_frontier: who brand_frontier, on_time_rate 74.3 percent, n 10195 flights\nbrand_united: who brand_united, on_time_rate 76.1 percent, n 9785 flights\nbrand_skywest_unassigned: who brand_skywest_unassigned, on_time_rate 77.2 percent, n 21812 flights\nbrand_delta: who brand_delta, on_time_rate 80.9 percent, n 11358 flights\nbrand_alaska: who brand_alaska, on_time_rate 74.9 percent, n 2393 flights\nbrand_spirit: who brand_spirit, on_time_rate 74.5 percent, n 3612 flights\nbrand_american: who brand_american, on_time_rate 71.0 percent, n 243256 flights\nbrand_jetblue: who brand_jetblue, on_time_rate 66.3 percent, n 403 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "hard",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q096",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which airline is best out of DFW?",
+          "status": "DRAFT-REVISED"
+        },
+        {
+          "answer": "I read this as: the mean signed arrival delay in minutes of operated flights. Early arrivals pull it down.\nORD: avg_arrival_delay 15.0 minutes\nBTS delay codes are carrier, weather, national air system (NAS), security, and late aircraft. Cancellation code A is carrier, B is weather, C is national air system, and D is security. The codes are coarse and self-reported, and they are filled in only for arrivals that are 15 minutes or more late, or for cancellations. They cannot tell us the operational reason.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "hard",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q097",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "What is the average delay at ORD?",
+          "status": "APPROVED"
+        },
+        {
+          "answer": "I read this as: both directions, each named on its own, plus the combined figure.\nDFW-ORD: on_time_rate 68.3 percent, n 6756 flights\nORD-DFW: on_time_rate 70.5 percent, n 6737 flights\nboth-directions: on_time_rate 69.4 percent, n 13493 flights\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want each direction named on its own, with the minutes on every route?",
+          "cost_usd": 0.0,
+          "difficulty": "hard",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q098",
+          "input_tokens": 0,
+          "latency_seconds": 0.0002,
+          "output_tokens": 0,
+          "question": "Are flights between DFW and ORD on time? Return the on-time arrival rate.",
+          "status": "DRAFT-REVISED"
+        },
+        {
+          "answer": "I read this as: reporting-carrier American: the on-time arrival rate and the mean signed arrival delay in minutes, not the brand rollup.\nAA: on_time_rate 74.6 percent, avg_arrival_delay 13.3 minutes\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "hard",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q099",
+          "input_tokens": 0,
+          "latency_seconds": 0.0,
+          "output_tokens": 0,
+          "question": "How late is American?",
+          "status": "APPROVED"
+        },
+        {
+          "answer": "I read this as: the on-time arrival rate after the minimum-flights rule, with the natural alternative cut beside it.\noverall_worst: airport SFB, on_time_rate 70.2 percent, n 10019 flights\nlarge_hub_worst: airport ORD, on_time_rate 71.6 percent, n 348736 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want the same cut limited to large airports, with the minimum-flights rule stated?",
+          "cost_usd": 0.0,
+          "difficulty": "hard",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q100",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which airport is the worst?",
+          "status": "DRAFT-REVISED"
+        },
+        {
+          "answer": "I read this as: the greatest count of late arrivals, with that airline's late rate beside the count.\nsystemwide: operated_flights 6895510 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nBTS delay codes are carrier, weather, national air system (NAS), security, and late aircraft. Cancellation code A is carrier, B is weather, C is national air system, and D is security. The codes are coarse and self-reported, and they are filled in only for arrivals that are 15 minutes or more late, or for cancellations. They cannot tell us the operational reason.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: The BTS codes cannot say why. Want the carrier, weather, airspace, security, and late-aircraft split for one airline?",
+          "cost_usd": 0.0,
+          "difficulty": "hard",
+          "grade": {
+            "detail": "not enough numeric columns",
+            "failure_category": "misread_question",
+            "passed": false
+          },
+          "id": "q101",
+          "input_tokens": 0,
+          "latency_seconds": 0.0,
+          "output_tokens": 0,
+          "question": "Does weather explain most delays? Return the weather share of late-arrival minutes, the NAS share, and 1 if the weather share is above one half.",
+          "status": "APPROVED"
+        },
+        {
+          "answer": "I read this as: the mainline figure and the figure with single-partner operating partners. SkyWest and Republic stay unassigned.\namerican_mainline: on_time_rate 74.6 percent, n 962421 flights\namerican_with_partners: on_time_rate 75.8 percent, n 1503366 flights\ndelta_mainline: on_time_rate 81.5 percent, n 1018096 flights\ndelta_with_partners: on_time_rate 81.5 percent, n 1018096 flights\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "hard",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q102",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Including single-partner regional affiliates, how do American and Delta compare on systemwide on-time arrival rate? Return both rates.",
+          "status": "DRAFT-REVISED"
+        },
+        {
+          "answer": "I read this as: Dallas as DFW and DAL pooled, with a rate for each airline.\nWN: on_time_rate 72.6 percent\nAA: on_time_rate 65.9 percent\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "hard",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q103",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which is more on time out of Dallas, American or Southwest? Return both on-time arrival rates.",
+          "status": "APPROVED"
+        },
+        {
+          "answer": "This extract is not a live feed, so yesterday or tomorrow is outside its scope.\nFollow-up: Ask for a rate this extract can compute, such as the on-time arrival rate for a month that is in the file.",
+          "cost_usd": 0.0,
+          "difficulty": "hard",
+          "grade": {
+            "detail": "Analyst refused.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q104",
+          "input_tokens": 0,
+          "latency_seconds": 0.0,
+          "output_tokens": 0,
+          "question": "What was the on-time rate yesterday?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the greatest count of late arrivals, with that airline's late rate beside the count.\nWN: late_flights 324261 flights, late_rate 23.6 percent, n 1374279 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nBTS delay codes are carrier, weather, national air system (NAS), security, and late aircraft. Cancellation code A is carrier, B is weather, C is national air system, and D is security. The codes are coarse and self-reported, and they are filled in only for arrivals that are 15 minutes or more late, or for cancellations. They cannot tell us the operational reason.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "hard",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q105",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Which airline has the most delays?",
+          "status": "DRAFT-REVISED"
+        },
+        {
+          "answer": "I read this as: red-eye as the night bucket, 21:00 through 04:59, against every other departure.\nnight: on_time_rate 72.7 percent\nother: on_time_rate 78.0 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "hard",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q106",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Are red-eye flights less on time than other flights? Return the night-departure on-time arrival rate and the rate for all other departures.",
+          "status": "APPROVED"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nsystemwide: carrier_only_share 33.3 percent\nBTS delay codes are carrier, weather, national air system (NAS), security, and late aircraft. Cancellation code A is carrier, B is weather, C is national air system, and D is security. The codes are coarse and self-reported, and they are filled in only for arrivals that are 15 minutes or more late, or for cancellations. They cannot tell us the operational reason.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: The BTS codes cannot say why. Want the carrier, weather, airspace, security, and late-aircraft split for one airline?",
+          "cost_usd": 0.0,
+          "difficulty": "hard",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q107",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "If late aircraft does not count as the airline's fault, what share of systemwide late-arrival minutes is the airline's fault?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "The on-time extract has no passenger counts, so a passenger-weighted rate cannot be computed.\nFollow-up: Ask for a rate this extract can compute, such as the on-time arrival rate for a month that is in the file.",
+          "cost_usd": 0.0,
+          "difficulty": "hard",
+          "grade": {
+            "detail": "Analyst refused.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q108",
+          "input_tokens": 0,
+          "latency_seconds": 0.0,
+          "output_tokens": 0,
+          "question": "What is the passenger-weighted on-time arrival rate at ATL?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nHA: on_time_departure_rate 83.5 percent, n 32877 flights\nMQ: on_time_departure_rate 82.2 percent, n 310662 flights\nDL: on_time_departure_rate 82.0 percent, n 1020855 flights\nUA: on_time_departure_rate 81.5 percent, n 817183 flights\nYX: on_time_departure_rate 81.4 percent, n 348157 flights\nRankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "hard",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q109",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Rank the five most on-time airlines by on-time departure rather than arrival.",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nsystemwide: on_time_rate 76.0 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "hard",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q110",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "What share of scheduled flights arrive on time if cancelled and diverted flights count as not on time?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nOO: included 0 flights\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "hard",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q111",
+          "input_tokens": 0,
+          "latency_seconds": 0.0001,
+          "output_tokens": 0,
+          "question": "Is SkyWest part of the American single-partner family used in this project? Return 1 if it is and 0 if it is not.",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nAmerican: on_time_rate 75.8 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q112",
+          "input_tokens": 0,
+          "latency_seconds": 0.0,
+          "output_tokens": 0,
+          "question": "Including Envoy and PSA with American, what is the American brand's systemwide on-time arrival rate? Leave SkyWest and Republic out.",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\n150k_or_more: on_time_rate 76.1 percent\n10k_to_49999: on_time_rate 80.4 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want the same cut limited to large airports, with the minimum-flights rule stated?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q113",
+          "input_tokens": 0,
+          "latency_seconds": 0.0,
+          "output_tokens": 0,
+          "question": "What is the on-time arrival rate for departures from airports with at least 150,000 operated departures, and for airports with 10,000 to 49,999? Return both.",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nAmerican: on_time_rate 71.0 percent\nother: on_time_rate 76.9 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "hard",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q114",
+          "input_tokens": 0,
+          "latency_seconds": 0.0,
+          "output_tokens": 0,
+          "question": "At DFW, what is the on-time arrival rate for the American brand and for every other carrier combined? Return both.",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\nAmerican: share 78.1 percent\nBTS delay codes are carrier, weather, national air system (NAS), security, and late aircraft. Cancellation code A is carrier, B is weather, C is national air system, and D is security. The codes are coarse and self-reported, and they are filled in only for arrivals that are 15 minutes or more late, or for cancellations. They cannot tell us the operational reason.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: The BTS codes cannot say why. Want the carrier, weather, airspace, security, and late-aircraft split for one airline?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q115",
+          "input_tokens": 0,
+          "latency_seconds": 0.0,
+          "output_tokens": 0,
+          "question": "What share of the American brand's late-arrival minutes is airline-controlled, counting carrier delay and late aircraft together?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the mainline figure and the figure with single-partner operating partners. SkyWest and Republic stay unassigned.\namerican_mainline: on_time_rate 74.6 percent, n 962421 flights\namerican_with_partners: on_time_rate 75.8 percent, n 1503366 flights\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q116",
+          "input_tokens": 0,
+          "latency_seconds": 0.0,
+          "output_tokens": 0,
+          "question": "What is American's systemwide on-time arrival rate with its single-partner operating partners, and without them? Return both.",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: reporting-carrier American: the on-time arrival rate and the mean signed arrival delay in minutes, not the brand rollup.\nAA: on_time_rate 74.6 percent, avg_arrival_delay 13.3 minutes\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "hard",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q117",
+          "input_tokens": 0,
+          "latency_seconds": 0.0,
+          "output_tokens": 0,
+          "question": "Is American usually late?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: reporting-carrier American: the on-time arrival rate and the mean signed arrival delay in minutes, not the brand rollup.\nAA: on_time_rate 74.6 percent, avg_arrival_delay 13.3 minutes\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want to see this across the big 3 business airlines, with and without operating partners?",
+          "cost_usd": 0.0,
+          "difficulty": "hard",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q118",
+          "input_tokens": 0,
+          "latency_seconds": 0.0,
+          "output_tokens": 0,
+          "question": "American's on-time record?",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: two cuts: airport size, and the airline after the origin airport is held fixed.\nlargest_airports: figure 76.1 percent\nmidsize_airports: figure 80.4 percent\ndelta_same_airport_gap: figure 4.9 percent\nsouthwest_same_airport_gap: figure -3.8 percent\namerican_same_airport_gap: figure -1.6 percent\nunited_same_airport_gap: figure 2.7 percent\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: Want the same cut limited to large airports, with the minimum-flights rule stated?",
+          "cost_usd": 0.0,
+          "difficulty": "hard",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q119",
+          "input_tokens": 0,
+          "latency_seconds": 0.0,
+          "output_tokens": 0,
+          "question": "Is a lower on-time rate the dice of busier airports, or the airline after the origin airport is held fixed? Return the on-time rate for the largest airports and for midsize airports, and the same-airport gap for American, Delta, United, and Southwest.",
+          "status": "DRAFT"
+        },
+        {
+          "answer": "I read this as: the figures below, using the project definitions.\ncarrier: share 33.3 percent\nweather: share 6.1 percent\nnas: share 20.7 percent\nsecurity: share 0.1 percent\nlate_aircraft: share 39.7 percent\nBTS delay codes are carrier, weather, national air system (NAS), security, and late aircraft. Cancellation code A is carrier, B is weather, C is national air system, and D is security. The codes are coarse and self-reported, and they are filled in only for arrivals that are 15 minutes or more late, or for cancellations. They cannot tell us the operational reason.\nUnits: rates and shares are in percent, delays are in minutes, and counts are in flights.\nFollow-up: The BTS codes cannot say why. Want the carrier, weather, airspace, security, and late-aircraft split for one airline?",
+          "cost_usd": 0.0,
+          "difficulty": "medium",
+          "grade": {
+            "detail": "Metrics match.",
+            "failure_category": null,
+            "passed": true
+          },
+          "id": "q120",
+          "input_tokens": 0,
+          "latency_seconds": 0.0,
+          "output_tokens": 0,
+          "question": "What can the BTS delay and cancellation codes tell us about why a flight was late or cancelled? Return the systemwide share of late-arrival minutes for each delay cause.",
+          "status": "DRAFT"
+        }
+      ],
+      "schema_version": "model-run-v1",
+      "spent_usd": 0.0,
+      "stopped_for_budget": false,
+      "summary": {
+        "all": {
+          "accuracy": 0.966667,
+          "n": 120,
+          "n_correct": 116
+        },
+        "approved": {
+          "accuracy": 0.692308,
+          "n": 13,
+          "n_correct": 9
+        },
+        "cost_per_100_usd": 0.0,
+        "cost_usd": 0.0,
+        "input_tokens": 0,
+        "latency_seconds": 0.0109,
+        "n_in_bank": 120,
+        "n_unscored": 0,
+        "output_tokens": 0
+      }
+    }
+  ],
+  "schema_version": "model-run-v1"
+}

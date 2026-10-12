@@ -14,7 +14,9 @@ from __future__ import annotations
 import json
 import os
 import re
+import time
 import urllib.request
+from dataclasses import dataclass
 
 from flight_analyst.definitions import (
     MIN_AIRLINE_AT_AIRPORT,
@@ -54,6 +56,31 @@ _AIRPORT_STOP = {
 
 class LLMError(RuntimeError):
     pass
+
+
+@dataclass
+class Completion:
+    """One model call. Token counts and latency are zero on the rules stub."""
+
+    text: str
+    input_tokens: int = 0
+    output_tokens: int = 0
+    latency_seconds: float = 0.0
+
+
+def _usage_tokens(body: dict, input_keys: tuple[str, ...], output_keys: tuple[str, ...]) -> tuple[int, int]:
+    usage = body.get("usage") or {}
+    incoming = 0
+    outgoing = 0
+    for key in input_keys:
+        if usage.get(key) is not None:
+            incoming = int(usage[key])
+            break
+    for key in output_keys:
+        if usage.get(key) is not None:
+            outgoing = int(usage[key])
+            break
+    return incoming, outgoing
 
 
 def build_openai_payload(model: str, system: str, user: str) -> dict:
@@ -99,8 +126,9 @@ class OpenAIClient:
         self.api_key = api_key
         self.model = model
 
-    def complete(self, system: str, user: str) -> str:
+    def complete(self, system: str, user: str) -> Completion:
         payload = build_openai_payload(self.model, system, user)
+        started = time.perf_counter()
         body = _post_json(
             "https://api.openai.com/v1/chat/completions",
             payload,
@@ -109,7 +137,9 @@ class OpenAIClient:
                 "Content-Type": "application/json",
             },
         )
-        return parse_openai_response(body)
+        elapsed = time.perf_counter() - started
+        incoming, outgoing = _usage_tokens(body, ("prompt_tokens", "input_tokens"), ("completion_tokens", "output_tokens"))
+        return Completion(parse_openai_response(body), incoming, outgoing, elapsed)
 
 
 class AnthropicClient:
@@ -119,8 +149,9 @@ class AnthropicClient:
         self.api_key = api_key
         self.model = model
 
-    def complete(self, system: str, user: str) -> str:
+    def complete(self, system: str, user: str) -> Completion:
         payload = build_anthropic_payload(self.model, system, user)
+        started = time.perf_counter()
         body = _post_json(
             "https://api.anthropic.com/v1/messages",
             payload,
@@ -130,7 +161,9 @@ class AnthropicClient:
                 "Content-Type": "application/json",
             },
         )
-        return parse_anthropic_response(body)
+        elapsed = time.perf_counter() - started
+        incoming, outgoing = _usage_tokens(body, ("input_tokens",), ("output_tokens",))
+        return Completion(parse_anthropic_response(body), incoming, outgoing, elapsed)
 
 
 def get_client():
@@ -402,11 +435,16 @@ WHERE operated AND origin IN ('DFW', 'DAL') AND airline_code IN ({quoted})
 GROUP BY airline_code""",
             chart=True,
         )
-    if ("most on time out of" in low or "best out of" in low) and not re.search(r"20\d{2}", low):
-        match = re.search(r"(?:most on time|best) out of ([A-Z]{3})", text)
+    if "most on time out of" in low and not re.search(r"20\d{2}", low):
+        match = re.search(r"most on time out of ([A-Z]{3})", text)
         if match:
-            code = match.group(1)
-            return _ok(_grouped("airline_code", "airline_code", "on_time_rate", ONTIME, f"operated AND origin = '{code}'", f"COUNT(*) >= {MIN_AIRLINE_AT_AIRPORT}", True, 1))
+            from flight_analyst.questions import sql_most_on_time_out_of
+
+            return _ok(sql_most_on_time_out_of(match.group(1)), chart=True)
+    if "best out of" in low and not re.search(r"20\d{2}", low):
+        match = re.search(r"best out of ([A-Z]{3})", text)
+        if match and not low.startswith("which airline is best out of dfw"):
+            return _ok(_grouped("airline_code", "airline_code", "on_time_rate", ONTIME, f"operated AND origin = '{match.group(1)}'", f"COUNT(*) >= {MIN_AIRLINE_AT_AIRPORT}", True, 1))
     if "five airlines" in low and "highest" in low:
         return _ok(_grouped("airline_code", "airline_code", "on_time_rate", ONTIME, "operated", f"COUNT(*) >= {MIN_AIRLINE_SYSTEMWIDE}", True, 5), chart=True)
     if "five airlines" in low and "lowest" in low:
@@ -634,8 +672,10 @@ class StubClient:
     """Rules baseline used when no model API key is configured."""
 
     name = "stub"
-    model = None
+    model = "stub"
 
-    def complete(self, system: str, user: str) -> str:
+    def complete(self, system: str, user: str) -> Completion:
         del system
-        return json.dumps(plan_question(user))
+        started = time.perf_counter()
+        text = json.dumps(plan_question(user))
+        return Completion(text, 0, 0, time.perf_counter() - started)

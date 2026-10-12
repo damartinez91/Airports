@@ -27,5 +27,8 @@ pre { white-space: pre-wrap; font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo,
 .track { background: #efe6d2; height: 10px; }
 .fill { display: block; height: 10px; background: #8c4a2f; }
 article[hidden] { display: none; }
+.scatter { background: white; border: 1px solid #e2dccd; padding: 12px; }
+.switcher button { margin: 0 6px 6px 0; }
+#answer { white-space: pre-wrap; background: white; border: 1px solid #e2dccd; padding: 12px; }
 .table-wrap { overflow-x: auto; }
 @media (max-width: 700px) { .cards { grid-template-columns: 1fr; } .bar { grid-template-columns: 4.5rem 1fr auto; } }

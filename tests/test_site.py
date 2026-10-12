@@ -101,6 +101,11 @@ def test_fixture_site_is_draft_static_and_has_a_chart(tmp_path: Path):
     assert REVIEW_NOTE in page
     assert 'href="explore/"' in page
     assert 'href="scoreboard/"' in page
+    assert 'href="compare/"' in page
+    compare = (dest / "compare" / "index.html").read_text()
+    assert "Compare models" in compare
+    assert "Price versus accuracy" in compare or "aria-label=\"Price versus accuracy\"" in compare
+    assert "not run" in compare
     explore = json.loads((dest / "data" / "explore.json").read_text())
     assert explore["status"] == "DRAFT"
     assert explore["questions"][0]["chart"]["points"][0]["label"] == "AA"

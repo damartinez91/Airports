@@ -116,13 +116,13 @@
   "question_count": 120,
   "questions": [
     {
-      "status": "DRAFT",
+      "status": "DRAFT-REVISED",
       "question": "Which airline is most on time out of DFW?",
       "difficulty": "easy",
       "category": "airline_reliability",
-      "ambiguous": false,
+      "ambiguous": true,
       "answer_type": "ranking",
-      "sql": "SELECT airline_code AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin = 'DFW'\nGROUP BY airline_code\nHAVING COUNT(*) >= 100\nORDER BY on_time_rate DESC, label ASC\nLIMIT 1",
+      "sql": "WITH base AS (\n    SELECT airline_code,\n           AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n           COUNT(*) AS operated_flights\n    FROM flights_v\n    WHERE operated AND origin = 'DFW'\n    GROUP BY airline_code\n    HAVING COUNT(*) >= 100\n),\nranked AS (\n    SELECT airline_code,\n           on_time_rate,\n           operated_flights,\n           ROW_NUMBER() OVER (ORDER BY on_time_rate DESC, airline_code ASC) AS rate_rank,\n           ROW_NUMBER() OVER (ORDER BY operated_flights DESC, airline_code ASC) AS vol_rank,\n           SUM(operated_flights) OVER () AS airport_flights,\n           SUM(operated_flights) OVER (\n               ORDER BY operated_flights DESC, airline_code ASC\n               ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW\n           ) AS cum_flights\n    FROM base\n)\nSELECT CASE\n           WHEN airline_code = 'OO' THEN 'SkyWest (flies for several airlines)'\n           ELSE airline_code\n       END AS label,\n       on_time_rate,\n       operated_flights\nFROM ranked\nWHERE rate_rank = 1\n   OR vol_rank <= 3\n   OR (cum_flights - operated_flights) < 0.80 * airport_flights\nORDER BY CASE WHEN rate_rank = 1 THEN 0 ELSE 1 END, operated_flights DESC, airline_code ASC",
       "key_columns": [
         "label"
       ],
@@ -138,12 +138,22 @@
             "arrival_on_time_rate",
             "otp"
           ]
+        },
+        {
+          "name": "operated_flights",
+          "tolerance": 0,
+          "unit": "count",
+          "aliases": [
+            "operated_flights",
+            "n_operated",
+            "flight_count"
+          ]
         }
       ],
-      "notes": "Highest on-time arrival rate among reporting airlines with at least 100 operated departures from DFW. The winner can be a regional affiliate. Reporting-carrier AA is not the American brand family.",
-      "interpretation": "",
-      "follow_up": "",
-      "alternatives": "",
+      "notes": "Batch 4, 2026-10-11: literal winner out of DFW after 100 operated flights, plus the major carriers at that airport. Majors are the top 3 by operated departures, extended until they cover about 80 percent of operated departures. Each row has the on-time arrival rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines). The first row is the literal winner. The rest follow by volume. Waiting for Daniel to recheck.",
+      "interpretation": "I read this as the reporting carrier with the highest on-time arrival rate out of DFW, and the major carriers there: the top 3 by flights, or more if that is what it takes to cover about 80 percent.",
+      "follow_up": "Want the same airport for American, Delta, and United, with and without operating partners?",
+      "alternatives": "Literal winner, plus major carriers at this airport, each with an on-time rate and a flight count.",
       "why_limit": "",
       "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q001",
@@ -152,19 +162,29 @@
           {
             "label": "MQ",
             "on_time_rate": 0.826918,
-            "n": 62560
+            "operated_flights": 62560
+          },
+          {
+            "label": "AA",
+            "on_time_rate": 0.659432,
+            "operated_flights": 159366
+          },
+          {
+            "label": "SkyWest (flies for several airlines)",
+            "on_time_rate": 0.771548,
+            "operated_flights": 21812
           }
         ]
       }
     },
     {
-      "status": "DRAFT",
+      "status": "DRAFT-REVISED",
       "question": "Which airline is most on time out of ORD?",
       "difficulty": "easy",
       "category": "airline_reliability",
-      "ambiguous": false,
+      "ambiguous": true,
       "answer_type": "ranking",
-      "sql": "SELECT airline_code AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin = 'ORD'\nGROUP BY airline_code\nHAVING COUNT(*) >= 100\nORDER BY on_time_rate DESC, label ASC\nLIMIT 1",
+      "sql": "WITH base AS (\n    SELECT airline_code,\n           AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n           COUNT(*) AS operated_flights\n    FROM flights_v\n    WHERE operated AND origin = 'ORD'\n    GROUP BY airline_code\n    HAVING COUNT(*) >= 100\n),\nranked AS (\n    SELECT airline_code,\n           on_time_rate,\n           operated_flights,\n           ROW_NUMBER() OVER (ORDER BY on_time_rate DESC, airline_code ASC) AS rate_rank,\n           ROW_NUMBER() OVER (ORDER BY operated_flights DESC, airline_code ASC) AS vol_rank,\n           SUM(operated_flights) OVER () AS airport_flights,\n           SUM(operated_flights) OVER (\n               ORDER BY operated_flights DESC, airline_code ASC\n               ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW\n           ) AS cum_flights\n    FROM base\n)\nSELECT CASE\n           WHEN airline_code = 'OO' THEN 'SkyWest (flies for several airlines)'\n           ELSE airline_code\n       END AS label,\n       on_time_rate,\n       operated_flights\nFROM ranked\nWHERE rate_rank = 1\n   OR vol_rank <= 3\n   OR (cum_flights - operated_flights) < 0.80 * airport_flights\nORDER BY CASE WHEN rate_rank = 1 THEN 0 ELSE 1 END, operated_flights DESC, airline_code ASC",
       "key_columns": [
         "label"
       ],
@@ -180,12 +200,22 @@
             "arrival_on_time_rate",
             "otp"
           ]
+        },
+        {
+          "name": "operated_flights",
+          "tolerance": 0,
+          "unit": "count",
+          "aliases": [
+            "operated_flights",
+            "n_operated",
+            "flight_count"
+          ]
         }
       ],
-      "notes": "Highest on-time arrival rate among reporting airlines with at least 100 operated departures from ORD. The winner can be a regional affiliate. Reporting-carrier AA is not the American brand family.",
-      "interpretation": "",
-      "follow_up": "",
-      "alternatives": "",
+      "notes": "Batch 4, 2026-10-11: literal winner out of ORD after 100 operated flights, plus the major carriers at that airport. Majors are the top 3 by operated departures, extended until they cover about 80 percent of operated departures. Each row has the on-time arrival rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines). The first row is the literal winner. The rest follow by volume. Waiting for Daniel to recheck.",
+      "interpretation": "I read this as the reporting carrier with the highest on-time arrival rate out of ORD, and the major carriers there: the top 3 by flights, or more if that is what it takes to cover about 80 percent.",
+      "follow_up": "Want the same airport for American, Delta, and United, with and without operating partners?",
+      "alternatives": "Literal winner, plus major carriers at this airport, each with an on-time rate and a flight count.",
       "why_limit": "",
       "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q002",
@@ -194,19 +224,34 @@
           {
             "label": "MQ",
             "on_time_rate": 0.771693,
-            "n": 55570
+            "operated_flights": 55570
+          },
+          {
+            "label": "UA",
+            "on_time_rate": 0.738228,
+            "operated_flights": 99071
+          },
+          {
+            "label": "SkyWest (flies for several airlines)",
+            "on_time_rate": 0.665934,
+            "operated_flights": 74644
+          },
+          {
+            "label": "AA",
+            "on_time_rate": 0.671037,
+            "operated_flights": 59107
           }
         ]
       }
     },
     {
-      "status": "DRAFT",
+      "status": "DRAFT-REVISED",
       "question": "Which airline is most on time out of ATL?",
       "difficulty": "easy",
       "category": "airline_reliability",
-      "ambiguous": false,
+      "ambiguous": true,
       "answer_type": "ranking",
-      "sql": "SELECT airline_code AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin = 'ATL'\nGROUP BY airline_code\nHAVING COUNT(*) >= 100\nORDER BY on_time_rate DESC, label ASC\nLIMIT 1",
+      "sql": "WITH base AS (\n    SELECT airline_code,\n           AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n           COUNT(*) AS operated_flights\n    FROM flights_v\n    WHERE operated AND origin = 'ATL'\n    GROUP BY airline_code\n    HAVING COUNT(*) >= 100\n),\nranked AS (\n    SELECT airline_code,\n           on_time_rate,\n           operated_flights,\n           ROW_NUMBER() OVER (ORDER BY on_time_rate DESC, airline_code ASC) AS rate_rank,\n           ROW_NUMBER() OVER (ORDER BY operated_flights DESC, airline_code ASC) AS vol_rank,\n           SUM(operated_flights) OVER () AS airport_flights,\n           SUM(operated_flights) OVER (\n               ORDER BY operated_flights DESC, airline_code ASC\n               ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW\n           ) AS cum_flights\n    FROM base\n)\nSELECT CASE\n           WHEN airline_code = 'OO' THEN 'SkyWest (flies for several airlines)'\n           ELSE airline_code\n       END AS label,\n       on_time_rate,\n       operated_flights\nFROM ranked\nWHERE rate_rank = 1\n   OR vol_rank <= 3\n   OR (cum_flights - operated_flights) < 0.80 * airport_flights\nORDER BY CASE WHEN rate_rank = 1 THEN 0 ELSE 1 END, operated_flights DESC, airline_code ASC",
       "key_columns": [
         "label"
       ],
@@ -222,12 +267,22 @@
             "arrival_on_time_rate",
             "otp"
           ]
+        },
+        {
+          "name": "operated_flights",
+          "tolerance": 0,
+          "unit": "count",
+          "aliases": [
+            "operated_flights",
+            "n_operated",
+            "flight_count"
+          ]
         }
       ],
-      "notes": "Highest on-time arrival rate among reporting airlines with at least 100 operated departures from ATL. The winner can be a regional affiliate. Reporting-carrier AA is not the American brand family.",
-      "interpretation": "",
-      "follow_up": "",
-      "alternatives": "",
+      "notes": "Batch 4, 2026-10-11: literal winner out of ATL after 100 operated flights, plus the major carriers at that airport. Majors are the top 3 by operated departures, extended until they cover about 80 percent of operated departures. Each row has the on-time arrival rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines). The first row is the literal winner. The rest follow by volume. Waiting for Daniel to recheck.",
+      "interpretation": "I read this as the reporting carrier with the highest on-time arrival rate out of ATL, and the major carriers there: the top 3 by flights, or more if that is what it takes to cover about 80 percent.",
+      "follow_up": "Want the same airport for American, Delta, and United, with and without operating partners?",
+      "alternatives": "Literal winner, plus major carriers at this airport, each with an on-time rate and a flight count.",
       "why_limit": "",
       "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q003",
@@ -236,19 +291,34 @@
           {
             "label": "UA",
             "on_time_rate": 0.801931,
-            "n": 7457
+            "operated_flights": 7457
+          },
+          {
+            "label": "DL",
+            "on_time_rate": 0.798772,
+            "operated_flights": 236110
+          },
+          {
+            "label": "F9",
+            "on_time_rate": 0.641809,
+            "operated_flights": 19766
+          },
+          {
+            "label": "WN",
+            "on_time_rate": 0.768851,
+            "operated_flights": 17227
           }
         ]
       }
     },
     {
-      "status": "DRAFT",
+      "status": "DRAFT-REVISED",
       "question": "Which airline is most on time out of DEN?",
       "difficulty": "medium",
       "category": "airline_reliability",
-      "ambiguous": false,
+      "ambiguous": true,
       "answer_type": "ranking",
-      "sql": "SELECT airline_code AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin = 'DEN'\nGROUP BY airline_code\nHAVING COUNT(*) >= 100\nORDER BY on_time_rate DESC, label ASC\nLIMIT 1",
+      "sql": "WITH base AS (\n    SELECT airline_code,\n           AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n           COUNT(*) AS operated_flights\n    FROM flights_v\n    WHERE operated AND origin = 'DEN'\n    GROUP BY airline_code\n    HAVING COUNT(*) >= 100\n),\nranked AS (\n    SELECT airline_code,\n           on_time_rate,\n           operated_flights,\n           ROW_NUMBER() OVER (ORDER BY on_time_rate DESC, airline_code ASC) AS rate_rank,\n           ROW_NUMBER() OVER (ORDER BY operated_flights DESC, airline_code ASC) AS vol_rank,\n           SUM(operated_flights) OVER () AS airport_flights,\n           SUM(operated_flights) OVER (\n               ORDER BY operated_flights DESC, airline_code ASC\n               ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW\n           ) AS cum_flights\n    FROM base\n)\nSELECT CASE\n           WHEN airline_code = 'OO' THEN 'SkyWest (flies for several airlines)'\n           ELSE airline_code\n       END AS label,\n       on_time_rate,\n       operated_flights\nFROM ranked\nWHERE rate_rank = 1\n   OR vol_rank <= 3\n   OR (cum_flights - operated_flights) < 0.80 * airport_flights\nORDER BY CASE WHEN rate_rank = 1 THEN 0 ELSE 1 END, operated_flights DESC, airline_code ASC",
       "key_columns": [
         "label"
       ],
@@ -264,12 +334,22 @@
             "arrival_on_time_rate",
             "otp"
           ]
+        },
+        {
+          "name": "operated_flights",
+          "tolerance": 0,
+          "unit": "count",
+          "aliases": [
+            "operated_flights",
+            "n_operated",
+            "flight_count"
+          ]
         }
       ],
-      "notes": "Highest on-time arrival rate among reporting airlines with at least 100 operated departures from DEN. The winner can be a regional affiliate. Reporting-carrier AA is not the American brand family.",
-      "interpretation": "",
-      "follow_up": "",
-      "alternatives": "",
+      "notes": "Batch 4, 2026-10-11: literal winner out of DEN after 100 operated flights, plus the major carriers at that airport. Majors are the top 3 by operated departures, extended until they cover about 80 percent of operated departures. Each row has the on-time arrival rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines). The first row is the literal winner. The rest follow by volume. Waiting for Daniel to recheck.",
+      "interpretation": "I read this as the reporting carrier with the highest on-time arrival rate out of DEN, and the major carriers there: the top 3 by flights, or more if that is what it takes to cover about 80 percent.",
+      "follow_up": "Want the same airport for American, Delta, and United, with and without operating partners?",
+      "alternatives": "Literal winner, plus major carriers at this airport, each with an on-time rate and a flight count.",
       "why_limit": "",
       "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q004",
@@ -278,19 +358,34 @@
           {
             "label": "DL",
             "on_time_rate": 0.835198,
-            "n": 11353
+            "operated_flights": 11353
+          },
+          {
+            "label": "UA",
+            "on_time_rate": 0.79125,
+            "operated_flights": 106764
+          },
+          {
+            "label": "WN",
+            "on_time_rate": 0.70019,
+            "operated_flights": 87699
+          },
+          {
+            "label": "SkyWest (flies for several airlines)",
+            "on_time_rate": 0.804192,
+            "operated_flights": 74195
           }
         ]
       }
     },
     {
-      "status": "DRAFT",
+      "status": "DRAFT-REVISED",
       "question": "Which airline is most on time out of LAX?",
       "difficulty": "easy",
       "category": "airline_reliability",
-      "ambiguous": false,
+      "ambiguous": true,
       "answer_type": "ranking",
-      "sql": "SELECT airline_code AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin = 'LAX'\nGROUP BY airline_code\nHAVING COUNT(*) >= 100\nORDER BY on_time_rate DESC, label ASC\nLIMIT 1",
+      "sql": "WITH base AS (\n    SELECT airline_code,\n           AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n           COUNT(*) AS operated_flights\n    FROM flights_v\n    WHERE operated AND origin = 'LAX'\n    GROUP BY airline_code\n    HAVING COUNT(*) >= 100\n),\nranked AS (\n    SELECT airline_code,\n           on_time_rate,\n           operated_flights,\n           ROW_NUMBER() OVER (ORDER BY on_time_rate DESC, airline_code ASC) AS rate_rank,\n           ROW_NUMBER() OVER (ORDER BY operated_flights DESC, airline_code ASC) AS vol_rank,\n           SUM(operated_flights) OVER () AS airport_flights,\n           SUM(operated_flights) OVER (\n               ORDER BY operated_flights DESC, airline_code ASC\n               ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW\n           ) AS cum_flights\n    FROM base\n)\nSELECT CASE\n           WHEN airline_code = 'OO' THEN 'SkyWest (flies for several airlines)'\n           ELSE airline_code\n       END AS label,\n       on_time_rate,\n       operated_flights\nFROM ranked\nWHERE rate_rank = 1\n   OR vol_rank <= 3\n   OR (cum_flights - operated_flights) < 0.80 * airport_flights\nORDER BY CASE WHEN rate_rank = 1 THEN 0 ELSE 1 END, operated_flights DESC, airline_code ASC",
       "key_columns": [
         "label"
       ],
@@ -306,33 +401,63 @@
             "arrival_on_time_rate",
             "otp"
           ]
+        },
+        {
+          "name": "operated_flights",
+          "tolerance": 0,
+          "unit": "count",
+          "aliases": [
+            "operated_flights",
+            "n_operated",
+            "flight_count"
+          ]
         }
       ],
-      "notes": "Highest on-time arrival rate among reporting airlines with at least 100 operated departures from LAX. The winner can be a regional affiliate. Reporting-carrier AA is not the American brand family.",
-      "interpretation": "",
-      "follow_up": "",
-      "alternatives": "",
+      "notes": "Batch 4, 2026-10-11: literal winner out of LAX after 100 operated flights, plus the major carriers at that airport. Majors are the top 3 by operated departures, extended until they cover about 80 percent of operated departures. Each row has the on-time arrival rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines). The first row is the literal winner. The rest follow by volume. Waiting for Daniel to recheck.",
+      "interpretation": "I read this as the reporting carrier with the highest on-time arrival rate out of LAX, and the major carriers there: the top 3 by flights, or more if that is what it takes to cover about 80 percent.",
+      "follow_up": "Want the same airport for American, Delta, and United, with and without operating partners?",
+      "alternatives": "Literal winner, plus major carriers at this airport, each with an on-time rate and a flight count.",
       "why_limit": "",
       "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q005",
       "expected": {
         "rows": [
           {
-            "label": "OO",
+            "label": "SkyWest (flies for several airlines)",
             "on_time_rate": 0.8516,
-            "n": 40364
+            "operated_flights": 40364
+          },
+          {
+            "label": "DL",
+            "on_time_rate": 0.813736,
+            "operated_flights": 36910
+          },
+          {
+            "label": "AA",
+            "on_time_rate": 0.75997,
+            "operated_flights": 29338
+          },
+          {
+            "label": "UA",
+            "on_time_rate": 0.830534,
+            "operated_flights": 29115
+          },
+          {
+            "label": "WN",
+            "on_time_rate": 0.734957,
+            "operated_flights": 25245
           }
         ]
       }
     },
     {
-      "status": "DRAFT",
+      "status": "DRAFT-REVISED",
       "question": "Which airline is most on time out of LGA?",
       "difficulty": "medium",
       "category": "airline_reliability",
-      "ambiguous": false,
+      "ambiguous": true,
       "answer_type": "ranking",
-      "sql": "SELECT airline_code AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin = 'LGA'\nGROUP BY airline_code\nHAVING COUNT(*) >= 100\nORDER BY on_time_rate DESC, label ASC\nLIMIT 1",
+      "sql": "WITH base AS (\n    SELECT airline_code,\n           AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n           COUNT(*) AS operated_flights\n    FROM flights_v\n    WHERE operated AND origin = 'LGA'\n    GROUP BY airline_code\n    HAVING COUNT(*) >= 100\n),\nranked AS (\n    SELECT airline_code,\n           on_time_rate,\n           operated_flights,\n           ROW_NUMBER() OVER (ORDER BY on_time_rate DESC, airline_code ASC) AS rate_rank,\n           ROW_NUMBER() OVER (ORDER BY operated_flights DESC, airline_code ASC) AS vol_rank,\n           SUM(operated_flights) OVER () AS airport_flights,\n           SUM(operated_flights) OVER (\n               ORDER BY operated_flights DESC, airline_code ASC\n               ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW\n           ) AS cum_flights\n    FROM base\n)\nSELECT CASE\n           WHEN airline_code = 'OO' THEN 'SkyWest (flies for several airlines)'\n           ELSE airline_code\n       END AS label,\n       on_time_rate,\n       operated_flights\nFROM ranked\nWHERE rate_rank = 1\n   OR vol_rank <= 3\n   OR (cum_flights - operated_flights) < 0.80 * airport_flights\nORDER BY CASE WHEN rate_rank = 1 THEN 0 ELSE 1 END, operated_flights DESC, airline_code ASC",
       "key_columns": [
         "label"
       ],
@@ -348,12 +473,22 @@
             "arrival_on_time_rate",
             "otp"
           ]
+        },
+        {
+          "name": "operated_flights",
+          "tolerance": 0,
+          "unit": "count",
+          "aliases": [
+            "operated_flights",
+            "n_operated",
+            "flight_count"
+          ]
         }
       ],
-      "notes": "Highest on-time arrival rate among reporting airlines with at least 100 operated departures from LGA. The winner can be a regional affiliate. Reporting-carrier AA is not the American brand family.",
-      "interpretation": "",
-      "follow_up": "",
-      "alternatives": "",
+      "notes": "Batch 4, 2026-10-11: literal winner out of LGA after 100 operated flights, plus the major carriers at that airport. Majors are the top 3 by operated departures, extended until they cover about 80 percent of operated departures. Each row has the on-time arrival rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines). The first row is the literal winner. The rest follow by volume. Waiting for Daniel to recheck.",
+      "interpretation": "I read this as the reporting carrier with the highest on-time arrival rate out of LGA, and the major carriers there: the top 3 by flights, or more if that is what it takes to cover about 80 percent.",
+      "follow_up": "Want the same airport for American, Delta, and United, with and without operating partners?",
+      "alternatives": "Literal winner, plus major carriers at this airport, each with an on-time rate and a flight count.",
       "why_limit": "",
       "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q006",
@@ -362,19 +497,34 @@
           {
             "label": "YX",
             "on_time_rate": 0.753894,
-            "n": 53347
+            "operated_flights": 53347
+          },
+          {
+            "label": "DL",
+            "on_time_rate": 0.75,
+            "operated_flights": 28304
+          },
+          {
+            "label": "AA",
+            "on_time_rate": 0.71572,
+            "operated_flights": 16132
+          },
+          {
+            "label": "WN",
+            "on_time_rate": 0.703387,
+            "operated_flights": 11220
           }
         ]
       }
     },
     {
-      "status": "DRAFT",
+      "status": "DRAFT-REVISED",
       "question": "Which airline is most on time out of BOS?",
       "difficulty": "medium",
       "category": "airline_reliability",
-      "ambiguous": false,
+      "ambiguous": true,
       "answer_type": "ranking",
-      "sql": "SELECT airline_code AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin = 'BOS'\nGROUP BY airline_code\nHAVING COUNT(*) >= 100\nORDER BY on_time_rate DESC, label ASC\nLIMIT 1",
+      "sql": "WITH base AS (\n    SELECT airline_code,\n           AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n           COUNT(*) AS operated_flights\n    FROM flights_v\n    WHERE operated AND origin = 'BOS'\n    GROUP BY airline_code\n    HAVING COUNT(*) >= 100\n),\nranked AS (\n    SELECT airline_code,\n           on_time_rate,\n           operated_flights,\n           ROW_NUMBER() OVER (ORDER BY on_time_rate DESC, airline_code ASC) AS rate_rank,\n           ROW_NUMBER() OVER (ORDER BY operated_flights DESC, airline_code ASC) AS vol_rank,\n           SUM(operated_flights) OVER () AS airport_flights,\n           SUM(operated_flights) OVER (\n               ORDER BY operated_flights DESC, airline_code ASC\n               ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW\n           ) AS cum_flights\n    FROM base\n)\nSELECT CASE\n           WHEN airline_code = 'OO' THEN 'SkyWest (flies for several airlines)'\n           ELSE airline_code\n       END AS label,\n       on_time_rate,\n       operated_flights\nFROM ranked\nWHERE rate_rank = 1\n   OR vol_rank <= 3\n   OR (cum_flights - operated_flights) < 0.80 * airport_flights\nORDER BY CASE WHEN rate_rank = 1 THEN 0 ELSE 1 END, operated_flights DESC, airline_code ASC",
       "key_columns": [
         "label"
       ],
@@ -390,12 +540,22 @@
             "arrival_on_time_rate",
             "otp"
           ]
+        },
+        {
+          "name": "operated_flights",
+          "tolerance": 0,
+          "unit": "count",
+          "aliases": [
+            "operated_flights",
+            "n_operated",
+            "flight_count"
+          ]
         }
       ],
-      "notes": "Highest on-time arrival rate among reporting airlines with at least 100 operated departures from BOS. The winner can be a regional affiliate. Reporting-carrier AA is not the American brand family.",
-      "interpretation": "",
-      "follow_up": "",
-      "alternatives": "",
+      "notes": "Batch 4, 2026-10-11: literal winner out of BOS after 100 operated flights, plus the major carriers at that airport. Majors are the top 3 by operated departures, extended until they cover about 80 percent of operated departures. Each row has the on-time arrival rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines). The first row is the literal winner. The rest follow by volume. Waiting for Daniel to recheck.",
+      "interpretation": "I read this as the reporting carrier with the highest on-time arrival rate out of BOS, and the major carriers there: the top 3 by flights, or more if that is what it takes to cover about 80 percent.",
+      "follow_up": "Want the same airport for American, Delta, and United, with and without operating partners?",
+      "alternatives": "Literal winner, plus major carriers at this airport, each with an on-time rate and a flight count.",
       "why_limit": "",
       "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q007",
@@ -404,19 +564,39 @@
           {
             "label": "G4",
             "on_time_rate": 0.835821,
-            "n": 603
+            "operated_flights": 603
+          },
+          {
+            "label": "B6",
+            "on_time_rate": 0.716496,
+            "operated_flights": 36190
+          },
+          {
+            "label": "YX",
+            "on_time_rate": 0.780334,
+            "operated_flights": 32736
+          },
+          {
+            "label": "DL",
+            "on_time_rate": 0.769317,
+            "operated_flights": 25819
+          },
+          {
+            "label": "AA",
+            "on_time_rate": 0.786002,
+            "operated_flights": 16617
           }
         ]
       }
     },
     {
-      "status": "DRAFT",
+      "status": "DRAFT-REVISED",
       "question": "Which airline is most on time out of SEA?",
       "difficulty": "medium",
       "category": "airline_reliability",
-      "ambiguous": false,
+      "ambiguous": true,
       "answer_type": "ranking",
-      "sql": "SELECT airline_code AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin = 'SEA'\nGROUP BY airline_code\nHAVING COUNT(*) >= 100\nORDER BY on_time_rate DESC, label ASC\nLIMIT 1",
+      "sql": "WITH base AS (\n    SELECT airline_code,\n           AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n           COUNT(*) AS operated_flights\n    FROM flights_v\n    WHERE operated AND origin = 'SEA'\n    GROUP BY airline_code\n    HAVING COUNT(*) >= 100\n),\nranked AS (\n    SELECT airline_code,\n           on_time_rate,\n           operated_flights,\n           ROW_NUMBER() OVER (ORDER BY on_time_rate DESC, airline_code ASC) AS rate_rank,\n           ROW_NUMBER() OVER (ORDER BY operated_flights DESC, airline_code ASC) AS vol_rank,\n           SUM(operated_flights) OVER () AS airport_flights,\n           SUM(operated_flights) OVER (\n               ORDER BY operated_flights DESC, airline_code ASC\n               ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW\n           ) AS cum_flights\n    FROM base\n)\nSELECT CASE\n           WHEN airline_code = 'OO' THEN 'SkyWest (flies for several airlines)'\n           ELSE airline_code\n       END AS label,\n       on_time_rate,\n       operated_flights\nFROM ranked\nWHERE rate_rank = 1\n   OR vol_rank <= 3\n   OR (cum_flights - operated_flights) < 0.80 * airport_flights\nORDER BY CASE WHEN rate_rank = 1 THEN 0 ELSE 1 END, operated_flights DESC, airline_code ASC",
       "key_columns": [
         "label"
       ],
@@ -432,33 +612,53 @@
             "arrival_on_time_rate",
             "otp"
           ]
+        },
+        {
+          "name": "operated_flights",
+          "tolerance": 0,
+          "unit": "count",
+          "aliases": [
+            "operated_flights",
+            "n_operated",
+            "flight_count"
+          ]
         }
       ],
-      "notes": "Highest on-time arrival rate among reporting airlines with at least 100 operated departures from SEA. The winner can be a regional affiliate. Reporting-carrier AA is not the American brand family.",
-      "interpretation": "",
-      "follow_up": "",
-      "alternatives": "",
+      "notes": "Batch 4, 2026-10-11: literal winner out of SEA after 100 operated flights, plus the major carriers at that airport. Majors are the top 3 by operated departures, extended until they cover about 80 percent of operated departures. Each row has the on-time arrival rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines). The first row is the literal winner. The rest follow by volume. Waiting for Daniel to recheck.",
+      "interpretation": "I read this as the reporting carrier with the highest on-time arrival rate out of SEA, and the major carriers there: the top 3 by flights, or more if that is what it takes to cover about 80 percent.",
+      "follow_up": "Want the same airport for American, Delta, and United, with and without operating partners?",
+      "alternatives": "Literal winner, plus major carriers at this airport, each with an on-time rate and a flight count.",
       "why_limit": "",
       "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q008",
       "expected": {
         "rows": [
           {
-            "label": "OO",
+            "label": "SkyWest (flies for several airlines)",
             "on_time_rate": 0.856361,
-            "n": 28516
+            "operated_flights": 28516
+          },
+          {
+            "label": "AS",
+            "on_time_rate": 0.780618,
+            "operated_flights": 75845
+          },
+          {
+            "label": "DL",
+            "on_time_rate": 0.810659,
+            "operated_flights": 31842
           }
         ]
       }
     },
     {
-      "status": "DRAFT",
+      "status": "DRAFT-REVISED",
       "question": "Which airline is most on time out of EWR?",
       "difficulty": "medium",
       "category": "airline_reliability",
-      "ambiguous": false,
+      "ambiguous": true,
       "answer_type": "ranking",
-      "sql": "SELECT airline_code AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin = 'EWR'\nGROUP BY airline_code\nHAVING COUNT(*) >= 100\nORDER BY on_time_rate DESC, label ASC\nLIMIT 1",
+      "sql": "WITH base AS (\n    SELECT airline_code,\n           AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n           COUNT(*) AS operated_flights\n    FROM flights_v\n    WHERE operated AND origin = 'EWR'\n    GROUP BY airline_code\n    HAVING COUNT(*) >= 100\n),\nranked AS (\n    SELECT airline_code,\n           on_time_rate,\n           operated_flights,\n           ROW_NUMBER() OVER (ORDER BY on_time_rate DESC, airline_code ASC) AS rate_rank,\n           ROW_NUMBER() OVER (ORDER BY operated_flights DESC, airline_code ASC) AS vol_rank,\n           SUM(operated_flights) OVER () AS airport_flights,\n           SUM(operated_flights) OVER (\n               ORDER BY operated_flights DESC, airline_code ASC\n               ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW\n           ) AS cum_flights\n    FROM base\n)\nSELECT CASE\n           WHEN airline_code = 'OO' THEN 'SkyWest (flies for several airlines)'\n           ELSE airline_code\n       END AS label,\n       on_time_rate,\n       operated_flights\nFROM ranked\nWHERE rate_rank = 1\n   OR vol_rank <= 3\n   OR (cum_flights - operated_flights) < 0.80 * airport_flights\nORDER BY CASE WHEN rate_rank = 1 THEN 0 ELSE 1 END, operated_flights DESC, airline_code ASC",
       "key_columns": [
         "label"
       ],
@@ -474,12 +674,22 @@
             "arrival_on_time_rate",
             "otp"
           ]
+        },
+        {
+          "name": "operated_flights",
+          "tolerance": 0,
+          "unit": "count",
+          "aliases": [
+            "operated_flights",
+            "n_operated",
+            "flight_count"
+          ]
         }
       ],
-      "notes": "Highest on-time arrival rate among reporting airlines with at least 100 operated departures from EWR. The winner can be a regional affiliate. Reporting-carrier AA is not the American brand family.",
-      "interpretation": "",
-      "follow_up": "",
-      "alternatives": "",
+      "notes": "Batch 4, 2026-10-11: literal winner out of EWR after 100 operated flights, plus the major carriers at that airport. Majors are the top 3 by operated departures, extended until they cover about 80 percent of operated departures. Each row has the on-time arrival rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines). The first row is the literal winner. The rest follow by volume. Waiting for Daniel to recheck.",
+      "interpretation": "I read this as the reporting carrier with the highest on-time arrival rate out of EWR, and the major carriers there: the top 3 by flights, or more if that is what it takes to cover about 80 percent.",
+      "follow_up": "Want the same airport for American, Delta, and United, with and without operating partners?",
+      "alternatives": "Literal winner, plus major carriers at this airport, each with an on-time rate and a flight count.",
       "why_limit": "",
       "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q009",
@@ -488,13 +698,23 @@
           {
             "label": "YX",
             "on_time_rate": 0.835403,
-            "n": 23026
+            "operated_flights": 23026
+          },
+          {
+            "label": "UA",
+            "on_time_rate": 0.770367,
+            "operated_flights": 66467
+          },
+          {
+            "label": "DL",
+            "on_time_rate": 0.794546,
+            "operated_flights": 6381
           }
         ]
       }
     },
     {
-      "status": "DRAFT",
+      "status": "DRAFT-REVISED",
       "question": "Which five airlines have the highest systemwide on-time arrival rate?",
       "difficulty": "medium",
       "category": "airline_reliability",
@@ -518,12 +738,15 @@
           ]
         }
       ],
-      "notes": "Candidate interpretation follows the project definitions.",
-      "interpretation": "",
-      "follow_up": "",
+      "notes": "Five reporting carriers after 5,000 operated flights. Hawaiian benefits from island weather. Hawaiian also stops reporting after December 2025 in this extract, so the lead is a partial year. Waiting for Daniel to recheck.",
+      "interpretation": "The five reporting carriers with the highest on-time arrival rate. Hawaiian benefits from island weather.",
+      "follow_up": "Want the same five after a full year, or with the partial-year carriers set aside?",
       "alternatives": "",
       "why_limit": "",
       "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
+      "required_phrases": [
+        "Hawaiian benefits from island weather."
+      ],
       "id": "q010",
       "expected": {
         "rows": [
@@ -976,13 +1199,13 @@
       }
     },
     {
-      "status": "DRAFT",
+      "status": "DRAFT-REVISED",
       "question": "Which airline is most on time out of MIA?",
       "difficulty": "medium",
       "category": "airline_reliability",
-      "ambiguous": false,
+      "ambiguous": true,
       "answer_type": "ranking",
-      "sql": "SELECT airline_code AS label,\n       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n       COUNT(*) AS n\nFROM flights_v\nWHERE operated AND origin = 'MIA'\nGROUP BY airline_code\nHAVING COUNT(*) >= 100\nORDER BY on_time_rate DESC, label ASC\nLIMIT 1",
+      "sql": "WITH base AS (\n    SELECT airline_code,\n           AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n           COUNT(*) AS operated_flights\n    FROM flights_v\n    WHERE operated AND origin = 'MIA'\n    GROUP BY airline_code\n    HAVING COUNT(*) >= 100\n),\nranked AS (\n    SELECT airline_code,\n           on_time_rate,\n           operated_flights,\n           ROW_NUMBER() OVER (ORDER BY on_time_rate DESC, airline_code ASC) AS rate_rank,\n           ROW_NUMBER() OVER (ORDER BY operated_flights DESC, airline_code ASC) AS vol_rank,\n           SUM(operated_flights) OVER () AS airport_flights,\n           SUM(operated_flights) OVER (\n               ORDER BY operated_flights DESC, airline_code ASC\n               ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW\n           ) AS cum_flights\n    FROM base\n)\nSELECT CASE\n           WHEN airline_code = 'OO' THEN 'SkyWest (flies for several airlines)'\n           ELSE airline_code\n       END AS label,\n       on_time_rate,\n       operated_flights\nFROM ranked\nWHERE rate_rank = 1\n   OR vol_rank <= 3\n   OR (cum_flights - operated_flights) < 0.80 * airport_flights\nORDER BY CASE WHEN rate_rank = 1 THEN 0 ELSE 1 END, operated_flights DESC, airline_code ASC",
       "key_columns": [
         "label"
       ],
@@ -998,12 +1221,22 @@
             "arrival_on_time_rate",
             "otp"
           ]
+        },
+        {
+          "name": "operated_flights",
+          "tolerance": 0,
+          "unit": "count",
+          "aliases": [
+            "operated_flights",
+            "n_operated",
+            "flight_count"
+          ]
         }
       ],
-      "notes": "Candidate interpretation follows the project definitions.",
-      "interpretation": "",
-      "follow_up": "",
-      "alternatives": "",
+      "notes": "Batch 4, 2026-10-11: same major-carrier rule as the other 'most on time out of' questions. Literal winner plus the top 3 by volume, extended to about 80 percent of operated departures. SkyWest is labeled SkyWest (flies for several airlines). Waiting for Daniel to recheck.",
+      "interpretation": "I read this as the reporting carrier with the highest on-time arrival rate out of MIA, and the major carriers there: the top 3 by flights, or more if that is what it takes to cover about 80 percent.",
+      "follow_up": "Want the same airport for American, Delta, and United, with and without operating partners?",
+      "alternatives": "Literal winner, plus major carriers at this airport, each with an on-time rate and a flight count.",
       "why_limit": "",
       "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q021",
@@ -1012,7 +1245,17 @@
           {
             "label": "MQ",
             "on_time_rate": 0.825987,
-            "n": 13976
+            "operated_flights": 13976
+          },
+          {
+            "label": "AA",
+            "on_time_rate": 0.719374,
+            "operated_flights": 62945
+          },
+          {
+            "label": "DL",
+            "on_time_rate": 0.744364,
+            "operated_flights": 11356
           }
         ]
       }
@@ -1856,20 +2099,20 @@
       "expected": {
         "rows": [
           {
-            "label": "WN",
-            "scheduled_flights": 0,
-            "operated_flights": 0,
-            "on_time_rate": null,
-            "cancellation_rate": null,
-            "avg_arrival_delay": null
-          },
-          {
             "label": "AA",
             "scheduled_flights": 4245,
             "operated_flights": 4072,
             "on_time_rate": 0.6611,
             "cancellation_rate": 0.034629,
             "avg_arrival_delay": 20.34725
+          },
+          {
+            "label": "WN",
+            "scheduled_flights": 0,
+            "operated_flights": 0,
+            "on_time_rate": null,
+            "cancellation_rate": null,
+            "avg_arrival_delay": null
           }
         ]
       }
@@ -2312,20 +2555,20 @@
       "expected": {
         "rows": [
           {
-            "label": "DL",
-            "scheduled_flights": 2226,
-            "operated_flights": 2211,
-            "on_time_rate": 0.830846,
-            "cancellation_rate": 0.006289,
-            "avg_arrival_delay": 1.157395
-          },
-          {
             "label": "AS",
             "scheduled_flights": 3289,
             "operated_flights": 3258,
             "on_time_rate": 0.80663,
             "cancellation_rate": 0.009425,
             "avg_arrival_delay": 1.098527
+          },
+          {
+            "label": "DL",
+            "scheduled_flights": 2226,
+            "operated_flights": 2211,
+            "on_time_rate": 0.830846,
+            "cancellation_rate": 0.006289,
+            "avg_arrival_delay": 1.157395
           }
         ]
       }
@@ -3668,9 +3911,9 @@
       "question": "In July 2026, which airline is most on time out of ATL?",
       "difficulty": "hard",
       "category": "seasonality",
-      "ambiguous": false,
-      "answer_type": "set",
-      "sql": "WITH base AS (\n    SELECT airline_code,\n           AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n           COUNT(*) AS n\n    FROM flights_v\n    WHERE operated AND origin = 'ATL' AND year = 2026 AND month = 7\n    GROUP BY airline_code\n    HAVING COUNT(*) >= 100\n),\nwinner AS (\n    SELECT airline_code FROM base ORDER BY on_time_rate DESC, airline_code ASC LIMIT 1\n)\nSELECT b.airline_code AS label,\n       b.on_time_rate,\n       b.n,\n       CASE\n           WHEN b.airline_code IN (SELECT airline_code FROM winner) THEN 'literal_best'\n           ELSE 'big3'\n       END AS role\nFROM base b\nWHERE b.airline_code IN (SELECT airline_code FROM winner)\n   OR b.airline_code IN ('AA', 'DL', 'UA')",
+      "ambiguous": true,
+      "answer_type": "ranking",
+      "sql": "WITH base AS (\n    SELECT airline_code,\n           AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,\n           COUNT(*) AS operated_flights\n    FROM flights_v\n    WHERE operated AND origin = 'ATL' AND year = 2026 AND month = 7\n    GROUP BY airline_code\n    HAVING COUNT(*) >= 100\n),\nranked AS (\n    SELECT airline_code,\n           on_time_rate,\n           operated_flights,\n           ROW_NUMBER() OVER (ORDER BY on_time_rate DESC, airline_code ASC) AS rate_rank,\n           ROW_NUMBER() OVER (ORDER BY operated_flights DESC, airline_code ASC) AS vol_rank,\n           SUM(operated_flights) OVER () AS airport_flights,\n           SUM(operated_flights) OVER (\n               ORDER BY operated_flights DESC, airline_code ASC\n               ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW\n           ) AS cum_flights\n    FROM base\n)\nSELECT CASE\n           WHEN airline_code = 'OO' THEN 'SkyWest (flies for several airlines)'\n           ELSE airline_code\n       END AS label,\n       on_time_rate,\n       operated_flights\nFROM ranked\nWHERE rate_rank = 1\n   OR vol_rank <= 3\n   OR (cum_flights - operated_flights) < 0.80 * airport_flights\nORDER BY CASE WHEN rate_rank = 1 THEN 0 ELSE 1 END, operated_flights DESC, airline_code ASC",
       "key_columns": [
         "label"
       ],
@@ -3686,40 +3929,46 @@
             "arrival_on_time_rate",
             "otp"
           ]
+        },
+        {
+          "name": "operated_flights",
+          "tolerance": 0,
+          "unit": "count",
+          "aliases": [
+            "operated_flights",
+            "n_operated",
+            "flight_count"
+          ]
         }
       ],
-      "notes": "The literal winner is the reporting carrier with the highest on-time arrival rate after the 100-flight minimum. The same answer also lists American, Delta, and United, the three big business airlines. role is literal_best or big3.",
-      "interpretation": "",
-      "follow_up": "Want this across the three big business airlines for the full year, with and without operating partners?",
-      "alternatives": "Literal best reporting carrier, plus AA, DL, and UA at ATL in July 2026. Each row has an on-time rate and a flight count. The floor is 100 operated flights.",
+      "notes": "Batch 4 general rule, applied to July 2026 at ATL. Literal winner after 100 operated flights, plus the major carriers that month: top 3 by volume, extended until they cover about 80 percent of operated departures. Each row has the on-time rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines). This replaces the earlier cut that always listed American, Delta, and United. Waiting for Daniel to recheck.",
+      "interpretation": "I read this as July 2026 departures from ATL: the literal on-time winner, and the major carriers at ATL that month.",
+      "follow_up": "Want American, Delta, and United at ATL for the full year, with and without operating partners?",
+      "alternatives": "Literal winner, plus major carriers at ATL in July 2026, each with an on-time rate and a flight count.",
       "why_limit": "",
-      "minimum_rule": "",
+      "minimum_rule": "Rankings use a minimum-flights rule so a small sample cannot win. An airline at one airport needs at least 100 operated flights. A systemwide airline ranking needs at least 5,000. An airport ranking needs at least 5,000 operated departures, or 2,000 in a morning or evening bucket. A route ranking needs at least 500 operated flights, or 200 when the route is limited to one origin. A delay-cause ranking needs at least 1,000 late arrivals. A cancellation-cause ranking needs at least 200 cancellations.",
       "id": "q077",
       "expected": {
         "rows": [
           {
-            "label": "DL",
-            "on_time_rate": 0.68102,
-            "n": 21249,
-            "role": "big3"
-          },
-          {
-            "label": "UA",
-            "on_time_rate": 0.724744,
-            "n": 683,
-            "role": "big3"
-          },
-          {
             "label": "AS",
             "on_time_rate": 0.734513,
-            "n": 113,
-            "role": "literal_best"
+            "operated_flights": 113
           },
           {
-            "label": "AA",
-            "on_time_rate": 0.636099,
-            "n": 687,
-            "role": "big3"
+            "label": "DL",
+            "on_time_rate": 0.68102,
+            "operated_flights": 21249
+          },
+          {
+            "label": "F9",
+            "on_time_rate": 0.523555,
+            "operated_flights": 1868
+          },
+          {
+            "label": "WN",
+            "on_time_rate": 0.639517,
+            "operated_flights": 1326
           }
         ]
       }
@@ -4565,22 +4814,16 @@
             "n": 21812
           },
           {
-            "label": "brand_united",
-            "who": "brand_united",
-            "on_time_rate": 0.761472,
-            "n": 9785
-          },
-          {
             "label": "brand_frontier",
             "who": "brand_frontier",
             "on_time_rate": 0.742717,
             "n": 10195
           },
           {
-            "label": "brand_delta",
-            "who": "brand_delta",
-            "on_time_rate": 0.809473,
-            "n": 11358
+            "label": "brand_united",
+            "who": "brand_united",
+            "on_time_rate": 0.761472,
+            "n": 9785
           },
           {
             "label": "brand_alaska",
@@ -4593,6 +4836,12 @@
             "who": "brand_spirit",
             "on_time_rate": 0.745017,
             "n": 3612
+          },
+          {
+            "label": "brand_delta",
+            "who": "brand_delta",
+            "on_time_rate": 0.809473,
+            "n": 11358
           },
           {
             "label": "brand_american",
@@ -5359,12 +5608,12 @@
       "expected": {
         "rows": [
           {
-            "label": "10k_to_49999",
-            "on_time_rate": 0.804337
-          },
-          {
             "label": "150k_or_more",
             "on_time_rate": 0.760935
+          },
+          {
+            "label": "10k_to_49999",
+            "on_time_rate": 0.804337
           }
         ]
       }
@@ -5653,12 +5902,12 @@
             "figure": 0.026888
           },
           {
-            "label": "southwest_same_airport_gap",
-            "figure": -0.038014
-          },
-          {
             "label": "american_same_airport_gap",
             "figure": -0.016227
+          },
+          {
+            "label": "southwest_same_airport_gap",
+            "figure": -0.038014
           },
           {
             "label": "delta_same_airport_gap",

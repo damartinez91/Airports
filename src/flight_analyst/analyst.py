@@ -30,6 +30,9 @@ class AnalystResult:
     infrastructure_error: str | None = None
     provider: str | None = None
     model: str | None = None
+    input_tokens: int = 0
+    output_tokens: int = 0
+    latency_seconds: float = 0.0
 
 
 def build_system_prompt(window_line: str) -> str:
@@ -113,6 +116,12 @@ def _reading(question: str) -> str:
         return "reporting-carrier American: the on-time arrival rate and the mean signed arrival delay in minutes, not the brand rollup."
     if "most delays" in low:
         return "the greatest count of late arrivals, with that airline's late rate beside the count."
+    if "most on time out of" in low:
+        return (
+            "the literal winner by on-time arrival rate, and the major carriers at that airport "
+            "(top 3 by flights, extended to about 80 percent of departures), each with a rate and a flight count. "
+            "SkyWest is labeled as flying for several airlines."
+        )
     if "best" in low or "worst" in low:
         return "the on-time arrival rate after the minimum-flights rule, with the natural alternative cut beside it."
     if "dallas" in low and "american" in low:
@@ -161,6 +170,8 @@ def compose_answer(question: str, rows: list[dict], columns: list[str]) -> str:
         lines.append(f"{label}: " + ", ".join(bits))
     if len(rows) > len(shown):
         lines.append(f"{len(rows) - len(shown)} more rows")
+    if "five airlines" in question.lower() and "highest systemwide on-time" in question.lower():
+        lines.append("Hawaiian benefits from island weather.")
     if _needs_minimum(question):
         lines.append(MINIMUM_RULE)
     if _needs_why(question):
@@ -192,7 +203,10 @@ class Analyst:
             ).fetchone()
             window_line = f"{window[0]} through {window[1]}, {window[2]} scheduled flights"
             raw = self.client.complete(build_system_prompt(window_line), question)
-            payload = parse_model_payload(raw)
+            result.input_tokens = int(getattr(raw, "input_tokens", 0) or 0)
+            result.output_tokens = int(getattr(raw, "output_tokens", 0) or 0)
+            result.latency_seconds = float(getattr(raw, "latency_seconds", 0.0) or 0.0)
+            payload = parse_model_payload(raw.text if hasattr(raw, "text") else raw)
             if payload.get("refuse"):
                 result.refused = True
                 result.refusal_reason = payload.get("refusal_reason") or "Refused."

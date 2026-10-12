@@ -4,8 +4,8 @@ Status: **DRAFT**. candidate answers pending Daniel's review
 
 Scored against DRAFT candidate answers where a question is still draft. Grade the spoken answer as well as the rows. An ambiguous question passes only when the answer has the literal figures, a stated reading that begins 'I read this as', and the expected alternative cuts, each with a number and a unit. If one listed item has a number, every listed item has that number, with its unit (percent, minutes, or flights). A follow-up question is an advisory nudge score. It does not change pass or fail. Rankings must state the minimum-flights rule. When BTS cause codes cannot say why, the answer says that plainly.
 
-Provider: `stub`
-Run: 2026-10-11T23:10:46+00:00
+Provider: `stub` (`stub`)
+Run: 2026-10-12T02:45:18+00:00
 
 ## Overall
 

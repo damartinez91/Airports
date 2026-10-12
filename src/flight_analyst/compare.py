@@ -53,6 +53,7 @@ NAME_ALIASES = {
     "allegiant air": "G4",
     "skywest": "OO",
     "skywest airlines": "OO",
+    "skywest flies for several airlines": "OO",
     "envoy": "MQ",
     "envoy air": "MQ",
     "republic": "YX",
@@ -355,6 +356,9 @@ def prose_rubric(question: dict, answer_text: str | None) -> tuple[bool, str, bo
     needs_reading = bool(question.get("ambiguous")) or bool(question.get("alternatives"))
     if needs_reading and not _READING.search(text):
         return False, "The answer did not state how it read the question.", nudge
+    for phrase in question.get("required_phrases") or []:
+        if phrase.lower() not in text.lower():
+            return False, f"The answer left out the required note: {phrase}", nudge
     return True, "", nudge
 
 

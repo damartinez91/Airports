@@ -12,6 +12,7 @@ DB_PATH = Path(os.environ.get("FLIGHT_DB_PATH", DATA_DIR / "flights.duckdb"))
 QUESTIONS_DIR = ROOT / "questions"
 BANK_PATH = QUESTIONS_DIR / "bank.json"
 REPORTS_DIR = ROOT / "reports"
+RESULTS_DIR = ROOT / "results"
 SCOREBOARD_PATH = ROOT / "scoreboard" / "index.html"
 SITE_DIR = ROOT / "site"
 DOCS_DIR = ROOT / "docs"
@@ -22,5 +23,6 @@ def ensure_dirs() -> None:
     RAW_DIR.mkdir(parents=True, exist_ok=True)
     QUESTIONS_DIR.mkdir(parents=True, exist_ok=True)
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+    RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     SCOREBOARD_PATH.parent.mkdir(parents=True, exist_ok=True)
     DOCS_DIR.mkdir(parents=True, exist_ok=True)

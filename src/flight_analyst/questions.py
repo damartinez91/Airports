@@ -341,29 +341,55 @@ ORDER BY {metric_name} DESC, label ASC
 LIMIT 5"""
 
 
-def sql_atl_july_2026() -> str:
+def sql_most_on_time_out_of(origin: str, extra_where: str = "") -> str:
+    """Literal winner, plus the major carriers at one airport.
+
+    Majors are the top 3 by operated departures. If those 3 cover less than
+    about 80 percent of operated departures, keep adding carriers by volume
+    until the list crosses that share. The winner is included even when it
+    is outside that volume list. SkyWest is labeled as a multi-airline regional.
+    """
+    if not extra_where:
+        extra_where = ""
+    elif not extra_where.startswith(" "):
+        extra_where = " " + extra_where
     return f"""WITH base AS (
     SELECT airline_code,
            AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,
-           COUNT(*) AS n
+           COUNT(*) AS operated_flights
     FROM flights_v
-    WHERE operated AND origin = 'ATL' AND year = 2026 AND month = 7
+    WHERE operated AND origin = '{origin}'{extra_where}
     GROUP BY airline_code
     HAVING COUNT(*) >= {MIN_AIRLINE_AT_AIRPORT}
 ),
-winner AS (
-    SELECT airline_code FROM base ORDER BY on_time_rate DESC, airline_code ASC LIMIT 1
+ranked AS (
+    SELECT airline_code,
+           on_time_rate,
+           operated_flights,
+           ROW_NUMBER() OVER (ORDER BY on_time_rate DESC, airline_code ASC) AS rate_rank,
+           ROW_NUMBER() OVER (ORDER BY operated_flights DESC, airline_code ASC) AS vol_rank,
+           SUM(operated_flights) OVER () AS airport_flights,
+           SUM(operated_flights) OVER (
+               ORDER BY operated_flights DESC, airline_code ASC
+               ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+           ) AS cum_flights
+    FROM base
 )
-SELECT b.airline_code AS label,
-       b.on_time_rate,
-       b.n,
-       CASE
-           WHEN b.airline_code IN (SELECT airline_code FROM winner) THEN 'literal_best'
-           ELSE 'big3'
-       END AS role
-FROM base b
-WHERE b.airline_code IN (SELECT airline_code FROM winner)
-   OR b.airline_code IN ('AA', 'DL', 'UA')"""
+SELECT CASE
+           WHEN airline_code = 'OO' THEN 'SkyWest (flies for several airlines)'
+           ELSE airline_code
+       END AS label,
+       on_time_rate,
+       operated_flights
+FROM ranked
+WHERE rate_rank = 1
+   OR vol_rank <= 3
+   OR (cum_flights - operated_flights) < 0.80 * airport_flights
+ORDER BY CASE WHEN rate_rank = 1 THEN 0 ELSE 1 END, operated_flights DESC, airline_code ASC"""
+
+
+def sql_atl_july_2026() -> str:
+    return sql_most_on_time_out_of("ATL", "AND year = 2026 AND month = 7")
 
 
 def sql_partners_and_mainline() -> str:
@@ -454,23 +480,25 @@ def build_questions() -> list[dict]:
             f"Which airline is most on time out of {code}?",
             difficulty,
             "airline_reliability",
-            _rank(
-                "airline_code",
-                "airline_code",
-                "on_time_rate",
-                ONTIME,
-                f"operated AND origin = '{code}'",
-                f"COUNT(*) >= {MIN_AIRLINE_AT_AIRPORT}",
-                True,
-                1,
-            ),
+            sql_most_on_time_out_of(code),
             "ranking",
-            _vals("on_time_rate"),
+            _vals("on_time_rate", "operated_flights"),
             notes=(
-                f"Highest on-time arrival rate among reporting airlines with at least "
-                f"{MIN_AIRLINE_AT_AIRPORT} operated departures from {code}. "
-                "The winner can be a regional affiliate. Reporting-carrier AA is not the American brand family."
+                f"Batch 4, 2026-10-11: literal winner out of {code} after "
+                f"{MIN_AIRLINE_AT_AIRPORT} operated flights, plus the major carriers at that airport. "
+                "Majors are the top 3 by operated departures, extended until they cover about 80 percent of operated departures. "
+                "Each row has the on-time arrival rate and the flight count. "
+                "SkyWest is labeled SkyWest (flies for several airlines). "
+                "The first row is the literal winner. The rest follow by volume. "
+                "Waiting for Daniel to recheck."
             ),
+            ambiguous=True,
+            interpretation=(
+                f"I read this as the reporting carrier with the highest on-time arrival rate out of {code}, "
+                "and the major carriers there: the top 3 by flights, or more if that is what it takes to cover about 80 percent."
+            ),
+            alternatives="Literal winner, plus major carriers at this airport, each with an on-time rate and a flight count.",
+            follow_up="Want the same airport for American, Delta, and United, with and without operating partners?",
         ))
 
     add(_q(
@@ -480,6 +508,13 @@ def build_questions() -> list[dict]:
         _rank("airline_code", "airline_code", "on_time_rate", ONTIME, "operated", f"COUNT(*) >= {MIN_AIRLINE_SYSTEMWIDE}", True, 5),
         "ranking",
         _vals("on_time_rate"),
+        notes=(
+            "Five reporting carriers after 5,000 operated flights. "
+            "Hawaiian benefits from island weather. Hawaiian also stops reporting after December 2025 in this extract, so the lead is a partial year. "
+            "Waiting for Daniel to recheck."
+        ),
+        interpretation="The five reporting carriers with the highest on-time arrival rate. Hawaiian benefits from island weather.",
+        follow_up="Want the same five after a full year, or with the partial-year carriers set aside?",
     ))
     add(_q(
         "Which five airlines have the lowest systemwide on-time arrival rate?",
@@ -605,9 +640,21 @@ def build_questions() -> list[dict]:
         "Which airline is most on time out of MIA?",
         "medium",
         "airline_reliability",
-        _rank("airline_code", "airline_code", "on_time_rate", ONTIME, "operated AND origin = 'MIA'", f"COUNT(*) >= {MIN_AIRLINE_AT_AIRPORT}", True, 1),
+        sql_most_on_time_out_of("MIA"),
         "ranking",
-        _vals("on_time_rate"),
+        _vals("on_time_rate", "operated_flights"),
+        notes=(
+            "Batch 4, 2026-10-11: same major-carrier rule as the other 'most on time out of' questions. "
+            "Literal winner plus the top 3 by volume, extended to about 80 percent of operated departures. "
+            "SkyWest is labeled SkyWest (flies for several airlines). Waiting for Daniel to recheck."
+        ),
+        ambiguous=True,
+        interpretation=(
+            "I read this as the reporting carrier with the highest on-time arrival rate out of MIA, "
+            "and the major carriers there: the top 3 by flights, or more if that is what it takes to cover about 80 percent."
+        ),
+        alternatives="Literal winner, plus major carriers at this airport, each with an on-time rate and a flight count.",
+        follow_up="Want the same airport for American, Delta, and United, with and without operating partners?",
     ))
 
     add(_q(
@@ -1125,11 +1172,20 @@ LIMIT 1""",
         "hard",
         "seasonality",
         sql_atl_july_2026(),
-        "set",
-        _vals("on_time_rate"),
-        notes="The literal winner is the reporting carrier with the highest on-time arrival rate after the 100-flight minimum. The same answer also lists American, Delta, and United, the three big business airlines. role is literal_best or big3.",
-        follow_up="Want this across the three big business airlines for the full year, with and without operating partners?",
-        alternatives="Literal best reporting carrier, plus AA, DL, and UA at ATL in July 2026. Each row has an on-time rate and a flight count. The floor is 100 operated flights.",
+        "ranking",
+        _vals("on_time_rate", "operated_flights"),
+        notes=(
+            "Batch 4 general rule, applied to July 2026 at ATL. Literal winner after 100 operated flights, "
+            "plus the major carriers that month: top 3 by volume, extended until they cover about 80 percent of operated departures. "
+            "Each row has the on-time rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines). "
+            "This replaces the earlier cut that always listed American, Delta, and United. Waiting for Daniel to recheck."
+        ),
+        ambiguous=True,
+        interpretation=(
+            "I read this as July 2026 departures from ATL: the literal on-time winner, and the major carriers at ATL that month."
+        ),
+        alternatives="Literal winner, plus major carriers at ATL in July 2026, each with an on-time rate and a flight count.",
+        follow_up="Want American, Delta, and United at ATL for the full year, with and without operating partners?",
     ))
     add(_q(
         "What is the December 2025 systemwide on-time arrival rate?",
@@ -1665,6 +1721,22 @@ _REVIEW = {
     "Which airline has the highest share of its cancellations coded A (carrier)?": {"status": "DRAFT-REVISED"},
     "For winter departures from ORD, what share of late-arrival minutes is weather delay?": {"status": "APPROVED"},
     "Including single-partner regional affiliates, how do American and Delta compare on systemwide on-time arrival rate? Return both rates.": {"status": "DRAFT-REVISED"},
+    # Batch 4, 2026-10-11. These stay DRAFT-REVISED until Daniel rechecks.
+    # q022 (evening worst airports) and q025 (five worst airports) were "fine as is" and stay DRAFT.
+    "Which airline is most on time out of DFW?": {"status": "DRAFT-REVISED"},
+    "Which airline is most on time out of ORD?": {"status": "DRAFT-REVISED"},
+    "Which airline is most on time out of ATL?": {"status": "DRAFT-REVISED"},
+    "Which airline is most on time out of DEN?": {"status": "DRAFT-REVISED"},
+    "Which airline is most on time out of LAX?": {"status": "DRAFT-REVISED"},
+    "Which airline is most on time out of LGA?": {"status": "DRAFT-REVISED"},
+    "Which airline is most on time out of BOS?": {"status": "DRAFT-REVISED"},
+    "Which airline is most on time out of SEA?": {"status": "DRAFT-REVISED"},
+    "Which airline is most on time out of EWR?": {"status": "DRAFT-REVISED"},
+    "Which airline is most on time out of MIA?": {"status": "DRAFT-REVISED"},
+    "Which five airlines have the highest systemwide on-time arrival rate?": {
+        "status": "DRAFT-REVISED",
+        "required_phrases": ["Hawaiian benefits from island weather."],
+    },
 }
 
 
