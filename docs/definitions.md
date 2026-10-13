@@ -108,6 +108,118 @@ When Hawaiian is in a systemwide on-time ranking, the answer notes that Hawaiian
 
 Do not put a window function in a WHERE clause. Put the window in a CTE, or filter the window with QUALIFY.
 
+The on_time_rate column is the mean of on_time_arrival. It is never the late share and never one minus the on-time share.
+
+On a most-on-time list, put the literal winner first. Order the other required carriers by operated_flights descending. Do not sort the whole list by volume.
+
+When a question asks which of two directions is more on time, return both ORIGIN-DEST rows with the same on-time arrival rate metric.
+
+When the question says between two airports, return each direction as ORIGIN-DEST and a both-directions row. Each row has the on-time arrival rate.
+
+When a question names two airlines, return a row for each, even when one airline has zero flights.
+
+A most-delays row includes late_flights and late_rate. late_rate is late arrivals divided by operated flights. It is a fraction, not 1, and it is not the on-time rate. Do not restrict the query to late flights only.
+
+How late is American, Is American usually late, and American's on-time record all return on_time_rate and avg_arrival_delay for reporting carrier AA. A flight count does not stand in for avg_arrival_delay.
+
+Average delay is AVG(arr_delay) over operated flights. It is not the mean of late flights only, not departure delay, and not the median, unless the question asks for that.
+
+Every THEN belongs to a CASE that has WHEN and END. Prefer the boolean columns operated, on_time_arrival, and late_arrival. Write arr_delay < 15 only inside a CASE expression.
+
+A VALUES list names its columns, for example FROM (VALUES ('AA'), ('WN')) AS codes(airline_code).
+
+Return every required carrier, direction, and row. SkyWest and Republic stay in the answer when the rule includes them. A named direction is its own row.
+
+A month slice, such as July 2026, still returns the literal winner and the major carriers in that slice. Filter the month inside the operated rows. Do not replace the carrier list with a single airline.
+
+## Answer shapes
+
+Answer-shape examples. Copy the column layout. These are patterns, not stored rates.
+
+Most on time out of an airport. The window lives in the CTE. The outer WHERE filters rate_rank. The first row is the winner. Later rows are the other required carriers, ordered by operated_flights descending.
+
+```sql
+WITH base AS (
+    SELECT airline_code,
+           AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,
+           COUNT(*) AS operated_flights
+    FROM flights_v
+    WHERE operated AND origin = 'XXX'
+    GROUP BY airline_code
+    HAVING COUNT(*) >= 100
+),
+ranked AS (
+    SELECT airline_code, on_time_rate, operated_flights,
+           ROW_NUMBER() OVER (ORDER BY on_time_rate DESC, airline_code ASC) AS rate_rank,
+           ROW_NUMBER() OVER (ORDER BY operated_flights DESC, airline_code ASC) AS vol_rank
+    FROM base
+)
+SELECT CASE WHEN airline_code = 'OO' THEN 'SkyWest (flies for several airlines)' ELSE airline_code END AS label,
+       on_time_rate,
+       operated_flights
+FROM ranked
+WHERE rate_rank = 1 OR vol_rank <= 3
+ORDER BY CASE WHEN rate_rank = 1 THEN 0 ELSE 1 END, operated_flights DESC, airline_code ASC
+```
+
+Two named directions. Both rows, same metric.
+
+```sql
+SELECT 'ORD-LGA' AS label, AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate
+FROM flights_v
+WHERE operated AND origin = 'ORD' AND dest = 'LGA'
+UNION ALL
+SELECT 'LGA-ORD' AS label, AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate
+FROM flights_v
+WHERE operated AND origin = 'LGA' AND dest = 'ORD'
+```
+
+Between two airports. Each direction, plus both-directions.
+
+```sql
+SELECT 'DFW-ORD' AS label, AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate, COUNT(*) AS n
+FROM flights_v
+WHERE operated AND origin = 'DFW' AND dest = 'ORD'
+UNION ALL
+SELECT 'ORD-DFW' AS label, AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate, COUNT(*) AS n
+FROM flights_v
+WHERE operated AND origin = 'ORD' AND dest = 'DFW'
+UNION ALL
+SELECT 'both-directions' AS label, AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate, COUNT(*) AS n
+FROM flights_v
+WHERE operated AND ((origin = 'DFW' AND dest = 'ORD') OR (origin = 'ORD' AND dest = 'DFW'))
+```
+
+Most delays. late_flights is the count. late_rate divides that count by operated flights. Keep the operated flights in the denominator.
+
+```sql
+SELECT airline_code AS label,
+       SUM(CASE WHEN late_arrival THEN 1 ELSE 0 END) AS late_flights,
+       AVG(CASE WHEN late_arrival THEN 1.0 ELSE 0.0 END) AS late_rate,
+       COUNT(*) AS operated_flights
+FROM flights_v
+WHERE operated
+GROUP BY airline_code
+ORDER BY late_flights DESC
+```
+
+How late, usually late, or an on-time record. Both metrics, for reporting carrier AA. AVG(arr_delay) is the mean over operated flights.
+
+```sql
+SELECT 'AA' AS label,
+       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,
+       AVG(arr_delay) AS avg_arrival_delay
+FROM flights_v
+WHERE operated AND airline_code = 'AA'
+```
+
+A VALUES list names its columns. AS r with no column list has no airline_code.
+
+```sql
+SELECT codes.airline_code AS label
+FROM (VALUES ('AA'), ('WN')) AS codes(airline_code)
+```
+
 The July 2026 reporting-carrier header has `Reporting_Airline` and no marketing-airline column. Envoy, PSA, and Piedmont can roll into American because they fly for one brand. SkyWest and Republic fly for more than one brand, and this file cannot assign those flights to a marketing brand.
 
 These cutoffs are choices. A smaller airport can still clear the evening floor. Changing the floor will change who sits at the bottom of that list. That is a review item, not a hidden constant.

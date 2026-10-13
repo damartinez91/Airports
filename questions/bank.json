@@ -116,7 +116,7 @@
   "question_count": 120,
   "questions": [
     {
-      "status": "DRAFT-REVISED",
+      "status": "APPROVED",
       "question": "Which airline is most on time out of DFW?",
       "difficulty": "easy",
       "category": "airline_reliability",
@@ -150,7 +150,7 @@
           ]
         }
       ],
-      "notes": "Batch 4, 2026-10-11: literal winner out of DFW after 100 operated flights, plus the major carriers at that airport. Majors are the top 3 by operated departures, extended until they cover about 80 percent of operated departures. Each row has the on-time arrival rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines). The first row is the literal winner. The rest follow by volume. Waiting for Daniel to recheck.",
+      "notes": "Batch 4, 2026-10-11: literal winner out of DFW after 100 operated flights, plus the major carriers at that airport. Majors are the top 3 by operated departures, extended until they cover about 80 percent of operated departures. Each row has the on-time arrival rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines). The first row is the literal winner. The rest follow by volume. Daniel approved this question on 2026-10-13.",
       "interpretation": "I read this as the reporting carrier with the highest on-time arrival rate out of DFW, and the major carriers there: the top 3 by flights, or more if that is what it takes to cover about 80 percent.",
       "follow_up": "Want the same airport for American, Delta, and United, with and without operating partners?",
       "alternatives": "Literal winner, plus major carriers at this airport, each with an on-time rate and a flight count.",
@@ -179,7 +179,7 @@
       }
     },
     {
-      "status": "DRAFT-REVISED",
+      "status": "APPROVED",
       "question": "Which airline is most on time out of ORD?",
       "difficulty": "easy",
       "category": "airline_reliability",
@@ -213,7 +213,7 @@
           ]
         }
       ],
-      "notes": "Batch 4, 2026-10-11: literal winner out of ORD after 100 operated flights, plus the major carriers at that airport. Majors are the top 3 by operated departures, extended until they cover about 80 percent of operated departures. Each row has the on-time arrival rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines). The first row is the literal winner. The rest follow by volume. Waiting for Daniel to recheck.",
+      "notes": "Batch 4, 2026-10-11: literal winner out of ORD after 100 operated flights, plus the major carriers at that airport. Majors are the top 3 by operated departures, extended until they cover about 80 percent of operated departures. Each row has the on-time arrival rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines). The first row is the literal winner. The rest follow by volume. Daniel approved this question on 2026-10-13.",
       "interpretation": "I read this as the reporting carrier with the highest on-time arrival rate out of ORD, and the major carriers there: the top 3 by flights, or more if that is what it takes to cover about 80 percent.",
       "follow_up": "Want the same airport for American, Delta, and United, with and without operating partners?",
       "alternatives": "Literal winner, plus major carriers at this airport, each with an on-time rate and a flight count.",
@@ -247,7 +247,7 @@
       }
     },
     {
-      "status": "DRAFT-REVISED",
+      "status": "APPROVED",
       "question": "Which airline is most on time out of ATL?",
       "difficulty": "easy",
       "category": "airline_reliability",
@@ -281,7 +281,7 @@
           ]
         }
       ],
-      "notes": "Batch 4, 2026-10-11: literal winner out of ATL after 100 operated flights, plus the major carriers at that airport. Majors are the top 3 by operated departures, extended until they cover about 80 percent of operated departures. Each row has the on-time arrival rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines). The first row is the literal winner. The rest follow by volume. Waiting for Daniel to recheck.",
+      "notes": "Batch 4, 2026-10-11: literal winner out of ATL after 100 operated flights, plus the major carriers at that airport. Majors are the top 3 by operated departures, extended until they cover about 80 percent of operated departures. Each row has the on-time arrival rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines). The first row is the literal winner. The rest follow by volume. Daniel approved this question on 2026-10-13.",
       "interpretation": "I read this as the reporting carrier with the highest on-time arrival rate out of ATL, and the major carriers there: the top 3 by flights, or more if that is what it takes to cover about 80 percent.",
       "follow_up": "Want the same airport for American, Delta, and United, with and without operating partners?",
       "alternatives": "Literal winner, plus major carriers at this airport, each with an on-time rate and a flight count.",
@@ -315,7 +315,7 @@
       }
     },
     {
-      "status": "DRAFT-REVISED",
+      "status": "APPROVED",
       "question": "Which airline is most on time out of DEN?",
       "difficulty": "medium",
       "category": "airline_reliability",
@@ -349,7 +349,7 @@
           ]
         }
       ],
-      "notes": "Batch 4, 2026-10-11: literal winner out of DEN after 100 operated flights, plus the major carriers at that airport. Majors are the top 3 by operated departures, extended until they cover about 80 percent of operated departures. Each row has the on-time arrival rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines). The first row is the literal winner. The rest follow by volume. Waiting for Daniel to recheck.",
+      "notes": "Batch 4, 2026-10-11: literal winner out of DEN after 100 operated flights, plus the major carriers at that airport. Majors are the top 3 by operated departures, extended until they cover about 80 percent of operated departures. Each row has the on-time arrival rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines). The first row is the literal winner. The rest follow by volume. Daniel approved this question on 2026-10-13.",
       "interpretation": "I read this as the reporting carrier with the highest on-time arrival rate out of DEN, and the major carriers there: the top 3 by flights, or more if that is what it takes to cover about 80 percent.",
       "follow_up": "Want the same airport for American, Delta, and United, with and without operating partners?",
       "alternatives": "Literal winner, plus major carriers at this airport, each with an on-time rate and a flight count.",
@@ -383,7 +383,7 @@
       }
     },
     {
-      "status": "DRAFT-REVISED",
+      "status": "APPROVED",
       "question": "Which airline is most on time out of LAX?",
       "difficulty": "easy",
       "category": "airline_reliability",
@@ -417,7 +417,7 @@
           ]
         }
       ],
-      "notes": "Batch 4, 2026-10-11: literal winner out of LAX after 100 operated flights, plus the major carriers at that airport. Majors are the top 3 by operated departures, extended until they cover about 80 percent of operated departures. Each row has the on-time arrival rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines). The first row is the literal winner. The rest follow by volume. Waiting for Daniel to recheck.",
+      "notes": "Batch 4, 2026-10-11: literal winner out of LAX after 100 operated flights, plus the major carriers at that airport. Majors are the top 3 by operated departures, extended until they cover about 80 percent of operated departures. Each row has the on-time arrival rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines). The first row is the literal winner. The rest follow by volume. Daniel approved this question on 2026-10-13.",
       "interpretation": "I read this as the reporting carrier with the highest on-time arrival rate out of LAX, and the major carriers there: the top 3 by flights, or more if that is what it takes to cover about 80 percent.",
       "follow_up": "Want the same airport for American, Delta, and United, with and without operating partners?",
       "alternatives": "Literal winner, plus major carriers at this airport, each with an on-time rate and a flight count.",
@@ -456,7 +456,7 @@
       }
     },
     {
-      "status": "DRAFT-REVISED",
+      "status": "APPROVED",
       "question": "Which airline is most on time out of LGA?",
       "difficulty": "medium",
       "category": "airline_reliability",
@@ -490,7 +490,7 @@
           ]
         }
       ],
-      "notes": "Batch 4, 2026-10-11: literal winner out of LGA after 100 operated flights, plus the major carriers at that airport. Majors are the top 3 by operated departures, extended until they cover about 80 percent of operated departures. Each row has the on-time arrival rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines). The first row is the literal winner. The rest follow by volume. Waiting for Daniel to recheck.",
+      "notes": "Batch 4, 2026-10-11: literal winner out of LGA after 100 operated flights, plus the major carriers at that airport. Majors are the top 3 by operated departures, extended until they cover about 80 percent of operated departures. Each row has the on-time arrival rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines). The first row is the literal winner. The rest follow by volume. Daniel approved this question on 2026-10-13.",
       "interpretation": "I read this as the reporting carrier with the highest on-time arrival rate out of LGA, and the major carriers there: the top 3 by flights, or more if that is what it takes to cover about 80 percent.",
       "follow_up": "Want the same airport for American, Delta, and United, with and without operating partners?",
       "alternatives": "Literal winner, plus major carriers at this airport, each with an on-time rate and a flight count.",
@@ -524,7 +524,7 @@
       }
     },
     {
-      "status": "DRAFT-REVISED",
+      "status": "APPROVED",
       "question": "Which airline is most on time out of BOS?",
       "difficulty": "medium",
       "category": "airline_reliability",
@@ -558,7 +558,7 @@
           ]
         }
       ],
-      "notes": "Batch 4, 2026-10-11: literal winner out of BOS after 100 operated flights, plus the major carriers at that airport. Majors are the top 3 by operated departures, extended until they cover about 80 percent of operated departures. Each row has the on-time arrival rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines). The first row is the literal winner. The rest follow by volume. Waiting for Daniel to recheck.",
+      "notes": "Batch 4, 2026-10-11: literal winner out of BOS after 100 operated flights, plus the major carriers at that airport. Majors are the top 3 by operated departures, extended until they cover about 80 percent of operated departures. Each row has the on-time arrival rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines). The first row is the literal winner. The rest follow by volume. Daniel approved this question on 2026-10-13.",
       "interpretation": "I read this as the reporting carrier with the highest on-time arrival rate out of BOS, and the major carriers there: the top 3 by flights, or more if that is what it takes to cover about 80 percent.",
       "follow_up": "Want the same airport for American, Delta, and United, with and without operating partners?",
       "alternatives": "Literal winner, plus major carriers at this airport, each with an on-time rate and a flight count.",
@@ -597,7 +597,7 @@
       }
     },
     {
-      "status": "DRAFT-REVISED",
+      "status": "APPROVED",
       "question": "Which airline is most on time out of SEA?",
       "difficulty": "medium",
       "category": "airline_reliability",
@@ -631,7 +631,7 @@
           ]
         }
       ],
-      "notes": "Batch 4, 2026-10-11: literal winner out of SEA after 100 operated flights, plus the major carriers at that airport. Majors are the top 3 by operated departures, extended until they cover about 80 percent of operated departures. Each row has the on-time arrival rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines). The first row is the literal winner. The rest follow by volume. Waiting for Daniel to recheck.",
+      "notes": "Batch 4, 2026-10-11: literal winner out of SEA after 100 operated flights, plus the major carriers at that airport. Majors are the top 3 by operated departures, extended until they cover about 80 percent of operated departures. Each row has the on-time arrival rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines). The first row is the literal winner. The rest follow by volume. Daniel approved this question on 2026-10-13.",
       "interpretation": "I read this as the reporting carrier with the highest on-time arrival rate out of SEA, and the major carriers there: the top 3 by flights, or more if that is what it takes to cover about 80 percent.",
       "follow_up": "Want the same airport for American, Delta, and United, with and without operating partners?",
       "alternatives": "Literal winner, plus major carriers at this airport, each with an on-time rate and a flight count.",
@@ -660,7 +660,7 @@
       }
     },
     {
-      "status": "DRAFT-REVISED",
+      "status": "APPROVED",
       "question": "Which airline is most on time out of EWR?",
       "difficulty": "medium",
       "category": "airline_reliability",
@@ -694,7 +694,7 @@
           ]
         }
       ],
-      "notes": "Batch 4, 2026-10-11: literal winner out of EWR after 100 operated flights, plus the major carriers at that airport. Majors are the top 3 by operated departures, extended until they cover about 80 percent of operated departures. Each row has the on-time arrival rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines). The first row is the literal winner. The rest follow by volume. Waiting for Daniel to recheck.",
+      "notes": "Batch 4, 2026-10-11: literal winner out of EWR after 100 operated flights, plus the major carriers at that airport. Majors are the top 3 by operated departures, extended until they cover about 80 percent of operated departures. Each row has the on-time arrival rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines). The first row is the literal winner. The rest follow by volume. Daniel approved this question on 2026-10-13.",
       "interpretation": "I read this as the reporting carrier with the highest on-time arrival rate out of EWR, and the major carriers there: the top 3 by flights, or more if that is what it takes to cover about 80 percent.",
       "follow_up": "Want the same airport for American, Delta, and United, with and without operating partners?",
       "alternatives": "Literal winner, plus major carriers at this airport, each with an on-time rate and a flight count.",
@@ -723,7 +723,7 @@
       }
     },
     {
-      "status": "DRAFT-REVISED",
+      "status": "APPROVED",
       "question": "Which five airlines have the highest systemwide on-time arrival rate?",
       "difficulty": "medium",
       "category": "airline_reliability",
@@ -747,7 +747,7 @@
           ]
         }
       ],
-      "notes": "Five reporting carriers after 5,000 operated flights. Hawaiian benefits from island weather. Hawaiian also stops reporting after December 2025 in this extract, so the lead is a partial year. Waiting for Daniel to recheck.",
+      "notes": "Five reporting carriers after 5,000 operated flights. Hawaiian benefits from island weather. Hawaiian also stops reporting after December 2025 in this extract, so the lead is a partial year. Daniel approved this question on 2026-10-13.",
       "interpretation": "The five reporting carriers with the highest on-time arrival rate. Hawaiian benefits from island weather.",
       "follow_up": "Want the same five after a full year, or with the partial-year carriers set aside?",
       "alternatives": "",
@@ -1219,7 +1219,7 @@
       }
     },
     {
-      "status": "DRAFT-REVISED",
+      "status": "APPROVED",
       "question": "Which airline is most on time out of MIA?",
       "difficulty": "medium",
       "category": "airline_reliability",
@@ -1253,7 +1253,7 @@
           ]
         }
       ],
-      "notes": "Batch 4, 2026-10-11: same major-carrier rule as the other 'most on time out of' questions. Literal winner plus the top 3 by volume, extended to about 80 percent of operated departures. SkyWest is labeled SkyWest (flies for several airlines). Waiting for Daniel to recheck.",
+      "notes": "Batch 4, 2026-10-11: same major-carrier rule as the other 'most on time out of' questions. Literal winner plus the top 3 by volume, extended to about 80 percent of operated departures. SkyWest is labeled SkyWest (flies for several airlines). Daniel approved this question on 2026-10-13.",
       "interpretation": "I read this as the reporting carrier with the highest on-time arrival rate out of MIA, and the major carriers there: the top 3 by flights, or more if that is what it takes to cover about 80 percent.",
       "follow_up": "Want the same airport for American, Delta, and United, with and without operating partners?",
       "alternatives": "Literal winner, plus major carriers at this airport, each with an on-time rate and a flight count.",
@@ -2440,7 +2440,7 @@
       }
     },
     {
-      "status": "DRAFT-REVISED",
+      "status": "APPROVED",
       "question": "Which five routes have the highest cancellation rate?",
       "difficulty": "hard",
       "category": "routes",
@@ -2894,7 +2894,7 @@
       }
     },
     {
-      "status": "DRAFT-REVISED",
+      "status": "APPROVED",
       "question": "What are the five routes out of DFW with the highest average signed arrival delay?",
       "difficulty": "hard",
       "category": "routes",
@@ -3983,7 +3983,7 @@
       }
     },
     {
-      "status": "DRAFT-REVISED",
+      "status": "APPROVED",
       "question": "In July 2026, which airline is most on time out of ATL?",
       "difficulty": "hard",
       "category": "seasonality",
@@ -4017,7 +4017,7 @@
           ]
         }
       ],
-      "notes": "Batch 4 general rule, applied to July 2026 at ATL. Literal winner after 100 operated flights, plus the major carriers that month: top 3 by volume, extended until they cover about 80 percent of operated departures. Each row has the on-time rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines). This replaces the earlier cut that always listed American, Delta, and United. Waiting for Daniel to recheck.",
+      "notes": "Batch 4 general rule, applied to July 2026 at ATL. Literal winner after 100 operated flights, plus the major carriers that month: top 3 by volume, extended until they cover about 80 percent of operated departures. Each row has the on-time rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines). This replaces the earlier cut that always listed American, Delta, and United. Daniel approved this question on 2026-10-13.",
       "interpretation": "I read this as July 2026 departures from ATL: the literal on-time winner, and the major carriers at ATL that month.",
       "follow_up": "Want American, Delta, and United at ATL for the full year, with and without operating partners?",
       "alternatives": "Literal winner, plus major carriers at ATL in July 2026, each with an on-time rate and a flight count.",
@@ -4511,7 +4511,7 @@
       }
     },
     {
-      "status": "DRAFT-REVISED",
+      "status": "APPROVED",
       "question": "Which airline has the highest share of its late-arrival minutes labeled carrier delay, not counting late aircraft?",
       "difficulty": "hard",
       "category": "delay_causes",
@@ -4684,7 +4684,7 @@
       }
     },
     {
-      "status": "DRAFT-REVISED",
+      "status": "APPROVED",
       "question": "Which airline has the highest share of its cancellations coded A (carrier)?",
       "difficulty": "hard",
       "category": "delay_causes",
@@ -4857,7 +4857,7 @@
       }
     },
     {
-      "status": "DRAFT-REVISED",
+      "status": "APPROVED",
       "question": "Which airline is best out of DFW?",
       "difficulty": "hard",
       "category": "ambiguous_or_trick",
@@ -4996,7 +4996,7 @@
       }
     },
     {
-      "status": "DRAFT-REVISED",
+      "status": "APPROVED",
       "question": "Are flights between DFW and ORD on time? Return the on-time arrival rate.",
       "difficulty": "hard",
       "category": "ambiguous_or_trick",
@@ -5103,7 +5103,7 @@
       }
     },
     {
-      "status": "DRAFT-REVISED",
+      "status": "APPROVED",
       "question": "Which airport is the worst?",
       "difficulty": "hard",
       "category": "ambiguous_or_trick",
@@ -5213,7 +5213,7 @@
       }
     },
     {
-      "status": "DRAFT-REVISED",
+      "status": "APPROVED",
       "question": "Including single-partner regional affiliates, how do American and Delta compare on systemwide on-time arrival rate? Return both rates.",
       "difficulty": "hard",
       "category": "ambiguous_or_trick",
@@ -5341,7 +5341,7 @@
       }
     },
     {
-      "status": "DRAFT-REVISED",
+      "status": "APPROVED",
       "question": "Which airline has the most delays?",
       "difficulty": "hard",
       "category": "ambiguous_or_trick",

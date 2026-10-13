@@ -9,7 +9,7 @@ The live ask process is not a page. It stays off unless `LIVE_ASK=1`, and this m
 | Page | URL | How a person gets there | What to confirm |
 | --- | --- | --- | --- |
 | Overview | `/` | Open the site | Draft banner, window, three cards: Explore, Scoreboard, Compare |
-| Explore | `/explore/` | Overview card "Explore", or the Explore link in the nav | Question list, filters, one revised "most on time out of" answer |
+| Explore | `/explore/` | Overview card "Explore", or the Explore link in the nav | Question list, filters, one Daniel-approved "most on time out of" answer |
 | Scoreboard | `/scoreboard/` | Overview card "Scoreboard", or the Scoreboard link in the nav | Overall accuracy, difficulty cards, miss table |
 | Compare | `/compare/` | Overview card "Compare", the Compare link in the nav, or "Compare saved models on this question" on an explore card | Price-vs-accuracy chart, saved-run table, question menu, model switch, cost receipt |
 

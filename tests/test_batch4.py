@@ -12,12 +12,12 @@ def test_batch4_major_carriers_and_hawaiian_note():
     top = questions["Which five airlines have the highest systemwide on-time arrival rate?"]
     evening = questions["What are the five worst airports for evening delays?"]
     worst = questions["What are the five worst airports by on-time arrival rate?"]
-    assert bos["status"] == "DRAFT-REVISED"
-    assert lax["status"] == "DRAFT-REVISED"
+    assert bos["status"] == "APPROVED"
+    assert lax["status"] == "APPROVED"
     assert "SkyWest (flies for several airlines)" in lax["sql"]
     assert "0.80" in lax["sql"]
     assert "vol_rank <= 3" in lax["sql"]
-    assert top["status"] == "DRAFT-REVISED"
+    assert top["status"] == "APPROVED"
     assert top["required_phrases"] == ["Hawaiian benefits from island weather."]
     assert evening["status"] == "DRAFT"
     assert worst["status"] == "DRAFT"

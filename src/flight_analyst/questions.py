@@ -498,7 +498,7 @@ def build_questions() -> list[dict]:
                 "Each row has the on-time arrival rate and the flight count. "
                 "SkyWest is labeled SkyWest (flies for several airlines). "
                 "The first row is the literal winner. The rest follow by volume. "
-                "Waiting for Daniel to recheck."
+                "Daniel approved this question on 2026-10-13."
             ),
             ambiguous=True,
             interpretation=(
@@ -519,7 +519,7 @@ def build_questions() -> list[dict]:
         notes=(
             "Five reporting carriers after 5,000 operated flights. "
             "Hawaiian benefits from island weather. Hawaiian also stops reporting after December 2025 in this extract, so the lead is a partial year. "
-            "Waiting for Daniel to recheck."
+            "Daniel approved this question on 2026-10-13."
         ),
         interpretation="The five reporting carriers with the highest on-time arrival rate. Hawaiian benefits from island weather.",
         follow_up="Want the same five after a full year, or with the partial-year carriers set aside?",
@@ -654,7 +654,7 @@ def build_questions() -> list[dict]:
         notes=(
             "Batch 4, 2026-10-11: same major-carrier rule as the other 'most on time out of' questions. "
             "Literal winner plus the top 3 by volume, extended to about 80 percent of operated departures. "
-            "SkyWest is labeled SkyWest (flies for several airlines). Waiting for Daniel to recheck."
+            "SkyWest is labeled SkyWest (flies for several airlines). Daniel approved this question on 2026-10-13."
         ),
         ambiguous=True,
         interpretation=(
@@ -1186,7 +1186,7 @@ LIMIT 1""",
             "Batch 4 general rule, applied to July 2026 at ATL. Literal winner after 100 operated flights, "
             "plus the major carriers that month: top 3 by volume, extended until they cover about 80 percent of operated departures. "
             "Each row has the on-time rate and the flight count. SkyWest is labeled SkyWest (flies for several airlines). "
-            "This replaces the earlier cut that always listed American, Delta, and United. Waiting for Daniel to recheck."
+            "This replaces the earlier cut that always listed American, Delta, and United. Daniel approved this question on 2026-10-13."
         ),
         ambiguous=True,
         interpretation=(
@@ -1712,37 +1712,37 @@ _REVIEW = {
         "status": "APPROVED",
         "why_limit": WHY_LIMIT,
     },
-    "Which airline is best out of DFW?": {"status": "DRAFT-REVISED"},
+    "Which airline is best out of DFW?": {"status": "APPROVED"},
     "What is the average delay at ORD?": {"status": "APPROVED"},
-    "Are flights between DFW and ORD on time? Return the on-time arrival rate.": {"status": "DRAFT-REVISED"},
-    "Which airport is the worst?": {"status": "DRAFT-REVISED"},
+    "Are flights between DFW and ORD on time? Return the on-time arrival rate.": {"status": "APPROVED"},
+    "Which airport is the worst?": {"status": "APPROVED"},
     "Which is more on time out of Dallas, American or Southwest? Return both on-time arrival rates.": {"status": "APPROVED"},
-    "Which airline has the most delays?": {"status": "DRAFT-REVISED"},
+    "Which airline has the most delays?": {"status": "APPROVED"},
     "Are red-eye flights less on time than other flights? Return the night-departure on-time arrival rate and the rate for all other departures.": {"status": "APPROVED"},
     "Which five routes have the lowest on-time arrival rate?": {"status": "APPROVED"},
-    "Which five routes have the highest cancellation rate?": {"status": "DRAFT-REVISED"},
-    "What are the five routes out of DFW with the highest average signed arrival delay?": {"status": "DRAFT-REVISED"},
+    "Which five routes have the highest cancellation rate?": {"status": "APPROVED"},
+    "What are the five routes out of DFW with the highest average signed arrival delay?": {"status": "APPROVED"},
     "At ORD, what are the on-time arrival rates for departures in hour 06 and hour 18?": {"status": "APPROVED"},
     "At DEN, what are the on-time arrival rates for departures in hour 08 and hour 20?": {"status": "APPROVED"},
-    "In July 2026, which airline is most on time out of ATL?": {"status": "DRAFT-REVISED"},
-    "Which airline has the highest share of its late-arrival minutes labeled carrier delay, not counting late aircraft?": {"status": "DRAFT-REVISED"},
-    "Which airline has the highest share of its cancellations coded A (carrier)?": {"status": "DRAFT-REVISED"},
+    "In July 2026, which airline is most on time out of ATL?": {"status": "APPROVED"},
+    "Which airline has the highest share of its late-arrival minutes labeled carrier delay, not counting late aircraft?": {"status": "APPROVED"},
+    "Which airline has the highest share of its cancellations coded A (carrier)?": {"status": "APPROVED"},
     "For winter departures from ORD, what share of late-arrival minutes is weather delay?": {"status": "APPROVED"},
-    "Including single-partner regional affiliates, how do American and Delta compare on systemwide on-time arrival rate? Return both rates.": {"status": "DRAFT-REVISED"},
-    # Batch 4, 2026-10-11. These stay DRAFT-REVISED until Daniel rechecks.
+    "Including single-partner regional affiliates, how do American and Delta compare on systemwide on-time arrival rate? Return both rates.": {"status": "APPROVED"},
+    # Batch 4, 2026-10-11. Daniel rechecked these on 2026-10-13 and approved them.
     # q022 (evening worst airports) and q025 (five worst airports) were "fine as is" and stay DRAFT.
-    "Which airline is most on time out of DFW?": {"status": "DRAFT-REVISED"},
-    "Which airline is most on time out of ORD?": {"status": "DRAFT-REVISED"},
-    "Which airline is most on time out of ATL?": {"status": "DRAFT-REVISED"},
-    "Which airline is most on time out of DEN?": {"status": "DRAFT-REVISED"},
-    "Which airline is most on time out of LAX?": {"status": "DRAFT-REVISED"},
-    "Which airline is most on time out of LGA?": {"status": "DRAFT-REVISED"},
-    "Which airline is most on time out of BOS?": {"status": "DRAFT-REVISED"},
-    "Which airline is most on time out of SEA?": {"status": "DRAFT-REVISED"},
-    "Which airline is most on time out of EWR?": {"status": "DRAFT-REVISED"},
-    "Which airline is most on time out of MIA?": {"status": "DRAFT-REVISED"},
+    "Which airline is most on time out of DFW?": {"status": "APPROVED"},
+    "Which airline is most on time out of ORD?": {"status": "APPROVED"},
+    "Which airline is most on time out of ATL?": {"status": "APPROVED"},
+    "Which airline is most on time out of DEN?": {"status": "APPROVED"},
+    "Which airline is most on time out of LAX?": {"status": "APPROVED"},
+    "Which airline is most on time out of LGA?": {"status": "APPROVED"},
+    "Which airline is most on time out of BOS?": {"status": "APPROVED"},
+    "Which airline is most on time out of SEA?": {"status": "APPROVED"},
+    "Which airline is most on time out of EWR?": {"status": "APPROVED"},
+    "Which airline is most on time out of MIA?": {"status": "APPROVED"},
     "Which five airlines have the highest systemwide on-time arrival rate?": {
-        "status": "DRAFT-REVISED",
+        "status": "APPROVED",
         "required_phrases": ["Hawaiian benefits from island weather."],
     },
 }

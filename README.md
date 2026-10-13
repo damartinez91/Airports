@@ -60,8 +60,8 @@ Those rules are choices. The evening-airport floor is 2,000 operated departures.
 
 Daniel's 2026-10-11 review is applied question by question. The bank file stays `DRAFT` because most questions are still unread. Each question has its own status:
 
-- `APPROVED` (13): Daniel-approved, including the wording of "How late is American?"
-- `DRAFT-REVISED` (21): the reference SQL or the required note was changed from his review and is waiting for a recheck. The extra 11 are batch 4 on 2026-10-11: every "most on time out of" airport question now returns the literal winner and the major carriers (top 3 by flights, extended to about 80 percent), and the systemwide top 5 keeps the note that Hawaiian benefits from island weather. q022 and q025 were left as he found them.
+- `APPROVED` (34): Daniel-approved. Thirteen were accepted on 2026-10-11, including the wording of "How late is American?" He rechecked the other 21 on 2026-10-13 and approved them. That set keeps the revised shapes: most-on-time-out-of returns the literal winner and the major carriers (top 3 by flights, extended to about 80 percent), the systemwide top 5 notes that Hawaiian benefits from island weather, and the earlier revised keys stay as he rechecked them. q022 and q025 were left as he found them and stay draft.
+- `DRAFT-REVISED` (0): none are waiting for a recheck.
 - `DRAFT` (86): not in those review passes
 
 The answering rules he approved are in the analyst briefing and the grader rubric (`docs/definitions.md`). An ambiguous answer has to give the literal figures, say how it was read, and include the alternative cuts, each with a unit. A follow-up question is an advisory nudge score. It does not change pass or fail.
@@ -156,7 +156,7 @@ Two tiers. Neither one is turned on in this repository: GitHub Pages is not enab
 
 The database on disk is 367,538,176 bytes, about 351 MB, for 7,043,858 flights. That is too large to ship. DuckDB-WASM would make every visitor download it, and a Parquet extract of the same table is the same problem (`*.parquet` is gitignored as data). The published extracts are the candidate answers and the eval report.
 
-This build of `site/` is **1,092,450 bytes**. The JSON extracts are **543,212 bytes** (`explore.json`, `report.json`, and `models.json`). `flight_rows_published` is 0. Those figures are also in `site/data/manifest.json`. The explore page includes all 120 questions, with each question's status, the alternative cuts, the minimum-flights rule on rankings, a likely follow-up, and a link to the model comparison. The compare page plots cost per 100 questions against accuracy and switches among saved answers. The saved runs are the stub at $0 and Claude Haiku 4.5. OpenAI, xAI, and a local model stay pending until a file for that provider is saved. The scoreboard on the site is the 116-of-120 stub run. A click-test map for that site is `docs/FEATURE-MAP.md`.
+This build of `site/` is **1,092,697 bytes**. The JSON extracts are **543,275 bytes** (`explore.json`, `report.json`, and `models.json`). `flight_rows_published` is 0. Those figures are also in `site/data/manifest.json`. The explore page includes all 120 questions, with each question's status, the alternative cuts, the minimum-flights rule on rankings, a likely follow-up, and a link to the model comparison. The compare page plots cost per 100 questions against accuracy and switches among saved answers. The saved runs are the stub at $0 and Claude Haiku 4.5. OpenAI, xAI, and a local model stay pending until a file for that provider is saved. The scoreboard on the site is the 116-of-120 stub run. A click-test map for that site is `docs/FEATURE-MAP.md`.
 
 Preview locally, still without publishing:
 

@@ -9,8 +9,8 @@ def test_daniel_review_counts_and_variant_sql():
     by_status = {}
     for item in questions:
         by_status[item["status"]] = by_status.get(item["status"], 0) + 1
-    assert by_status["APPROVED"] == 13
-    assert by_status["DRAFT-REVISED"] == 21
+    assert by_status["APPROVED"] == 34
+    assert by_status.get("DRAFT-REVISED", 0) == 0
     assert by_status["DRAFT"] == len(questions) - 34
     lateness = [item for item in questions if item["sql"] == sql_american_lateness().strip()]
     assert len(lateness) == 3
