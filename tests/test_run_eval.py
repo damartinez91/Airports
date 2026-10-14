@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from flight_analyst.evaluate import run_evaluation
+from flight_analyst.evaluate import allocate_run_file, run_evaluation, run_label_for
 from flight_analyst.ingest import create_database, load_lookups
 from flight_analyst.llm import Completion
 from flight_analyst.pricing import UnpricedModel, quote
@@ -92,9 +92,32 @@ def test_budget_stops_before_the_next_question(tmp_path: Path):
     saved = json.loads(out.read_text())
     assert saved["schema_version"] == "model-run-v1"
     assert saved["provider"] == "anthropic"
+    assert saved["run_label"] == "claude-haiku-4-5"
     assert saved["results"][0]["grade"]["passed"] is True
     assert "input_tokens" in saved["results"][0]
     assert saved["price"]["source"].startswith("https://")
+
+
+def test_each_run_gets_a_new_file(tmp_path: Path):
+    first = allocate_run_file("claude-haiku-4-5", tmp_path)
+    first.write_text("{}")
+    second = allocate_run_file("claude-haiku-4-5", tmp_path)
+    sonnet = allocate_run_file("claude-sonnet-4-5", tmp_path)
+    assert first.name == "claude-haiku-4-5-r1.json"
+    assert second.name == "claude-haiku-4-5-r2.json"
+    assert sonnet.name == "claude-sonnet-4-5-r1.json"
+    assert run_label_for("claude-haiku-4-5", second) == "claude-haiku-4-5 r2"
+    assert run_label_for("claude-sonnet-4-5", sonnet) == "claude-sonnet-4-5 r1"
+    assert run_label_for("stub", tmp_path / "stub.json") == "stub"
+
+
+def test_run_eval_refuses_to_overwrite_an_existing_file(tmp_path: Path, capsys):
+    dest = tmp_path / "claude-haiku-4-5-r1.json"
+    dest.write_text("{}\n")
+    code = main(["--provider", "stub", "--model", "stub", "--out", str(dest), "--budget-usd", "3"])
+    assert code == 2
+    assert "already exists" in capsys.readouterr().err
+    assert dest.read_text() == "{}\n"
 
 
 def test_run_eval_refuses_a_missing_key(monkeypatch, capsys):

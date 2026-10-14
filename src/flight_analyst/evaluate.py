@@ -25,6 +25,26 @@ from flight_analyst.pricing import SCHEMA_VERSION, UnpricedModel, over_budget, p
 from flight_analyst.report import write_reports
 
 
+def allocate_run_file(model: str, folder: Path) -> Path:
+    """Next unused results/{model}-rN.json. Never reuses an existing file."""
+    safe = "".join(ch if ch.isalnum() or ch in "-._" else "-" for ch in str(model)) or "model"
+    folder.mkdir(parents=True, exist_ok=True)
+    number = 1
+    while True:
+        path = folder / f"{safe}-r{number}.json"
+        if not path.exists():
+            return path
+        number += 1
+
+
+def run_label_for(model: str, path: Path) -> str:
+    """Compare-page name. claude-haiku-4-5-r2.json is 'claude-haiku-4-5 r2'."""
+    match = re.fullmatch(r".+-r(\d+)", path.stem)
+    if match:
+        return f"{model} r{match.group(1)}"
+    return str(model)
+
+
 def _resolver(con) -> EntityResolver:
     pairs = []
     pairs.extend(con.execute("SELECT airline_code, airline_name FROM carriers").fetchall())
@@ -74,6 +94,7 @@ def model_run_document(report: dict) -> dict:
         "schema_version": SCHEMA_VERSION,
         "provider": report.get("provider"),
         "model": report.get("model") or report.get("provider"),
+        "run_label": report.get("run_label") or report.get("model") or report.get("provider"),
         "created_at": report.get("created_at"),
         "price": {
             "input_per_million_usd": price.get("input_per_million_usd"),
@@ -308,8 +329,9 @@ def run_evaluation(
     destination = out_dir or REPORTS_DIR
     write_reports(report, destination)
     if model_out is None:
-        safe = "".join(ch if ch.isalnum() or ch in "-._" else "-" for ch in str(model_name)) or "model"
         folder = RESULTS_DIR if destination == REPORTS_DIR else destination
-        model_out = folder / f"{safe}.json"
+        model_out = allocate_run_file(model_name, folder)
+    model_out = Path(model_out)
+    report["run_label"] = run_label_for(model_name, model_out)
     report["model_run_path"] = str(write_model_run(report, model_out))
     return report

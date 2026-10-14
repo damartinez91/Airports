@@ -13,9 +13,6 @@ from flight_analyst.llm import StubClient, get_client
 from flight_analyst.schema import FLIGHT_COLUMNS, VIEW_EXTRA
 from flight_analyst.sql_guard import SqlGuardError, prepare_sql
 
-_FENCE = re.compile(r"^```(?:json)?\s*|\s*```$", re.IGNORECASE)
-
-
 @dataclass
 class AnalystResult:
     question: str
@@ -46,26 +43,48 @@ Columns:
 
 {briefing_block()}
 
-Respond with JSON only, no markdown:
+Respond with one JSON object and nothing after it. No markdown fence, no second JSON object, and no commentary.
 {{"sql": "SELECT ...", "refuse": false, "refusal_reason": null, "chart": false}}
 Set refuse to true and sql to null when the dataset cannot answer the question.
 """
 
 
+def _strip_fence(text: str) -> str:
+    stripped = text.strip()
+    if stripped.startswith("```"):
+        stripped = re.sub(r"^```[a-zA-Z]*\s*", "", stripped)
+        if "```" in stripped:
+            stripped = stripped.split("```", 1)[0]
+    return stripped.strip()
+
+
+def _first_json_object(text: str) -> dict | None:
+    """First JSON object in the text. Trailing commentary is ignored."""
+    decoder = json.JSONDecoder()
+    starts = [0] if text.startswith("{") else []
+    starts.extend(match.start() for match in re.finditer(r"\{", text))
+    seen: set[int] = set()
+    for start in starts:
+        if start in seen:
+            continue
+        seen.add(start)
+        try:
+            value, _end = decoder.raw_decode(text[start:])
+        except json.JSONDecodeError:
+            continue
+        if isinstance(value, dict):
+            return value
+    return None
+
+
 def parse_model_payload(raw: str) -> dict:
-    text = (raw or "").strip()
-    text = _FENCE.sub("", text).strip()
-    try:
-        payload = json.loads(text)
-    except json.JSONDecodeError:
-        match = re.search(r"\{.*\}", text, flags=re.DOTALL)
-        if not match:
-            start = re.search(r"\b(select|with)\b", text, flags=re.IGNORECASE)
-            if not start:
-                raise SqlGuardError("Model response did not contain SQL.")
-            payload = {"sql": text[start.start():], "refuse": False}
-        else:
-            payload = json.loads(match.group(0))
+    text = _strip_fence(raw or "")
+    payload = _first_json_object(text)
+    if payload is None:
+        start = re.search(r"\b(select|with)\b", text, flags=re.IGNORECASE)
+        if not start:
+            raise SqlGuardError("Model response did not contain SQL.")
+        payload = {"sql": text[start.start():], "refuse": False}
     if not isinstance(payload, dict):
         raise SqlGuardError("Model response was not a JSON object.")
     return payload

@@ -429,6 +429,10 @@ def load_model_runs(results_dir: Path | None = None) -> list[dict]:
             continue
         if not isinstance(payload.get("results"), list):
             continue
+        if not payload.get("run_label"):
+            model = str(payload.get("model") or payload.get("provider") or path.stem)
+            match = re.fullmatch(r".+-r(\d+)", path.stem)
+            payload["run_label"] = f"{model} r{match.group(1)}" if match else model
         runs.append(payload)
     return runs
 
@@ -455,7 +459,7 @@ def _compare_page(questions: list[dict], runs: list[dict], review_note: str) -> 
         price = run.get("price") or {}
         rows.append(
             "<tr>"
-            f"<td>{_esc(run.get('model'))}</td>"
+            f"<td>{_esc(run.get('run_label') or run.get('model'))}</td>"
             f"<td>{_esc(run.get('provider'))}</td>"
             f"<td>{_esc(_pct(overall.get('accuracy')))}</td>"
             f"<td>{_esc(_pct(approved.get('accuracy')))}</td>"
@@ -477,7 +481,7 @@ def _compare_page(questions: list[dict], runs: list[dict], review_note: str) -> 
     payload = json.dumps({"questions": [{"id": item["id"], "question": item["question"]} for item in questions], "runs": runs})
     payload = payload.replace("<", "\\u003c")
     table = (
-        "<table><thead><tr><th>Model</th><th>Provider</th><th>Accuracy, all scored</th>"
+        "<table><thead><tr><th>Run</th><th>Provider</th><th>Accuracy, all scored</th>"
         "<th>Accuracy, Daniel-approved</th><th>Cost per 100</th><th>Price source</th><th></th></tr></thead>"
         f"<tbody>{''.join(rows)}</tbody></table>"
     )
@@ -531,7 +535,7 @@ _COMPARE_JS = """
     var y = accuracy(run);
     var x = cost100(run);
     if (y === null || x === null) return;
-    points.push({ x: x, y: y, label: run.model || run.provider || "model" });
+    points.push({ x: x, y: y, label: run.run_label || run.model || run.provider || "model" });
   });
   var width = 640, height = 320, left = 48, right = 16, top = 16, bottom = 36;
   var maxX = 1;
@@ -585,7 +589,7 @@ _COMPARE_JS = """
     runs.forEach(function (item, index) {
       var button = document.createElement("button");
       button.type = "button";
-      button.textContent = (item.model || item.provider || "model");
+      button.textContent = (item.run_label || item.model || item.provider || "model");
       button.setAttribute("aria-pressed", index === selected ? "true" : "false");
       button.addEventListener("click", function () { selected = index; render(); });
       modelBox.appendChild(button);

@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 
 from flight_analyst.bank import REVIEW_NOTE
-from flight_analyst.sitebuild import build_site
+from flight_analyst.sitebuild import build_site, load_model_runs
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -122,6 +122,25 @@ def test_fixture_site_is_draft_static_and_has_a_chart(tmp_path: Path):
     assert "sk-" not in blob
     for path in dest.rglob("*"):
         assert path.suffix.lower() not in {".duckdb", ".parquet", ".csv", ".zip"}
+
+
+def test_repeat_runs_keep_distinct_labels(tmp_path: Path):
+    folder = tmp_path / "results"
+    folder.mkdir()
+    shared = {
+        "schema_version": "model-run-v1",
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5",
+        "summary": {"all": {"accuracy": 0.5}, "cost_per_100_usd": 0.4},
+        "results": [],
+    }
+    (folder / "claude-haiku-4-5-r1.json").write_text(json.dumps({**shared, "run_label": "claude-haiku-4-5 r1"}))
+    (folder / "claude-haiku-4-5-r2.json").write_text(json.dumps(shared))
+    (folder / "claude-sonnet-4-5.json").write_text(
+        json.dumps({**shared, "model": "claude-sonnet-4-5", "provider": "anthropic"})
+    )
+    labels = [run["run_label"] for run in load_model_runs(folder)]
+    assert labels == ["claude-haiku-4-5 r1", "claude-haiku-4-5 r2", "claude-sonnet-4-5"]
 
 
 def test_real_bank_site_stays_small(tmp_path: Path):

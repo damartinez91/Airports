@@ -34,11 +34,10 @@ export ANTHROPIC_API_KEY=your-key
 python -m flight_analyst.run_eval \
   --provider anthropic \
   --model claude-haiku-4-5 \
-  --out results/claude-haiku-4-5.json \
   --budget-usd 3
 ```
 
-The file `results/claude-haiku-4-5.json` has, per question, the answer, the grade, input tokens, output tokens, list-price cost, and latency. The printed summary has accuracy on every scored question and accuracy on the Daniel-approved questions. A model id that is not in the price table exits before any request.
+Omit `--out`. Each run writes a new file, `results/claude-haiku-4-5-r1.json`, then `results/claude-haiku-4-5-r2.json`, and the compare page labels them `claude-haiku-4-5 r1` and `claude-haiku-4-5 r2`. A Sonnet run is `results/claude-sonnet-4-5-r1.json`, labeled `claude-sonnet-4-5 r1`. Passing `--out` to a path that already exists stops before any request. The file has, per question, the answer, the grade, input tokens, output tokens, list-price cost, and latency. The printed summary has accuracy on every scored question and accuracy on the Daniel-approved questions. A model id that is not in the price table exits before any request.
 
 The same command with `--provider openai` writes an OpenAI run. An xAI or local Qwen run uses the same JSON shape (`schema_version` `model-run-v1`). Add a price row, then save the file under `results/`. The compare page picks it up with no change to the page code. `qwen-local` is already priced at $0 and labeled as not an API invoice.
 
@@ -57,4 +56,4 @@ Open `http://127.0.0.1:8765/`. The scoreboard is the latest eval report. The com
 python -m flight_analyst.run_eval --provider stub --model stub --out results/stub.json --budget-usd 3
 ```
 
-That score is a rules baseline. It is not a model accuracy number.
+That score is a rules baseline. It is not a model accuracy number. `results/stub.json` is the saved baseline. The command refuses to overwrite it. Omit `--out` only when you want a second stub file, `results/stub-r1.json`.

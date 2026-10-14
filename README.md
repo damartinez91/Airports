@@ -18,7 +18,7 @@ PYTHONPATH=src python3 -m flight_analyst ask "Which airline is most on time out 
 pytest
 ```
 
-`ingest` downloads the data and builds `data/flights.duckdb`. `build-bank` runs the reference SQL and writes `questions/bank.json`. `eval` writes `reports/latest.json` and `reports/latest.md`. `scoreboard` writes `scoreboard/index.html`. `build-site` writes the static folder `site/` from the bank and the latest report. Open either HTML file locally. Building the site does not publish it.
+`ingest` downloads the data and builds `data/flights.duckdb`. `build-bank` runs the reference SQL and writes `questions/bank.json`. `eval` writes `reports/latest.json` and `reports/latest.md`. `scoreboard` writes `scoreboard/index.html`. `build-site` writes the static folder `site/` from the bank and the latest report. Open either HTML file locally. Building the site does not publish it. `results/stub.json` is already in the repo, so the stub command above refuses to overwrite it. A paid run omits `--out` and writes `results/{model}-rN.json`.
 
 Raw zips, the DuckDB file, parquet, and downloaded CSVs stay on disk and out of git (see `.gitignore`).
 
@@ -121,12 +121,12 @@ The stub is a rules baseline. It encodes the same definitions as the briefing an
 
 On the loaded window (1 August 2025 through 31 July 2026, 7,043,858 flights, 120 questions) the stub matched 116 of 120 candidate answers: 32/32 easy, 56/56 medium, and 28/32 hard. On the 13 Daniel-approved questions the same stub matched 9 of 13. All four misses are labeled `misread_question`, and all four are patterns the stub was never written to answer (median delay, the morning-minus-evening gap, Thanksgiving versus October Wednesdays, and whether weather explains most delays). The advisory nudge, which does not change that score, was offered on 120 of 120 answers. These figures are a rules baseline. The numbers are in `reports/latest.md`, `results/stub.json`, and `scoreboard/index.html`.
 
-The first Claude Haiku 4.5 run is in `results/claude-haiku-4-5.json`. Graded again offline, with no further model call, it matches 64 of 120 candidate answers (53.3%) and 10 of 13 Daniel-approved questions. The file as first saved, when every extra row failed, was 44 of 120 and 5 of 13. The grader now requires the candidate rows and their order, and it allows extra rows that follow the answering rules. Numeric tolerances are unchanged. List-price spend on that run was $0.4901.
+Each model run is its own file under `results/`, named `{model}-rN.json`, and the compare page labels it `{model} rN`. The first Claude Haiku 4.5 run is `results/claude-haiku-4-5-r1.json` (`claude-haiku-4-5 r1`). Graded again offline, with no further model call, it matches 64 of 120 candidate answers (53.3%). Its approved subset is still 10 of 13, from the statuses stored with that run. The file as first saved, when every extra row failed, was 44 of 120 and 5 of 13. The grader requires the candidate rows and their order, and it allows extra rows that follow the answering rules. Numeric tolerances are unchanged. List-price spend on that run was $0.4901. The second Haiku run, after the briefing pass, is `results/claude-haiku-4-5-r2.json` (`claude-haiku-4-5 r2`): 74 of 120 (61.7%), 23 of 34 approved, list-price spend $0.6641.
 
 A paid run, on a machine that has a key, is one command. It stops before the next question once list-price spend reaches the cap (default $3). Prices live in `src/flight_analyst/prices.json` with a source URL and a date. An unlisted model id refuses to run.
 
 ```bash
-python -m flight_analyst.run_eval --provider anthropic --model claude-haiku-4-5 --out results/claude-haiku-4-5.json
+python -m flight_analyst.run_eval --provider anthropic --model claude-haiku-4-5
 ```
 
 The results file is the same shape for Anthropic, OpenAI, xAI, and a local Qwen. Dropping another file in `results/` is enough for the compare page. The exact install and rebuild steps are in `RUN.md`.
@@ -156,7 +156,7 @@ Two tiers. Neither one is turned on in this repository: GitHub Pages is not enab
 
 The database on disk is 367,538,176 bytes, about 351 MB, for 7,043,858 flights. That is too large to ship. DuckDB-WASM would make every visitor download it, and a Parquet extract of the same table is the same problem (`*.parquet` is gitignored as data). The published extracts are the candidate answers and the eval report.
 
-This build of `site/` is **1,092,697 bytes**. The JSON extracts are **543,275 bytes** (`explore.json`, `report.json`, and `models.json`). `flight_rows_published` is 0. Those figures are also in `site/data/manifest.json`. The explore page includes all 120 questions, with each question's status, the alternative cuts, the minimum-flights rule on rankings, a likely follow-up, and a link to the model comparison. The compare page plots cost per 100 questions against accuracy and switches among saved answers. The saved runs are the stub at $0 and Claude Haiku 4.5. OpenAI, xAI, and a local model stay pending until a file for that provider is saved. The scoreboard on the site is the 116-of-120 stub run. A click-test map for that site is `docs/FEATURE-MAP.md`.
+This build of `site/` is **1,379,501 bytes**. The JSON extracts are **696,678 bytes** (`explore.json`, `report.json`, and `models.json`). `flight_rows_published` is 0. Those figures are also in `site/data/manifest.json`. The explore page includes all 120 questions, with each question's status, the alternative cuts, the minimum-flights rule on rankings, a likely follow-up, and a link to the model comparison. The compare page plots cost per 100 questions against accuracy and switches among saved answers. The saved runs are the stub at $0, Claude Haiku 4.5 r1, and Claude Haiku 4.5 r2. A later Sonnet file shows up as its own label, for example `claude-sonnet-4-5 r1`. OpenAI, xAI, and a local model stay pending until a file for that provider is saved. The scoreboard on the site is the 116-of-120 stub run. A click-test map for that site is `docs/FEATURE-MAP.md`.
 
 Preview locally, still without publishing:
 
@@ -211,6 +211,12 @@ Defaults, also in `.env.example` and `fly.toml`:
 | `LIVE_USD_PER_CALL` | 0.05 | Estimated charge for a non-stub call, taken before the model runs. The stub is charged $0. |
 
 The cap is a ceiling on estimated spend, not the vendor invoice. $0.05 is above a short `gpt-4o-mini` call and in range for a short Claude Sonnet call, so the process stops before a forgotten server can run up a bill. Set `LIVE_USD_PER_CALL` to match the model you actually use. Delete `data/live_spend.json` to reset the counter on purpose.
+
+Two more live-tier pieces are planned and not built. They do not change the scoreboard.
+
+**Saved-answer lookup.** Sonnet answers the known questions once. A cheap matcher (embeddings or Haiku) maps a visitor's question to the closest saved answer, and the page labels it "saved answer from Sonnet". Only a question that does not match a saved one is sent to a model. The receipt can still say what this answer cost and what a top model would have cost, with the second figure marked as an estimate. The scoreboard stays a fresh answer from every model on every graded question. Lookup is for the live box, not for a graded run.
+
+**Off-topic guard.** A question that is not about US flights, airlines, or airports gets a short polite refusal and a few example questions. A cheap classifier decides that before any SQL or a large-model call. Each live question also has a hard cap: at most one retry, a token cap, a cap on SQL attempts, and the daily spend cap already on the box.
 
 The key stays on the server. `OPENAI_API_KEY` or `ANTHROPIC_API_KEY` is read from the environment. A request that includes a key, a token, a provider, or a model is rejected. The response is an allow-list of answer fields plus the spend counters. The listener binds to `127.0.0.1` unless you pass `--host`. The Dockerfile sets `LIVE_ASK=0`, copies no database and no question bank, and expects the file at `FLIGHT_DB_PATH` (default `/data/flights.duckdb`).
 

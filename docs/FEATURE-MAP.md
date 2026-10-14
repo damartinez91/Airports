@@ -2,7 +2,7 @@
 
 Static site built by `python -m flight_analyst build-site`. Serve it with `python -m http.server 8765 --directory site` and open `http://127.0.0.1:8765/`. Refresh this map when a page or control is added. The click-test skill is `.cursor/skills/verify-flight-site/SKILL.md`.
 
-The live ask process is not a page. It stays off unless `LIVE_ASK=1`, and this map does not include it.
+The live ask process is not a page. It stays off unless `LIVE_ASK=1`, and this map does not include it. Saved-answer lookup and the off-topic guard are planned in the README live-tier section. They are not built and they are not pages.
 
 ## Pages
 
@@ -28,9 +28,9 @@ The live ask process is not a page. It stays off unless `LIVE_ASK=1`, and this m
 | Control | How to reach it | What it does |
 | --- | --- | --- |
 | Chart | Top of Compare | One dot per saved run. Horizontal axis is cost per 100 questions. Vertical axis is accuracy on every scored question. Pending providers are not dots |
-| Saved-run table | Under the chart | Model, provider, both accuracies, cost per 100, price source. A provider with no file says pending |
+| Saved-run table | Under the chart | Run label, provider, both accuracies, cost per 100, price source. Repeat runs of one model stay on separate rows. A provider with no file says pending |
 | Question menu | Under "One question, each saved answer" | Picks the question. A hash such as `#q007` selects that question on load |
-| Model buttons | Under the menu | Switches the saved answer. Stub and Claude Haiku 4.5 are both saved. Press each one and confirm the answer and the receipt change |
+| Model buttons | Under the menu | Switches the saved answer. Stub, claude-haiku-4-5 r1, and claude-haiku-4-5 r2 are saved. Press each one and confirm the answer and the receipt change |
 | Grade line | Under the buttons | Matched, or the miss label |
 | Cost receipt | Under the grade | This answer's list-price cost, tokens, latency, and the dearest saved model on that question. A single saved run says a top-model comparison is pending |
 | Answer | Under the receipt | The saved prose for that model and question |

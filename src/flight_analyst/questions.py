@@ -21,6 +21,7 @@ from flight_analyst.definitions import (
     TOLERANCE_MINUTES,
     TOLERANCE_PERCENTAGE_POINTS,
     WHY_LIMIT,
+    sql_major_carriers,
 )
 
 ONTIME = "AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END)"
@@ -357,43 +358,7 @@ def sql_most_on_time_out_of(origin: str, extra_where: str = "") -> str:
     until the list crosses that share. The winner is included even when it
     is outside that volume list. SkyWest is labeled as a multi-airline regional.
     """
-    if not extra_where:
-        extra_where = ""
-    elif not extra_where.startswith(" "):
-        extra_where = " " + extra_where
-    return f"""WITH base AS (
-    SELECT airline_code,
-           AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,
-           COUNT(*) AS operated_flights
-    FROM flights_v
-    WHERE operated AND origin = '{origin}'{extra_where}
-    GROUP BY airline_code
-    HAVING COUNT(*) >= {MIN_AIRLINE_AT_AIRPORT}
-),
-ranked AS (
-    SELECT airline_code,
-           on_time_rate,
-           operated_flights,
-           ROW_NUMBER() OVER (ORDER BY on_time_rate DESC, airline_code ASC) AS rate_rank,
-           ROW_NUMBER() OVER (ORDER BY operated_flights DESC, airline_code ASC) AS vol_rank,
-           SUM(operated_flights) OVER () AS airport_flights,
-           SUM(operated_flights) OVER (
-               ORDER BY operated_flights DESC, airline_code ASC
-               ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-           ) AS cum_flights
-    FROM base
-)
-SELECT CASE
-           WHEN airline_code = 'OO' THEN 'SkyWest (flies for several airlines)'
-           ELSE airline_code
-       END AS label,
-       on_time_rate,
-       operated_flights
-FROM ranked
-WHERE rate_rank = 1
-   OR vol_rank <= 3
-   OR (cum_flights - operated_flights) < 0.80 * airport_flights
-ORDER BY CASE WHEN rate_rank = 1 THEN 0 ELSE 1 END, operated_flights DESC, airline_code ASC"""
+    return sql_major_carriers(origin, extra_where)
 
 
 def sql_atl_july_2026() -> str:

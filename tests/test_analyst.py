@@ -69,3 +69,23 @@ def test_openai_without_a_key_fails_clearly(monkeypatch):
 def test_parse_fenced_json():
     payload = parse_model_payload('```json\n{"sql": "SELECT 1 AS n FROM flights_v", "refuse": false}\n```')
     assert payload["sql"].startswith("SELECT 1")
+
+
+def test_parse_keeps_the_first_json_object_when_extra_text_follows():
+    raw = """{"sql": "SELECT origin AS label FROM flights_v", "refuse": false, "refusal_reason": null, "chart": false}
+{"sql": "SELECT 2", "refuse": false}
+A note with a closing brace }"""
+    payload = parse_model_payload(raw)
+    assert payload["sql"] == "SELECT origin AS label FROM flights_v"
+    assert payload["refuse"] is False
+
+
+def test_prompt_asks_for_one_json_object_and_the_shape_templates():
+    from flight_analyst.analyst import build_system_prompt
+
+    prompt = build_system_prompt("2025-08-01 through 2026-07-31")
+    assert "one JSON object and nothing after it" in prompt
+    assert "(cum_flights - operated_flights) < 0.80 * airport_flights" in prompt
+    assert "CASE WHEN f.operated THEN CASE WHEN f.on_time_arrival THEN 1.0 ELSE 0.0 END END" in prompt
+    assert "flight_date is not a table" in prompt
+    assert "airports has no iata column and no origin column" in prompt

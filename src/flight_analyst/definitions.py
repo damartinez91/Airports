@@ -95,6 +95,9 @@ DOC_PHRASES = [
     "A VALUES list names its columns, for example FROM (VALUES ('AA'), ('WN')) AS codes(airline_code).",
     "Return every required carrier, direction, and row. SkyWest and Republic stay in the answer when the rule includes them. A named direction is its own row.",
     "A month slice, such as July 2026, still returns the literal winner and the major carriers in that slice. Filter the month inside the operated rows. Do not replace the carrier list with a single airline.",
+    "Top 3 by operated departures is the start of the major-carrier list, not the end. Keep adding carriers by volume until the carriers already listed cover about 80 percent of operated departures. Use rate_rank = 1 OR vol_rank <= 3 OR (cum_flights - operated_flights) < 0.80 * airport_flights.",
+    "The default on-time denominator is operated flights. A null on_time_arrival is not a zero. When the same query also returns a cancellation rate, keep every scheduled row and write AVG(CASE WHEN operated THEN CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END END). Do not divide on-time arrivals by scheduled flights. Only a question that says cancelled and diverted flights count as not on time puts every scheduled row in that denominator.",
+    "flight_date, year, and month are columns of flights_v. flight_date is not a table. A single day is flight_date = DATE '2025-11-26'. origin and dest are columns of flights_v. airports.airport_code is the airport key. airports has no iata column and no origin column. Rank a named list of airports from flights_v with origin IN (...) and GROUP BY origin.",
     "status is DRAFT",
     "candidate answers pending Daniel's review",
 ]
@@ -128,32 +131,57 @@ WHY_LIMIT = (
     "They cannot tell us the operational reason."
 )
 
-# Shape examples for the analyst briefing. No stored rates. Mirrored in docs/definitions.md.
-SHAPE_EXAMPLES = """Answer-shape examples. Copy the column layout. These are patterns, not stored rates.
+def sql_major_carriers(origin: str, extra_where: str = "") -> str:
+    """Literal winner, plus majors: top 3 by volume, extended to about 80 percent.
 
-Most on time out of an airport. The window lives in the CTE. The outer WHERE filters rate_rank. The first row is the winner. Later rows are the other required carriers, ordered by operated_flights descending.
-
-WITH base AS (
+    The briefing pastes this template with origin XXX. Reference questions call
+    the same function so the 80 percent predicate cannot drift out of the prompt.
+    """
+    if not extra_where:
+        extra_where = ""
+    elif not extra_where.startswith(" "):
+        extra_where = " " + extra_where
+    return f"""WITH base AS (
     SELECT airline_code,
            AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate,
            COUNT(*) AS operated_flights
     FROM flights_v
-    WHERE operated AND origin = 'XXX'
+    WHERE operated AND origin = '{origin}'{extra_where}
     GROUP BY airline_code
-    HAVING COUNT(*) >= 100
+    HAVING COUNT(*) >= {MIN_AIRLINE_AT_AIRPORT}
 ),
 ranked AS (
-    SELECT airline_code, on_time_rate, operated_flights,
+    SELECT airline_code,
+           on_time_rate,
+           operated_flights,
            ROW_NUMBER() OVER (ORDER BY on_time_rate DESC, airline_code ASC) AS rate_rank,
-           ROW_NUMBER() OVER (ORDER BY operated_flights DESC, airline_code ASC) AS vol_rank
+           ROW_NUMBER() OVER (ORDER BY operated_flights DESC, airline_code ASC) AS vol_rank,
+           SUM(operated_flights) OVER () AS airport_flights,
+           SUM(operated_flights) OVER (
+               ORDER BY operated_flights DESC, airline_code ASC
+               ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+           ) AS cum_flights
     FROM base
 )
-SELECT CASE WHEN airline_code = 'OO' THEN 'SkyWest (flies for several airlines)' ELSE airline_code END AS label,
+SELECT CASE
+           WHEN airline_code = 'OO' THEN 'SkyWest (flies for several airlines)'
+           ELSE airline_code
+       END AS label,
        on_time_rate,
        operated_flights
 FROM ranked
-WHERE rate_rank = 1 OR vol_rank <= 3
-ORDER BY CASE WHEN rate_rank = 1 THEN 0 ELSE 1 END, operated_flights DESC, airline_code ASC
+WHERE rate_rank = 1
+   OR vol_rank <= 3
+   OR (cum_flights - operated_flights) < 0.80 * airport_flights
+ORDER BY CASE WHEN rate_rank = 1 THEN 0 ELSE 1 END, operated_flights DESC, airline_code ASC"""
+
+
+# Shape examples for the analyst briefing. No stored rates. Mirrored in docs/definitions.md.
+SHAPE_EXAMPLES = f"""Answer-shape examples. Copy the column layout. These are patterns, not stored rates.
+
+Most on time out of an airport. Copy this template. The window lives in the CTE. The outer WHERE keeps the winner, the top 3 by volume, and every further carrier still needed until the carriers already listed cover about 80 percent of operated departures. Stopping at vol_rank <= 3 drops carriers such as United or Southwest. The first row is the winner. Later rows follow by operated_flights descending.
+
+{sql_major_carriers("XXX")}
 
 Two named directions. Both rows, same metric.
 
@@ -202,6 +230,35 @@ A VALUES list names its columns. AS r with no column list has no airline_code.
 
 SELECT codes.airline_code AS label
 FROM (VALUES ('AA'), ('WN')) AS codes(airline_code)
+
+Two airlines on one route, with on-time rate, cancellation rate, and mean arrival delay together. Do not filter the whole query with WHERE operated: that drops the cancellation denominator. A null on_time_arrival stays null.
+
+SELECT codes.airline_code AS label,
+       AVG(CASE WHEN f.operated THEN CASE WHEN f.on_time_arrival THEN 1.0 ELSE 0.0 END END) AS on_time_rate,
+       AVG(CASE WHEN f.cancelled THEN 1.0 ELSE 0.0 END) AS cancellation_rate,
+       AVG(CASE WHEN f.operated THEN f.arr_delay END) AS avg_arrival_delay
+FROM (VALUES ('DL'), ('WN')) AS codes(airline_code)
+LEFT JOIN flights_v f
+  ON f.airline_code = codes.airline_code
+ AND f.origin = 'ATL'
+ AND f.dest = 'LGA'
+GROUP BY codes.airline_code
+
+A named list of airports. origin is a column of flights_v. Do not read it from airports, and do not join airports on iata.
+
+SELECT origin AS label,
+       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate
+FROM flights_v
+WHERE operated AND origin IN ('ATL', 'DFW', 'DEN', 'ORD', 'CLT')
+GROUP BY origin
+ORDER BY on_time_rate DESC, origin ASC
+
+A calendar day uses the flight_date column. There is no flight_date table.
+
+SELECT '2025-11-26' AS label,
+       AVG(CASE WHEN on_time_arrival THEN 1.0 ELSE 0.0 END) AS on_time_rate
+FROM flights_v
+WHERE operated AND flight_date = DATE '2025-11-26'
 """
 
 
