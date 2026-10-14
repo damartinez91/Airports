@@ -15,6 +15,7 @@ PYTHONPATH=src python3 -m flight_analyst.run_eval --provider stub --model stub -
 PYTHONPATH=src python3 -m flight_analyst scoreboard
 PYTHONPATH=src python3 -m flight_analyst build-site
 PYTHONPATH=src python3 -m flight_analyst ask "Which airline is most on time out of DFW?"
+PYTHONPATH=src python3 -m flight_analyst mcp
 pytest
 ```
 
@@ -133,6 +134,59 @@ The results file is the same shape for Anthropic, OpenAI, xAI, and a local Qwen.
 
 SQL from the model is checked before it runs: one `SELECT` or `WITH`, the project tables only, no writes, no file or network readers. It then runs on a read-only DuckDB connection.
 
+## MCP server
+
+`flight-analyst-mcp` (or `python -m flight_analyst mcp`) speaks the official Python MCP SDK over stdio. Claude Desktop, Cursor, and other MCP clients can call five read-only tools. DuckDB is opened `read_only=True`. Every query is parameterized. There is no tool that accepts arbitrary SQL.
+
+| Tool | What it returns |
+| --- | --- |
+| `list_carriers` | Reporting codes in the extract, flight counts, and a brand label. Envoy is American Eagle and flies for American. Republic is labeled American Eagle and marked unassigned, because it also flies Delta Connection and United Express and this extract cannot assign those flights. SkyWest is labeled "SkyWest (flies for several airlines)". |
+| `airport_reliability` | One airport, optional `YYYY-MM-DD` bounds. On-time percent (operated flights), cancellation percent (scheduled flights), and the flight count. |
+| `route_compare` | Named carriers on origin–destination: each direction, both directions combined, and an all-carriers combined row when more than one carrier is named. |
+| `carrier_ranking` | `on_time_rate`, `cancellation_rate`, or `avg_arrival_delay`, systemwide or at one airport. The sample floor from the definitions cannot be lowered. `min_flights` can only raise it. |
+| `ask_analyst` | One plain-English question through the existing analyst. Needs `ANTHROPIC_API_KEY`. If the key is absent the tool stays registered and returns a disabled message; no request is sent. A local word list refuses an off-topic question before any model call. One model call, at most one SQL attempt. |
+
+A schema resource at `flight://schema` describes the tables and columns. Queries stop at 50 rows and are interrupted after 5 seconds.
+
+`ask_analyst` defaults to `claude-haiku-4-5` so a desktop session stays inside the cap. The eval harness still defaults Anthropic to `claude-sonnet-4-5`. Set `ANTHROPIC_MODEL` to change the MCP model only. `MCP_SPEND_CAP_USD` defaults to 5 and `MCP_USD_PER_CALL` defaults to 0.05. The counter is `data/mcp_spend.json` (gitignored with the rest of `data/`).
+
+Point `FLIGHT_DB_PATH` at the DuckDB file from `ingest`. The database is not in the source zip.
+
+Claude Desktop (`claude_desktop_config.json`), after `pip install -e .` so `flight-analyst-mcp` is on `PATH`:
+
+```json
+{
+  "mcpServers": {
+    "flight-analyst": {
+      "command": "flight-analyst-mcp",
+      "env": {
+        "FLIGHT_DB_PATH": "/absolute/path/to/data/flights.duckdb",
+        "ANTHROPIC_API_KEY": "your-key"
+      }
+    }
+  }
+}
+```
+
+Cursor (`.cursor/mcp.json`), without installing the script, from a checkout of this repo:
+
+```json
+{
+  "mcpServers": {
+    "flight-analyst": {
+      "command": "python3",
+      "args": ["-m", "flight_analyst.mcp_server"],
+      "env": {
+        "PYTHONPATH": "/absolute/path/to/src",
+        "FLIGHT_DB_PATH": "/absolute/path/to/data/flights.duckdb"
+      }
+    }
+  }
+}
+```
+
+Omit `ANTHROPIC_API_KEY` when you only want the four database tools. `ask_analyst` then answers that it is disabled.
+
 ## Design choices
 
 - DuckDB stays local. The public folder is HTML and two JSON extracts. Publishing is documented and left off.
@@ -216,7 +270,7 @@ Two more live-tier pieces are planned and not built. They do not change the scor
 
 **Saved-answer lookup.** Sonnet answers the known questions once. A cheap matcher (embeddings or Haiku) maps a visitor's question to the closest saved answer, and the page labels it "saved answer from Sonnet". Only a question that does not match a saved one is sent to a model. The receipt can still say what this answer cost and what a top model would have cost, with the second figure marked as an estimate. The scoreboard stays a fresh answer from every model on every graded question. Lookup is for the live box, not for a graded run.
 
-**Off-topic guard.** A question that is not about US flights, airlines, or airports gets a short polite refusal and a few example questions. A cheap classifier decides that before any SQL or a large-model call. Each live question also has a hard cap: at most one retry, a token cap, a cap on SQL attempts, and the daily spend cap already on the box.
+**Off-topic guard.** A question that is not about US flights, airlines, or airports gets a short polite refusal and a few example questions. The MCP `ask_analyst` tool does this with a local word list, then one model call and at most one SQL attempt, under `MCP_SPEND_CAP_USD`. The HTTP live process does not use that guard yet. A cheap classifier in front of the live listener is still planned. Each live question is also meant to have a hard cap: at most one retry, a token cap, a cap on SQL attempts, and the daily spend cap already on the box.
 
 The key stays on the server. `OPENAI_API_KEY` or `ANTHROPIC_API_KEY` is read from the environment. A request that includes a key, a token, a provider, or a model is rejected. The response is an allow-list of answer fields plus the spend counters. The listener binds to `127.0.0.1` unless you pass `--host`. The Dockerfile sets `LIVE_ASK=0`, copies no database and no question bank, and expects the file at `FLIGHT_DB_PATH` (default `/data/flights.duckdb`).
 
@@ -246,7 +300,7 @@ Supabase is the wrong bill for this file. The free plan is $0 and includes a 500
 
 ## Tests
 
-`pytest` covers the SQL guard, numeric and ranking comparison, the failure labels, a sample BTS load, the stub and the API payload builders, an end-to-end harness run on a fixture database, the draft status of the bank, the static site build, and the live-ask flag, rate limit, and spend cap. When `data/flights.duckdb` is present, the suite also reruns every reference query and checks it against the stored rows.
+`pytest` covers the SQL guard, numeric and ranking comparison, the failure labels, a sample BTS load, the stub and the API payload builders, an end-to-end harness run on a fixture database, the draft status of the bank, the static site build, the live-ask flag, rate limit, and spend cap, and the MCP tools on a tiny fixture database (brand labels, date range, both directions, the sample floor, the row cap, the query timeout, and `ask_analyst` with no key). When `data/flights.duckdb` is present, the suite also reruns every reference query and checks it against the stored rows.
 
 ## Week 2
 

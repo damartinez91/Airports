@@ -2,7 +2,7 @@
 
 Static site built by `python -m flight_analyst build-site`. Serve it with `python -m http.server 8765 --directory site` and open `http://127.0.0.1:8765/`. Refresh this map when a page or control is added. The click-test skill is `.cursor/skills/verify-flight-site/SKILL.md`.
 
-The live ask process is not a page. It stays off unless `LIVE_ASK=1`, and this map does not include it. Saved-answer lookup and the off-topic guard are planned in the README live-tier section. They are not built and they are not pages.
+The live ask process is not a page. It stays off unless `LIVE_ASK=1`, and this map does not include it. The MCP server is also not a page and is not part of the click-test. Start it with `python -m flight_analyst mcp` or `flight-analyst-mcp`. Tools: `list_carriers`, `airport_reliability`, `route_compare`, `carrier_ranking`, `ask_analyst`. Resource: `flight://schema`. `ask_analyst` uses a local keyword off-topic guard and a spend cap. The HTTP live process still does not. Saved-answer lookup is still not built. The README MCP section has the Claude Desktop and Cursor config.
 
 ## Pages
 

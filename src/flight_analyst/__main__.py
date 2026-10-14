@@ -26,6 +26,7 @@ def main(argv: list[str] | None = None) -> None:
 
     sub.add_parser("scoreboard", help="Write scoreboard/index.html from the latest eval report")
     sub.add_parser("build-site", help="Write the static site/ folder from the draft bank and the latest eval")
+    sub.add_parser("mcp", help="Serve read-only flight tools over MCP stdio.")
 
     live = sub.add_parser("live", help="Listen for questions. Refuses unless LIVE_ASK=1.")
     live.add_argument("--host", default="127.0.0.1")
@@ -81,6 +82,11 @@ def main(argv: list[str] | None = None) -> None:
         from flight_analyst.live import serve
 
         serve(args.host, args.port)
+        return
+    if args.cmd == "mcp":
+        from flight_analyst.mcp_server import main as serve_mcp
+
+        serve_mcp()
 
 
 def _client(provider: str | None):
