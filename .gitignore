@@ -232,3 +232,7 @@ __marimo__/
 *.duckdb.wal
 *.parquet
 *.csv
+
+# Local MCP smoke output. The script writes the report at the repo root.
+smoke_mcp_report.json
+smoke_mcp_server.stderr

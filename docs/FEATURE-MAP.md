@@ -2,7 +2,23 @@
 
 Static site built by `python -m flight_analyst build-site`. Serve it with `python -m http.server 8765 --directory site` and open `http://127.0.0.1:8765/`. Refresh this map when a page or control is added. The click-test skill is `.cursor/skills/verify-flight-site/SKILL.md`.
 
-The live ask process is not a page. It stays off unless `LIVE_ASK=1`, and this map does not include it. The MCP server is also not a page and is not part of the click-test. Start it with `python -m flight_analyst mcp` or `flight-analyst-mcp`. Tools: `list_carriers`, `airport_reliability`, `route_compare`, `carrier_ranking`, `ask_analyst`. Resource: `flight://schema`. `ask_analyst` uses a local keyword off-topic guard and a spend cap. The HTTP live process still does not. Saved-answer lookup is still not built. The README MCP section has the Claude Desktop and Cursor config.
+The live ask process is not a page. It stays off unless `LIVE_ASK=1`, and this map does not include it. Saved-answer lookup is still not built.
+
+## MCP server
+
+Not a page. Start it with `python -m flight_analyst mcp` or `flight-analyst-mcp` (stdio). The README MCP section has the Claude Desktop and Cursor config. Verify it with `python scripts/mcp_smoke.py --db <path to flights.duckdb>`, which costs nothing by default.
+
+| Surface | Kind | What to confirm | Free smoke check |
+| --- | --- | --- | --- |
+| `list_carriers` | Tool, read-only | Carrier codes with brand labels. SkyWest reads "SkyWest (flies for several airlines)" | Yes |
+| `airport_reliability` | Tool, read-only | On-time %, cancel %, flight count for one airport, optional date bounds | Yes (DFW) |
+| `route_compare` | Tool, read-only | Each direction plus a `both-directions` row per carrier | Yes (DFW-ORD, AA vs UA) |
+| `carrier_ranking` | Tool, read-only | Ranking by `on_time_rate`, `cancellation_rate` or `avg_arrival_delay`; sample floor can only be raised | Yes (systemwide) |
+| `ask_analyst` | Tool, one model call | Disabled with no `ANTHROPIC_API_KEY`. Spend cap via `MCP_SPEND_CAP_USD` / `MCP_USD_PER_CALL` | Cap path only; a real answer needs `--paid-ask` and approval |
+| Off-topic guard | Inside `ask_analyst`, local keyword check | Non-flight questions refused before any model call or spend; message says "outside this US flight-delay database" | Yes (pizza question) |
+| `flight://schema` | Resource, markdown | Tables and columns the tools query. There is no arbitrary-SQL tool | Yes |
+
+The HTTP live process still has no off-topic guard.
 
 ## Pages
 

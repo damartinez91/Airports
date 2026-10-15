@@ -1,6 +1,6 @@
 ---
 name: verify-flight-site
-description: Click-test the flight-delay static site after a change. Use when site pages, the explore bank, the scoreboard, or the model comparison change. Read the feature map, exercise every page, and return a screenshot of each page.
+description: Click-test the flight-delay static site and smoke-test the MCP server after a change. Use when site pages, the explore bank, the scoreboard, the model comparison, or src/flight_analyst/mcp_server.py change. Read the feature map, exercise every page, and return a screenshot of each page.
 ---
 
 # Verify the flight-delay site
@@ -24,6 +24,18 @@ Follow the map. Every row is in scope.
 - Compare: confirm the chart has one dot per saved run and no dot for a provider marked pending. Change the question menu to `q007`. Read the grade and the cost receipt. If more than one model button exists, press each one and confirm the answer and the receipt change.
 
 A pending model is an empty slot. Do not treat it as a score. The stub dot is a rules baseline, not a live-model result.
+
+## MCP server
+
+Run this after any change to `src/flight_analyst/mcp_server.py`, `sql_guard.py`, `schema.py`, or the MCP rows in `docs/FEATURE-MAP.md`:
+
+```bash
+python scripts/mcp_smoke.py --db data/flights.duckdb
+```
+
+It must print `ALL PASS` and exit 0. It checks the five tools, that no raw SQL tool exists, the `flight://schema` resource, SkyWest labeling, the off-topic guard (pizza question refused with the "outside" message), and that an on-topic `ask_analyst` is stopped by a $0 spend cap. The default run passes a dummy key, so no model request is sent and nothing is spent. Never add `--paid-ask` without Daniel's explicit approval of the spend. Keep `smoke_mcp_report.json` as the proof artifact.
+
+If the map lists a tool the smoke test does not, add a check to the script, not a sentence here.
 
 ## Proof
 
