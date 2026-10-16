@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import html
 import json
+import os
 import re
 import shutil
 from pathlib import Path
@@ -297,6 +298,8 @@ article[hidden] { display: none; }
 .switcher button { margin: 0 6px 6px 0; }
 #answer { white-space: pre-wrap; background: white; border: 1px solid #e2dccd; padding: 12px; }
 .table-wrap { overflow-x: auto; }
+.filters label { display: flex; flex-direction: column; flex: 1 1 100%; min-width: 0; }
+.filters select { width: 100%; max-width: 100%; box-sizing: border-box; }
 @media (max-width: 700px) { .cards { grid-template-columns: 1fr; } .bar { grid-template-columns: 4.5rem 1fr auto; } }
 """
 
@@ -434,7 +437,29 @@ def load_model_runs(results_dir: Path | None = None) -> list[dict]:
             match = re.fullmatch(r".+-r(\d+)", path.stem)
             payload["run_label"] = f"{model} r{match.group(1)}" if match else model
         runs.append(payload)
+    # A legacy unnumbered file (e.g. claude-haiku-4-5.json) duplicates its r1 run. Drop it when numbered runs exist.
+    numbered = {str(run.get("model")) for run in runs if re.search(r" r\d+$", str(run.get("run_label") or ""))}
+    runs = [
+        run for run in runs
+        if re.search(r" r\d+$", str(run.get("run_label") or "")) or str(run.get("model")) not in numbered or is_baseline(run)
+    ]
     return runs
+
+
+HEADLINE_RUN = os.environ.get("HEADLINE_RUN", "claude-sonnet-4-5 r1")
+LOW_COST_RUN = os.environ.get("LOW_COST_RUN", "claude-haiku-4-5 r3")
+
+
+def is_baseline(run: dict) -> bool:
+    """The rules stub reads the reference SQL; it is a harness check, not a model score."""
+    return str(run.get("provider") or "") == "stub" or str(run.get("model") or "") == "stub"
+
+
+def find_run(runs: list[dict], label: str) -> dict | None:
+    for run in runs:
+        if run.get("run_label") == label:
+            return run
+    return None
 
 
 def _money(value: object) -> str:
@@ -449,10 +474,19 @@ def _pct(value: object) -> str:
     return f"{float(value) * 100:.1f}%"
 
 
+def _price_link(source: object) -> str:
+    text = str(source or "")
+    if not text.startswith("http"):
+        return _esc(text)
+    return f"<a href='{_esc(text, quote=True)}'>list price</a>"
+
+
 def _compare_page(questions: list[dict], runs: list[dict], review_note: str) -> str:
     saved_providers = {str(run.get("provider") or "") for run in runs}
     rows = []
     for run in runs:
+        if is_baseline(run):
+            continue
         summary = run.get("summary") or {}
         overall = summary.get("all") or {}
         approved = summary.get("approved") or {}
@@ -464,7 +498,7 @@ def _compare_page(questions: list[dict], runs: list[dict], review_note: str) -> 
             f"<td>{_esc(_pct(overall.get('accuracy')))}</td>"
             f"<td>{_esc(_pct(approved.get('accuracy')))}</td>"
             f"<td>{_esc(_money(summary.get('cost_per_100_usd')))}</td>"
-            f"<td>{_esc(price.get('source'))}</td>"
+            f"<td>{_price_link(price.get('source'))}</td>"
             "<td>saved</td>"
             "</tr>"
         )
@@ -478,7 +512,8 @@ def _compare_page(questions: list[dict], runs: list[dict], review_note: str) -> 
             "<td>pending</td><td>pending</td><td>pending</td><td></td><td>not run</td>"
             "</tr>"
         )
-    payload = json.dumps({"questions": [{"id": item["id"], "question": item["question"]} for item in questions], "runs": runs})
+    model_runs = [run for run in runs if not is_baseline(run)]
+    payload = json.dumps({"questions": [{"id": item["id"], "question": item["question"]} for item in questions], "runs": model_runs, "headline": HEADLINE_RUN})
     payload = payload.replace("<", "\\u003c")
     table = (
         "<table><thead><tr><th>Run</th><th>Provider</th><th>Accuracy, all scored</th>"
@@ -488,7 +523,7 @@ def _compare_page(questions: list[dict], runs: list[dict], review_note: str) -> 
     body = f"""
 <p class="meta">US DOT on-time performance</p>
 <h1>Compare models</h1>
-<div class="banner"><strong>DRAFT.</strong> {_esc(review_note)}. The chart uses saved runs only. A missing model is pending, not a score.</div>
+<div class="banner"><strong>DRAFT.</strong> {_esc(review_note)}. The chart uses saved runs only. A missing model is pending, not a score. The rules baseline (stub) reads the reference SQL, so it is left off the chart and table: it is a harness check, not a model.</div>
 <p>Price against accuracy. The dot is cost per 100 questions, at the list price stored with that run, against accuracy on every question that run scored. Qwen, when a local file is saved, stays in this chart and does not replace the paid headline on the scoreboard.</p>
 <div id="chart" class="scatter" role="img" aria-label="Price versus accuracy"></div>
 <h2>Saved runs</h2>
@@ -535,9 +570,9 @@ _COMPARE_JS = """
     var y = accuracy(run);
     var x = cost100(run);
     if (y === null || x === null) return;
-    points.push({ x: x, y: y, label: run.run_label || run.model || run.provider || "model" });
+    points.push({ x: x, y: y, label: run.run_label || run.model || run.provider || "model", headline: run.run_label === data.headline });
   });
-  var width = 640, height = 320, left = 48, right = 16, top = 16, bottom = 36;
+  var width = 640, height = 320, left = 56, right = 24, top = 24, bottom = 40;
   var maxX = 1;
   points.forEach(function (point) { if (point.x > maxX) maxX = point.x; });
   maxX = maxX * 1.25;
@@ -547,15 +582,21 @@ _COMPARE_JS = """
   svg += '<line x1="' + left + '" y1="' + sy(0) + '" x2="' + (width - right) + '" y2="' + sy(0) + '" stroke="#d9cba8"/>';
   svg += '<line x1="' + left + '" y1="' + top + '" x2="' + left + '" y2="' + sy(0) + '" stroke="#d9cba8"/>';
   svg += '<text x="' + left + '" y="' + (height - 8) + '" font-size="12" fill="#5c564c">$0</text>';
-  svg += '<text x="' + (width - right - 70) + '" y="' + (height - 8) + '" font-size="12" fill="#5c564c">$' + maxX.toFixed(2) + ' / 100</text>';
-  svg += '<text x="8" y="' + (top + 12) + '" font-size="12" fill="#5c564c">100%</text>';
+  svg += '<text x="' + (width - right) + '" y="' + (height - 8) + '" font-size="12" fill="#5c564c" text-anchor="end">$' + maxX.toFixed(2) + ' per 100 questions</text>';
+  [0, 0.5, 1].forEach(function (tick) {
+    svg += '<text x="8" y="' + (sy(tick) + 4) + '" font-size="12" fill="#5c564c">' + Math.round(tick * 100) + '%</text>';
+  });
   if (!points.length) {
     svg += '<text x="' + (left + 12) + '" y="160" font-size="14" fill="#5c564c">No saved run yet.</text>';
   }
   points.forEach(function (point) {
-    svg += '<circle cx="' + sx(point.x).toFixed(1) + '" cy="' + sy(point.y).toFixed(1) + '" r="6" fill="#8c4a2f"/>';
-    var safeLabel = String(point.label).replace(/&/g, "&amp;").replace(/</g, "&lt;");
-    svg += '<text x="' + (sx(point.x) + 10).toFixed(1) + '" y="' + (sy(point.y) + 4).toFixed(1) + '" font-size="13" fill="#1c1915">' + safeLabel + " " + Math.round(point.y * 1000) / 10 + "%</text>";
+    var cx = sx(point.x), cy = sy(point.y);
+    svg += '<circle cx="' + cx.toFixed(1) + '" cy="' + cy.toFixed(1) + '" r="' + (point.headline ? 8 : 6) + '" fill="' + (point.headline ? "#1c1915" : "#8c4a2f") + '"/>';
+    var safeLabel = String(point.label).replace(/&/g, "&amp;").replace(/</g, "&lt;") + (point.headline ? " (headline)" : "");
+    // Labels past the middle sit left of the dot so they never clip at the right edge.
+    var flip = cx > width * 0.55;
+    var tx = flip ? cx - 10 : cx + 10;
+    svg += '<text x="' + tx.toFixed(1) + '" y="' + (cy + 4).toFixed(1) + '" font-size="13" fill="#1c1915"' + (flip ? ' text-anchor="end"' : '') + '>' + safeLabel + " " + Math.round(point.y * 1000) / 10 + "%</text>";
   });
   svg += "</svg>";
   chart.innerHTML = svg;
@@ -675,8 +716,12 @@ def build_site(
     _write_json(dest / "data" / "report.json", public_report)
     (dest / "explore" / "index.html").write_text(_explore(questions, REVIEW_NOTE))
     score_nav = _nav("../")
-    (dest / "scoreboard" / "index.html").write_text(render_scoreboard(report, nav=score_nav))
     runs = load_model_runs(results_dir)
+    headline = find_run(runs, HEADLINE_RUN)
+    low_cost = find_run(runs, LOW_COST_RUN)
+    (dest / "scoreboard" / "index.html").write_text(
+        render_scoreboard(report, nav=score_nav, headline=headline, low_cost=low_cost)
+    )
     _write_json(dest / "data" / "models.json", {"schema_version": SCHEMA_VERSION, "runs": runs})
     (dest / "compare" / "index.html").write_text(_compare_page(questions, runs, REVIEW_NOTE))
 

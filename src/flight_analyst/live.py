@@ -127,8 +127,15 @@ class RateLimiter:
         return True
 
 
+LIVE_MODEL_DEFAULT = "claude-haiku-4-5"  # live/new questions always go to the cheap tier
+
+
 class LiveAsk:
-    def __init__(self, answer_fn, ledger: SpendLedger, limiter: RateLimiter, provider: str, usd_per_call_cents: int):
+    def __init__(self, answer_fn, ledger: SpendLedger, limiter: RateLimiter, provider: str, usd_per_call_cents: int,
+                 router=None, log=None, check_cents: int = 0):
+        self.router = router  # flight_analyst.routing.Router or None (old behaviour: every call hits the model)
+        self.log = log  # flight_analyst.routing.QuestionLog or None
+        self.check_cents = check_cents
         self.answer_fn = answer_fn
         self.ledger = ledger
         self.limiter = limiter
@@ -145,13 +152,19 @@ class LiveAsk:
         question = payload.get("question")
         if not isinstance(question, str) or not question.strip() or len(question) > 500 or "\x00" in question:
             return 400, {"error": "question must be 1 to 500 characters"}
+        question = question.strip()
         with self._lock:
             if not self.limiter.allow(client_ip or "unknown"):
                 return 429, {"error": "rate_limited", "spend": self.ledger.view()}
+        if self.router is not None:
+            cached = self._try_cached(question)
+            if cached is not None:
+                return 200, cached
+        with self._lock:
             if not self.ledger.charge(self.usd_per_call_cents):
                 return 403, {"error": "spend_cap", "spend": self.ledger.view()}
         try:
-            result = self.answer_fn(question.strip())
+            result = self.answer_fn(question)
         except Exception:  # noqa: BLE001
             return 500, {"error": "analyst_failed", "spend": self.ledger.view()}
         body = {
@@ -164,8 +177,47 @@ class LiveAsk:
             "error": "database is unavailable" if result.get("infrastructure_error") else None,
             "provider": self.provider,
             "spend": self.ledger.view(),
+            "source": "live",
         }
+        if self.log is not None:
+            self.log.write({
+                "question": question, "route": "new", "score": getattr(self, "_last_score", None),
+                "nearest_id": getattr(self, "_last_match", None), "model": self.provider,
+                "answer_text": body["answer_text"], "sql": body["sql"], "refused": body["refused"],
+                "sql_error": body["sql_error"],
+            })
         return 200, body
+
+    def _try_cached(self, question: str) -> dict | None:
+        router = self.router
+        decision = router.decide(question, allow_check=False)
+        if decision.borderline and router.config.borderline_check and router.same_question_fn is not None:
+            # The borderline check is a paid Haiku yes/no call: charge it before it runs; skip if capped.
+            with self._lock:
+                can_check = self.ledger.charge(self.check_cents)
+            if can_check:
+                decision = router.decide(question, allow_check=True)
+        self._last_score = round(decision.score, 4)
+        self._last_match = decision.match.id if decision.match else None
+        if decision.route != "cached" or decision.match is None:
+            return None
+        if self.log is not None:
+            self.log.write({"question": question, "route": "cached", "score": self._last_score,
+                            "nearest_id": decision.match.id, "borderline_checked": decision.checked})
+        return {
+            "answer_text": decision.match.answer_text,
+            "sql": decision.match.sql,
+            "chart": None,
+            "refused": False,
+            "refusal_reason": None,
+            "sql_error": None,
+            "error": None,
+            "provider": "cache",
+            "source": f"saved answer from {decision.match.model} ({decision.match.source}, {decision.match.status})",
+            "matched_question": decision.match.question,
+            "match_score": self._last_score,
+            "spend": self.ledger.view(),
+        }
 
 
 def analyst_answer(question: str) -> dict:
@@ -173,6 +225,7 @@ def analyst_answer(question: str) -> dict:
     from flight_analyst.llm import get_client
     from flight_analyst.paths import DB_PATH
 
+    os.environ.setdefault("ANTHROPIC_MODEL", os.environ.get("LIVE_MODEL", LIVE_MODEL_DEFAULT))
     result = Analyst(DB_PATH, client=get_client()).answer(question)
     return {
         "answer_text": result.answer_text,
@@ -185,7 +238,9 @@ def analyst_answer(question: str) -> dict:
     }
 
 
-def build_service(answer_fn=None, ledger_path: Path | None = None, provider: str | None = None) -> LiveAsk:
+def build_service(answer_fn=None, ledger_path: Path | None = None, provider: str | None = None,
+                  use_router: bool | None = None) -> LiveAsk:
+    """use_router=None: on for the real analyst (LIVE_ROUTER=0 turns it off), off when a test injects answer_fn."""
     if provider is None:
         from flight_analyst.llm import get_client
 
@@ -198,12 +253,29 @@ def build_service(answer_fn=None, ledger_path: Path | None = None, provider: str
         _env_int("LIVE_RATE_PER_HOUR", DEFAULT_RATE_PER_HOUR),
         _env_int("LIVE_RATE_GLOBAL_PER_HOUR", DEFAULT_GLOBAL_PER_HOUR),
     )
+    router = log = None
+    if use_router is None:
+        use_router = answer_fn is None and os.environ.get("LIVE_ROUTER", "1").strip() == "1"
+    if use_router:
+        from flight_analyst.routing import AnticipatedBank, QuestionLog, Router
+
+        check_fn = None
+        if os.environ.get("ROUTE_BORDERLINE_CHECK", "").strip() == "1" and os.environ.get("ANTHROPIC_API_KEY"):
+            from flight_analyst.llm import AnthropicClient
+            from flight_analyst.routing import haiku_same_question
+
+            check_fn = haiku_same_question(AnthropicClient(os.environ["ANTHROPIC_API_KEY"], LIVE_MODEL_DEFAULT))
+        router = Router(AnticipatedBank.load(), same_question_fn=check_fn)
+        log = QuestionLog(ledger_path.parent / "live_questions" if ledger_path else None)
     return LiveAsk(
         answer_fn or analyst_answer,
         ledger,
         limiter,
         provider,
         _env_cents("LIVE_USD_PER_CALL", DEFAULT_USD_PER_CALL),
+        router=router,
+        log=log,
+        check_cents=0 if provider == "stub" else _env_cents("ROUTE_CHECK_USD_PER_CALL", "0.01"),
     )
 
 

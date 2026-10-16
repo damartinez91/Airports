@@ -148,8 +148,8 @@ def test_real_bank_site_stays_small(tmp_path: Path):
     assert manifest["question_count"] >= 100
     assert manifest["flight_rows_published"] == 0
     assert manifest["database_included"] is False
-    assert manifest["extract_bytes"] < 800_000
-    assert manifest["site_bytes"] < 1_500_000
+    assert manifest["extract_bytes"] < 1_200_000  # five saved runs (stub, Haiku r1-r3, Sonnet r1)
+    assert manifest["site_bytes"] < 2_200_000  # compare page embeds all five runs
     explore = json.loads((tmp_path / "site" / "data" / "explore.json").read_text())
     assert explore["status"] == "DRAFT"
     assert explore["review_note"] == REVIEW_NOTE
