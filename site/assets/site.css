@@ -1,0 +1,34 @@
+
+:root { color-scheme: light; }
+body { margin: 0; background: #f4f1ea; color: #1c1915; font: 18px/1.45 "Iowan Old Style", Palatino, Georgia, serif; }
+main { max-width: 900px; margin: 0 auto; padding: 32px 20px 72px; }
+h1 { font-weight: 600; font-size: 34px; letter-spacing: -0.02em; margin-bottom: 8px; }
+h2 { font-size: 22px; margin: 8px 0; }
+h3 { font: 13px/1.3 ui-sans-serif, sans-serif; letter-spacing: 0.04em; text-transform: uppercase; color: #5c564c; margin: 16px 0 8px; }
+a { color: #1c1915; }
+nav { font: 15px/1.4 ui-sans-serif, sans-serif; margin-bottom: 18px; }
+nav a { margin-right: 16px; }
+.banner { background: #efe6d2; border: 1px solid #d9cba8; padding: 12px 14px; margin: 18px 0 28px; }
+.meta, .note { color: #5c564c; font: 15px/1.4 ui-sans-serif, sans-serif; }
+.cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.cards a { display: block; background: white; border: 1px solid #e2dccd; padding: 14px 16px; text-decoration: none; }
+.cards strong { display: block; font-size: 22px; margin-bottom: 4px; }
+article.question { background: white; border: 1px solid #e2dccd; padding: 14px 16px; margin: 12px 0; }
+.badges { display: flex; flex-wrap: wrap; gap: 6px; }
+.badge { font: 12px/1.2 ui-sans-serif, sans-serif; letter-spacing: 0.03em; text-transform: uppercase; border: 1px solid #d9cba8; padding: 3px 6px; }
+.filters { position: sticky; top: 0; background: #f4f1ea; padding: 8px 0 12px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+button, select, input { font: 15px/1.2 ui-sans-serif, sans-serif; background: white; color: #1c1915; border: 1px solid #d9cba8; padding: 6px 8px; }
+button[aria-pressed="true"] { background: #1c1915; color: #f4f1ea; }
+table { width: 100%; border-collapse: collapse; font-size: 15px; }
+th, td { border-bottom: 1px solid #e2dccd; text-align: left; vertical-align: top; padding: 6px; }
+th { font: 12px/1.3 ui-sans-serif, sans-serif; letter-spacing: 0.04em; text-transform: uppercase; color: #5c564c; }
+pre { white-space: pre-wrap; font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.bar { display: grid; grid-template-columns: 6.5rem 1fr auto; gap: 8px; align-items: center; margin: 4px 0; font: 14px/1.3 ui-sans-serif, sans-serif; }
+.track { background: #efe6d2; height: 10px; }
+.fill { display: block; height: 10px; background: #8c4a2f; }
+article[hidden] { display: none; }
+.scatter { background: white; border: 1px solid #e2dccd; padding: 12px; }
+.switcher button { margin: 0 6px 6px 0; }
+#answer { white-space: pre-wrap; background: white; border: 1px solid #e2dccd; padding: 12px; }
+.table-wrap { overflow-x: auto; }
+@media (max-width: 700px) { .cards { grid-template-columns: 1fr; } .bar { grid-template-columns: 4.5rem 1fr auto; } }
