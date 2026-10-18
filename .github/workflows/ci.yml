@@ -1,0 +1,27 @@
+name: ci
+on:
+  pull_request:
+  push:
+    branches: [main]
+# Private repo: GitHub Free includes 2,000 Actions min/month. One run is ~1-2 min.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      # No paid model calls in CI. Tests/smoke must pass with no real key.
+      ANTHROPIC_API_KEY: ""
+      OPENAI_API_KEY: ""
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: pytest -q
+      - name: MCP smoke on the sample DB (dummy key, $0 cap, no model calls)
+        run: python scripts/mcp_smoke.py --db tests/fixtures/sample_flights.duckdb
