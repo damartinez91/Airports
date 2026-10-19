@@ -29,13 +29,35 @@ Build the bank ($0): `python -m flight_analyst build-anticipated --run results/c
 
 Every live question is appended to `data/live_questions/YYYY-MM-DD.jsonl` (UTC day; `data/` is gitignored, so visitor text never reaches the repo): question, route (`cached`/`new`), score, nearest bank id, and for new questions Haiku's answer, SQL, refusal and SQL error.
 
+## Answer feedback
+
+Under a live answer (cached Sonnet or Haiku) the asker can press **This didn't answer my question** and optionally fill in **What I expected**. The static site does not have that box yet. The live process serves the markup at `GET /feedback-hook`, and `flight_analyst.feedback.wrap_live_answer` returns the same button and box under an answer. Drop that fragment into the live question box when it ships. Until then, the same report can be filed with no model call:
+
+```bash
+python -m flight_analyst feedback \
+  --question "Which airline is most on time out of DFW?" \
+  --answer "Envoy leads at 82.7 percent." \
+  --route cached-sonnet \
+  --model claude-sonnet-4-5 \
+  --match-score 0.91 \
+  --matched-id q001 \
+  --expected "I wanted the major carriers as well as the winner."
+```
+
+`POST /feedback` takes the same fields as JSON (`question`, `answer_text`, `route`, `model`, optional `expected`, and for a cached hit `match_score` and `matched_id`). `route` is `cached-sonnet` or `haiku`. The ask response now includes `route`, `model`, `matched_id`, and `match_score` so the hook can send them back. The handler does not call a model and does not charge the spend ledger.
+
+Each report is one JSON line in `data/feedback.jsonl` (gitignored, next to the live logs): question text, the answer shown, model, route, match score when the route was cached, matched anticipated-question id when there was one, the free text, and a UTC timestamp. The free text is capped at 1,000 characters. A client address, account, or contact field is not stored; extra keys such as `email` or `ip` are dropped, and credential fields are rejected.
+
+A cached-Sonnet miss sets `recheck_cached` and, when `matched_id` is present, flags that bank id in `data/cached_recheck.json`. The embedding match may have been wrong, so the cached item is marked for re-check. The committed anticipated bank is not rewritten by the report.
+
 ## Daily review
 
-`python -m flight_analyst daily-review [--day YYYY-MM-DD]` (default: yesterday UTC). Needs `ANTHROPIC_API_KEY`; the model is pinned to Sonnet.
+`python -m flight_analyst daily-review [--day YYYY-MM-DD]` (default: yesterday UTC). New questions need `ANTHROPIC_API_KEY`; the model is pinned to Sonnet. A day that is only feedback does not call a model.
 
 - Takes `route == "new"`, non-refused questions, dedupes near-duplicates (cosine ≥ 0.9).
 - Up to `REVIEW_MAX_QUESTIONS` (25). Stops before the question that would cross `REVIEW_SPEND_CAP_USD`, estimated at 2 × `REVIEW_USD_PER_CALL` per question.
 - Sonnet answers each, then grades its answer against Haiku's live answer: `correct`, `agrees_with_reference`, `suggested_category`, `notes`.
+- Also takes that day's rows from `data/feedback.jsonl`. They are flagged `user-reported miss`, ranked first, and are not sent to a model while the queue is built. Each one shows the question, the answer given, and what I expected (`for_reviewer`, plus `question`, `answer_given`, `what_i_expected`). A cached miss keeps `recheck_cached` and the matched id.
 - Writes `data/review_queue/YYYY-MM-DD.json`.
 
 ### Promotion: queue for approval (default)
@@ -46,13 +68,29 @@ Nothing is marked approved without Daniel's explicit categorization:
 
 `--category` is required and an empty one is refused. The entry joins the anticipated bank as `APPROVED` with that category. It does **not** enter the graded bank (`questions/bank.json`); that stays a separate, deliberate step.
 
+A user-reported miss uses the same required-category rule, with one of these categories. File misses separately from new-question candidates. Only `send-to-sonnet` re-answers (one Sonnet call at promote time, not during the queue build) and, once that answer exists, promotes the question into the anticipated bank as `APPROVED`. The other categories are recorded on the queue item and do not promote or mark it approved.
+
+| Category | What Daniel is deciding | Effect |
+| --- | --- | --- |
+| `send-to-sonnet` | Send to Sonnet | Re-answer and, once approved, promote to the anticipated bank |
+| `fix-cached-answer` | Fix the cached answer | Recorded. The bank text is not rewritten here |
+| `fix-routing` | Fix the routing or match threshold | Recorded. Thresholds stay as configured; the cached id stays flagged for re-check |
+| `out-of-scope` | Out of scope | Recorded. Not approved |
+| `no-change` | No change | Recorded. Not approved |
+
+```bash
+python -m flight_analyst review-promote --day 2026-10-17 --id fb-2026-10-17-000 --category send-to-sonnet
+python -m flight_analyst review-promote --day 2026-10-17 --id fb-2026-10-17-001 --category fix-routing
+```
+
 ### Alternative: labeled auto-promote (off)
 
-`AUTO_PROMOTE=1` adds a candidate to the cache only if Sonnet graded it correct, it agrees with Haiku's figures, and the SQL ran without error or refusal. It is stored as status `AUTO`, category `auto-unreviewed`, served with that label, and never counts as approved or enters grading. To keep auto entries out of the cache while still collecting them, leave `AUTO` out of `ROUTE_SERVE_STATUSES` (the default already does).
+`AUTO_PROMOTE=1` adds a candidate to the cache only if Sonnet graded it correct, it agrees with Haiku's figures, and the SQL ran without error or refusal. It is stored as status `AUTO`, category `auto-unreviewed`, served with that label, and never counts as approved or enters grading. To keep auto entries out of the cache while still collecting them, leave `AUTO` out of `ROUTE_SERVE_STATUSES` (the default already does). User-reported misses are never auto-promoted.
 
 ## Not built yet
 
+- The live question box on the static site. Feedback is ready for it (`GET /feedback-hook`, `wrap_live_answer`, `POST /feedback`, and the `feedback` CLI) but no page renders the box, and this change does not deploy or enable Pages.
 - Scheduler: no cron or GitHub Action runs `daily-review`; it needs the live host and its log (not launched). On a Fly machine it would be a daily `fly machine run --schedule daily` job.
-- A review UI: the queue is JSON; Daniel approves by CLI.
+- A review UI: the queue is JSON; Daniel approves by CLI. A miss shows the question, the answer given, and what I expected in that JSON.
 - A learned embedder: `hash-v1` misses loose paraphrases (e.g. "most punctual at Dallas Fort Worth" scores 0.38 against the DFW question), so those go to Haiku. That direction is safe (cost, not wrong answers).
 - The HTTP listener's off-topic guard (still only on the MCP tool).

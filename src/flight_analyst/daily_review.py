@@ -1,8 +1,15 @@
-"""Daily review of new live questions.
+"""Daily review of new live questions and user-reported misses.
 
 Reads one day's live-question log (route == "new"), dedupes, and for up to
 REVIEW_MAX_QUESTIONS of them asks Sonnet to answer, then grade its answer
 against Haiku's live answer and the answering principles. Output is a queue.
+
+The same queue also takes that day's rows from data/feedback.jsonl. Those are
+flagged as user-reported misses, ranked first, and are not sent to a model
+while the queue is built. Daniel closes each one with a required category:
+send-to-sonnet, fix-cached-answer, fix-routing, out-of-scope, or no-change.
+Only send-to-sonnet re-answers (one Sonnet call at promote time) and then
+marks the entry APPROVED in the anticipated bank.
 
 Daniel's rule: nothing becomes approved without explicit categorization.
 Default mode is QUEUE: candidates wait in data/review_queue/<day>.json until
@@ -13,10 +20,12 @@ correct, (b) agrees with Haiku's figures, and (c) ran SQL without error or
 refusal is added to the anticipated bank with status "AUTO" and category
 "auto-unreviewed". It is then served as a cached answer, but is never marked
 APPROVED and never enters the graded bank (questions/bank.json). Off by default.
+User-reported misses are never auto-promoted.
 
 Spend: REVIEW_SPEND_CAP_USD (default 2.00) per run, estimated with
 REVIEW_USD_PER_CALL (default 0.05; two Sonnet calls per question). The job
-stops before the question that would cross the cap.
+stops before the question that would cross the cap. Feedback rows do not
+spend that budget.
 """
 
 from __future__ import annotations
@@ -30,6 +39,13 @@ from decimal import Decimal
 from pathlib import Path
 from typing import Callable
 
+from flight_analyst.feedback import (
+    FEEDBACK_CATEGORIES,
+    FEEDBACK_CATEGORY_LABELS,
+    FeedbackLog,
+    normalize_feedback_category,
+    queue_item_from_feedback,
+)
 from flight_analyst.paths import DATA_DIR
 from flight_analyst.routing import AnticipatedBank, BankEntry, QuestionLog, cosine
 
@@ -97,12 +113,18 @@ def run_review(
     config: ReviewConfig | None = None,
     queue_dir: Path | None = None,
     bank_path: Path | None = None,
+    feedback: FeedbackLog | None = None,
 ) -> dict:
-    """answer_fn(question) -> analyst dict from Sonnet; grade_fn(system, user) -> Sonnet text."""
+    """answer_fn(question) -> analyst dict from Sonnet; grade_fn(system, user) -> Sonnet text.
+
+    Feedback rows are copied into the queue first and do not call answer_fn or grade_fn.
+    """
     config = config or ReviewConfig.from_env()
     log = log or QuestionLog()
     bank = bank or AnticipatedBank.load(bank_path, all_statuses=True)
     queue_dir = queue_dir or QUEUE_DIR
+    feedback = feedback if feedback is not None else FeedbackLog()
+    misses = [queue_item_from_feedback(row) for row in feedback.read_day(day)]
     records = _dedupe(log.read(day), bank.embedder)
     spent = Decimal("0")
     per_question = config.usd_per_call * 2
@@ -139,12 +161,19 @@ def run_review(
         candidates.append(cand)
     if config.auto_promote and any(c["status"] == "AUTO" for c in candidates):
         bank.save(bank_path)
+    # Misses stay first even when auto-promote rewrites other rows. They are never auto-approved.
+    candidates = misses + candidates
     queue = {
         "day": day.isoformat(),
         "mode": "auto-promote" if config.auto_promote else "queue-for-approval",
         "estimated_spend_usd": str(spent),
         "spend_cap_usd": str(config.spend_cap_usd),
         "skipped_for_cap": skipped,
+        "user_reported_misses": len(misses),
+        "ordering": "user-reported misses first, then new questions",
+        "feedback_categories": [
+            {"category": slug, "label": FEEDBACK_CATEGORY_LABELS[slug]} for slug in FEEDBACK_CATEGORIES
+        ],
         "candidates": candidates,
     }
     queue_dir.mkdir(parents=True, exist_ok=True)
@@ -152,26 +181,88 @@ def run_review(
     return queue
 
 
+def _sonnet_reanswer(question: str, answer_fn: Callable[[str], dict] | None) -> dict:
+    """One Sonnet answer. Used only after Daniel picks send-to-sonnet. Tests pass answer_fn."""
+    if answer_fn is None:
+        answer_fn = sonnet_functions()[0]
+    result = answer_fn(question) or {}
+    text = result.get("answer_text") or ""
+    if not str(text).strip() or result.get("refused") or result.get("sql_error"):
+        raise RuntimeError("Sonnet did not return an answer to promote. Nothing was marked approved.")
+    return result
+
+
 def promote(day: dt.date, ids: list[str], category: str, *, queue_dir: Path | None = None,
-            bank_path: Path | None = None) -> int:
-    """Daniel's explicit approval. A category is required; entries become APPROVED in the anticipated bank."""
-    if not category or not category.strip():
+            bank_path: Path | None = None, answer_fn: Callable[[str], dict] | None = None) -> int:
+    """Daniel's explicit categorization.
+
+    A category is required. New-question candidates become APPROVED in the anticipated
+    bank. A user-reported miss must use a feedback category. Only send-to-sonnet
+    re-answers and is marked APPROVED. The other four categories are recorded and
+    do not promote.
+    """
+    if not category or not str(category).strip():
         raise ValueError("A category is required to approve a question.")
+    category = str(category).strip()
     queue_dir = queue_dir or QUEUE_DIR
     path = queue_dir / f"{day.isoformat()}.json"
     queue = json.loads(path.read_text())
-    bank = AnticipatedBank.load(bank_path, all_statuses=True)
+    selected = [cand for cand in queue["candidates"] if cand["id"] in ids]
+    misses = [cand for cand in selected if cand.get("user_reported_miss")]
+    others = [cand for cand in selected if not cand.get("user_reported_miss")]
+    if misses and others:
+        raise ValueError("Promote feedback misses separately from new-question candidates.")
+    feedback_category = normalize_feedback_category(category) if misses else None
+    prepared: list[tuple[dict, dict | None]] = []
+    if feedback_category == "send-to-sonnet":
+        for cand in misses:
+            if cand.get("status") == "APPROVED":
+                prepared.append((cand, None))
+                continue
+            prepared.append((cand, _sonnet_reanswer(cand["question"], answer_fn)))
+    bank = None
+    mutated = False
     done = 0
-    for cand in queue["candidates"]:
-        if cand["id"] not in ids:
-            continue
-        bank.add(BankEntry(id=cand["id"], question=cand["question"], answer_text=cand["sonnet_answer"] or "",
-                           sql=cand["sonnet_sql"], model=REVIEW_MODEL, source=f"daily-review {queue['day']}",
-                           status="APPROVED", category=category.strip()))
-        cand["status"], cand["category"] = "APPROVED", category.strip()
-        done += 1
-    bank.save(bank_path)
-    path.write_text(json.dumps(queue, indent=1))
+    if others:
+        bank = AnticipatedBank.load(bank_path, all_statuses=True)
+        for cand in others:
+            bank.add(BankEntry(id=cand["id"], question=cand["question"], answer_text=cand.get("sonnet_answer") or "",
+                               sql=cand.get("sonnet_sql"), model=REVIEW_MODEL, source=f"daily-review {queue['day']}",
+                               status="APPROVED", category=category))
+            cand["status"], cand["category"] = "APPROVED", category
+            done += 1
+            mutated = True
+    if misses and feedback_category == "send-to-sonnet":
+        bank = bank or AnticipatedBank.load(bank_path, all_statuses=True)
+        for cand, reanswer in prepared:
+            if reanswer is None:
+                done += 1
+                continue
+            cand["sonnet_answer"] = reanswer.get("answer_text")
+            cand["sonnet_sql"] = reanswer.get("sql")
+            cand["status"] = "APPROVED"
+            cand["category"] = feedback_category
+            cand["approved"] = True
+            bank.add(BankEntry(
+                id=cand["id"], question=cand["question"], answer_text=cand["sonnet_answer"] or "",
+                sql=cand.get("sonnet_sql"), model=REVIEW_MODEL, source=f"feedback {queue['day']}",
+                status="APPROVED", category=feedback_category,
+            ))
+            done += 1
+            mutated = True
+    elif misses:
+        for cand in misses:
+            if cand.get("status") == "APPROVED":
+                done += 1
+                continue
+            cand["status"] = "REVIEWED"
+            cand["category"] = feedback_category
+            cand["approved"] = False
+            done += 1
+    if mutated and bank is not None:
+        bank.save(bank_path)
+    if done:
+        path.write_text(json.dumps(queue, indent=1))
     return done
 
 

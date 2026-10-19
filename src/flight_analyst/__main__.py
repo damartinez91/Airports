@@ -36,13 +36,31 @@ def main(argv: list[str] | None = None) -> None:
     bank_cmd.add_argument("--run", default="results/claude-sonnet-4-5-r1.json")
     bank_cmd.add_argument("--include-failed", action="store_true", help="Also cache answers the grader marked wrong.")
 
-    review = sub.add_parser("daily-review", help="Sonnet answers and grades one day of new live questions. Paid; capped.")
+    review = sub.add_parser(
+        "daily-review",
+        help="Queue one day of new live questions and user-reported misses. New questions are graded by Sonnet (paid, capped). Misses are not sent to a model.",
+    )
     review.add_argument("--day", default=None, help="YYYY-MM-DD (UTC). Default: yesterday.")
 
-    promote_cmd = sub.add_parser("review-promote", help="Daniel's approval: add queued questions to the anticipated bank.")
+    promote_cmd = sub.add_parser("review-promote", help="Daniel's approval. A category is required.")
     promote_cmd.add_argument("--day", required=True)
     promote_cmd.add_argument("--id", action="append", required=True)
-    promote_cmd.add_argument("--category", required=True)
+    promote_cmd.add_argument(
+        "--category",
+        required=True,
+        help="Required. New questions: bank category. Feedback misses: send-to-sonnet, "
+        "fix-cached-answer, fix-routing, out-of-scope, or no-change.",
+    )
+
+    feedback_cmd = sub.add_parser("feedback", help="Record that a live answer missed. $0. No model call.")
+    feedback_cmd.add_argument("--question", required=True)
+    feedback_cmd.add_argument("--answer", required=True)
+    feedback_cmd.add_argument("--route", required=True, choices=["cached-sonnet", "haiku"])
+    feedback_cmd.add_argument("--model", required=True)
+    feedback_cmd.add_argument("--expected", default="", help="What I expected. Capped at 1000 characters.")
+    feedback_cmd.add_argument("--match-score", type=float, default=None)
+    feedback_cmd.add_argument("--matched-id", default=None)
+    feedback_cmd.add_argument("--file", default=None, help="JSONL path. Default: data/feedback.jsonl")
 
     args = parser.parse_args(argv)
     if args.cmd == "build-anticipated":
@@ -61,12 +79,45 @@ def main(argv: list[str] | None = None) -> None:
 
         if args.cmd == "review-promote":
             n = dr.promote(dt.date.fromisoformat(args.day), args.id, args.category)
-            print(f"approved={n} category={args.category}")
+            print(f"categorized={n} category={args.category}")
             return
         day = dt.date.fromisoformat(args.day) if args.day else dt.datetime.now(dt.timezone.utc).date() - dt.timedelta(days=1)
-        answer, grade = dr.sonnet_functions()
+        # Sonnet is built on the first new question, so a day that is only feedback makes no model call.
+        holder: dict = {}
+
+        def answer(question: str) -> dict:
+            if "answer" not in holder:
+                holder["answer"], holder["grade"] = dr.sonnet_functions()
+            return holder["answer"](question)
+
+        def grade(system: str, user: str) -> str:
+            if "grade" not in holder:
+                holder["answer"], holder["grade"] = dr.sonnet_functions()
+            return holder["grade"](system, user)
+
         queue = dr.run_review(day, answer, grade)
         print(json.dumps({k: v for k, v in queue.items() if k != "candidates"} | {"candidates": len(queue["candidates"])}))
+        return
+    if args.cmd == "feedback":
+        from pathlib import Path
+
+        from flight_analyst.feedback import FeedbackLog, record_feedback
+
+        log = FeedbackLog(Path(args.file)) if args.file else None
+        try:
+            record = record_feedback({
+                "question": args.question,
+                "answer_text": args.answer,
+                "route": args.route,
+                "model": args.model,
+                "expected": args.expected,
+                "match_score": args.match_score,
+                "matched_id": args.matched_id,
+            }, log=log)
+        except ValueError as exc:
+            raise SystemExit(str(exc)) from exc
+        recheck = f" recheck={record['matched_id']}" if record["recheck_cached"] and record["matched_id"] else ""
+        print(f"recorded id={record['id']} route={record['route']}{recheck}")
         return
     if args.cmd == "ingest":
         from flight_analyst.ingest import ingest as run_ingest
