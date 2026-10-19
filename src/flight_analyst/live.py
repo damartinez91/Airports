@@ -16,6 +16,7 @@ from decimal import Decimal, ROUND_HALF_UP
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
+from flight_analyst.feedback import FeedbackLog, feedback_hook_html, record_feedback
 from flight_analyst.paths import DATA_DIR
 
 DEFAULT_SPEND_CAP_USD = "5"
@@ -132,7 +133,8 @@ LIVE_MODEL_DEFAULT = "claude-haiku-4-5"  # live/new questions always go to the c
 
 class LiveAsk:
     def __init__(self, answer_fn, ledger: SpendLedger, limiter: RateLimiter, provider: str, usd_per_call_cents: int,
-                 router=None, log=None, check_cents: int = 0):
+                 router=None, log=None, check_cents: int = 0, live_model: str = LIVE_MODEL_DEFAULT,
+                 feedback_log: FeedbackLog | None = None, feedback_limiter: RateLimiter | None = None):
         self.router = router  # flight_analyst.routing.Router or None (old behaviour: every call hits the model)
         self.log = log  # flight_analyst.routing.QuestionLog or None
         self.check_cents = check_cents
@@ -140,6 +142,9 @@ class LiveAsk:
         self.ledger = ledger
         self.limiter = limiter
         self.provider = provider
+        self.live_model = live_model or LIVE_MODEL_DEFAULT
+        self.feedback_log = feedback_log
+        self.feedback_limiter = feedback_limiter or RateLimiter(30, 300)
         self.usd_per_call_cents = 0 if provider == "stub" else usd_per_call_cents
         self._lock = threading.Lock()
 
@@ -178,6 +183,10 @@ class LiveAsk:
             "provider": self.provider,
             "spend": self.ledger.view(),
             "source": "live",
+            "route": "haiku",
+            "model": self.live_model,
+            "matched_id": None,
+            "match_score": None,
         }
         if self.log is not None:
             self.log.write({
@@ -216,7 +225,28 @@ class LiveAsk:
             "source": f"saved answer from {decision.match.model} ({decision.match.source}, {decision.match.status})",
             "matched_question": decision.match.question,
             "match_score": self._last_score,
+            "matched_id": decision.match.id,
+            "route": "cached-sonnet",
+            "model": decision.match.model,
             "spend": self.ledger.view(),
+        }
+
+    def submit_feedback(self, payload: object, client_ip: str) -> tuple[int, dict]:
+        """Store a miss report. Does not call a model, charge the ledger, or keep the client address."""
+        if not isinstance(payload, dict):
+            return 400, {"error": "body must be a JSON object"}
+        if not self.feedback_limiter.allow(client_ip or "unknown"):
+            return 429, {"error": "rate_limited"}
+        try:
+            record = record_feedback(payload, log=self.feedback_log)
+        except ValueError as exc:
+            return 400, {"error": str(exc)}
+        return 200, {
+            "ok": True,
+            "id": record["id"],
+            "route": record["route"],
+            "recheck_cached": record["recheck_cached"],
+            "matched_id": record["matched_id"],
         }
 
 
@@ -267,6 +297,9 @@ def build_service(answer_fn=None, ledger_path: Path | None = None, provider: str
             check_fn = haiku_same_question(AnthropicClient(os.environ["ANTHROPIC_API_KEY"], LIVE_MODEL_DEFAULT))
         router = Router(AnticipatedBank.load(), same_question_fn=check_fn)
         log = QuestionLog(ledger_path.parent / "live_questions" if ledger_path else None)
+    feedback_path = (ledger_path.parent / "feedback.jsonl") if ledger_path else (DATA_DIR / "feedback.jsonl")
+    feedback_log = FeedbackLog(feedback_path, recheck_path=feedback_path.parent / "cached_recheck.json")
+    live_model = os.environ.get("LIVE_MODEL", LIVE_MODEL_DEFAULT).strip() or LIVE_MODEL_DEFAULT
     return LiveAsk(
         answer_fn or analyst_answer,
         ledger,
@@ -276,6 +309,8 @@ def build_service(answer_fn=None, ledger_path: Path | None = None, provider: str
         router=router,
         log=log,
         check_cents=0 if provider == "stub" else _env_cents("ROUTE_CHECK_USD_PER_CALL", "0.01"),
+        live_model=live_model,
+        feedback_log=feedback_log,
     )
 
 
@@ -283,6 +318,9 @@ def make_server(service: LiveAsk, host: str, port: int) -> ThreadingHTTPServer:
     class Handler(BaseHTTPRequestHandler):
         def do_GET(self):  # noqa: N802
             path = self.path.split("?", 1)[0]
+            if path == "/feedback-hook":
+                self._send_html(feedback_hook_html())
+                return
             if path != "/health":
                 self._send(404, {"error": "not_found"})
                 return
@@ -290,11 +328,12 @@ def make_server(service: LiveAsk, host: str, port: int) -> ThreadingHTTPServer:
 
         def do_POST(self):  # noqa: N802
             path = self.path.split("?", 1)[0]
-            if path != "/ask":
+            if path not in {"/ask", "/feedback"}:
                 self._send(404, {"error": "not_found"})
                 return
             length = int(self.headers.get("Content-Length") or "0")
-            if length > 8000:
+            limit = 24000 if path == "/feedback" else 8000
+            if length > limit:
                 self._send(413, {"error": "body too large"})
                 return
             try:
@@ -302,13 +341,21 @@ def make_server(service: LiveAsk, host: str, port: int) -> ThreadingHTTPServer:
             except (UnicodeError, json.JSONDecodeError):
                 self._send(400, {"error": "body must be JSON"})
                 return
-            status, body = service.handle(payload, self.client_address[0])
+            if path == "/feedback":
+                status, body = service.submit_feedback(payload, self.client_address[0])
+            else:
+                status, body = service.handle(payload, self.client_address[0])
             self._send(status, body)
 
         def _send(self, status: int, body: dict) -> None:
-            encoded = json.dumps(body).encode()
+            self._send_bytes(status, json.dumps(body).encode(), "application/json")
+
+        def _send_html(self, page: str) -> None:
+            self._send_bytes(200, page.encode(), "text/html; charset=utf-8")
+
+        def _send_bytes(self, status: int, encoded: bytes, content_type: str) -> None:
             self.send_response(status)
-            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Type", content_type)
             self.send_header("Content-Length", str(len(encoded)))
             self.send_header("Cache-Control", "no-store")
             self.end_headers()
