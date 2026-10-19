@@ -32,7 +32,42 @@ def main(argv: list[str] | None = None) -> None:
     live.add_argument("--host", default="127.0.0.1")
     live.add_argument("--port", type=int, default=8080)
 
+    bank_cmd = sub.add_parser("build-anticipated", help="Precompute the anticipated bank (cached Sonnet answers + vectors). $0.")
+    bank_cmd.add_argument("--run", default="results/claude-sonnet-4-5-r1.json")
+    bank_cmd.add_argument("--include-failed", action="store_true", help="Also cache answers the grader marked wrong.")
+
+    review = sub.add_parser("daily-review", help="Sonnet answers and grades one day of new live questions. Paid; capped.")
+    review.add_argument("--day", default=None, help="YYYY-MM-DD (UTC). Default: yesterday.")
+
+    promote_cmd = sub.add_parser("review-promote", help="Daniel's approval: add queued questions to the anticipated bank.")
+    promote_cmd.add_argument("--day", required=True)
+    promote_cmd.add_argument("--id", action="append", required=True)
+    promote_cmd.add_argument("--category", required=True)
+
     args = parser.parse_args(argv)
+    if args.cmd == "build-anticipated":
+        from pathlib import Path
+
+        from flight_analyst.routing import bank_from_run
+
+        bank = bank_from_run(Path(args.run), passed_only=not args.include_failed)
+        bank.save()
+        print(f"anticipated entries={len(bank.entries)} embedder={bank.embedder.name}")
+        return
+    if args.cmd in {"daily-review", "review-promote"}:
+        import datetime as dt
+
+        from flight_analyst import daily_review as dr
+
+        if args.cmd == "review-promote":
+            n = dr.promote(dt.date.fromisoformat(args.day), args.id, args.category)
+            print(f"approved={n} category={args.category}")
+            return
+        day = dt.date.fromisoformat(args.day) if args.day else dt.datetime.now(dt.timezone.utc).date() - dt.timedelta(days=1)
+        answer, grade = dr.sonnet_functions()
+        queue = dr.run_review(day, answer, grade)
+        print(json.dumps({k: v for k, v in queue.items() if k != "candidates"} | {"candidates": len(queue["candidates"])}))
+        return
     if args.cmd == "ingest":
         from flight_analyst.ingest import ingest as run_ingest
 
