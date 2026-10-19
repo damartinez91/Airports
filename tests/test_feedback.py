@@ -13,7 +13,14 @@ from urllib.request import Request, urlopen
 
 import pytest
 
-from flight_analyst.daily_review import ReviewConfig, promote, run_review
+from flight_analyst.daily_review import (
+    ReviewConfig,
+    approve_pending,
+    format_preview,
+    promote,
+    reject_pending,
+    run_review,
+)
 from flight_analyst.feedback import (
     STORED_FIELDS,
     FeedbackLog,
@@ -104,7 +111,7 @@ def test_haiku_feedback_keeps_no_match_and_does_not_flag_the_bank(tmp_path: Path
 
 
 def test_feedback_files_are_gitignored():
-    for rel in ("data/feedback.jsonl", "data/cached_recheck.json"):
+    for rel in ("data/feedback.jsonl", "data/cached_recheck.json", "data/pending_promotions.json"):
         result = subprocess.run(["git", "check-ignore", "-q", rel], cwd=ROOT, check=False)
         assert result.returncode == 0, rel
 
@@ -331,16 +338,26 @@ def test_auto_promote_does_not_approve_a_user_reported_miss(tmp_path: Path):
     assert len(auto) == 1 and auto[0].status == "AUTO" and auto[0].category == "auto-unreviewed"
 
 
-def test_promote_requires_a_category_and_only_send_to_sonnet_approves(tmp_path: Path, monkeypatch):
+def _mocks(calls: list):
+    def reanswer(question):
+        calls.append(("answer", question))
+        return {"answer_text": "sonnet rewrote this", "sql": "SELECT 1"}
+
+    def grade(system, user):
+        calls.append(("grade", user))
+        return json.dumps({"correct": True, "agrees_with_reference": False, "notes": "different figures"})
+
+    return reanswer, grade
+
+
+def test_promote_requires_a_category(tmp_path: Path, monkeypatch):
     monkeypatch.setattr("flight_analyst.daily_review.sonnet_functions", lambda: (_ for _ in ()).throw(AssertionError("paid")))
     calls = []
     queue, before, bank_path = _queue(tmp_path, calls)
-    paid_before = list(calls)
     day = _now().date()
     miss_id = queue["candidates"][0]["id"]
     queue_path = tmp_path / "q" / f"{day.isoformat()}.json"
     snapshot = queue_path.read_text()
-
     with pytest.raises(ValueError, match="category is required"):
         promote(day, [miss_id], "", queue_dir=tmp_path / "q", bank_path=bank_path, answer_fn=lambda question: {"answer_text": "x"})
     with pytest.raises(ValueError, match="feedback miss needs a category"):
@@ -348,25 +365,121 @@ def test_promote_requires_a_category_and_only_send_to_sonnet_approves(tmp_path: 
     assert queue_path.read_text() == snapshot
     assert bank_path.read_text() == before
 
-    def reanswer(question):
-        calls.append(("reanswer", question))
-        return {"answer_text": "sonnet rewrote this", "sql": "SELECT 1"}
 
-    assert promote(day, [miss_id], "send to Sonnet", queue_dir=tmp_path / "q", bank_path=bank_path, answer_fn=reanswer) == 1
-    assert calls == paid_before + [("reanswer", queue["candidates"][0]["question"])]
-    entry = [item for item in AnticipatedBank.load(bank_path).entries if item.id == miss_id][0]
+def test_send_to_sonnet_previews_and_does_not_touch_the_bank(tmp_path: Path, monkeypatch):
+    monkeypatch.setattr("flight_analyst.daily_review.sonnet_functions", lambda: (_ for _ in ()).throw(AssertionError("paid")))
+    calls = []
+    queue, before, bank_path = _queue(tmp_path, calls)
+    paid_before = list(calls)
+    day = _now().date()
+    miss_id = queue["candidates"][0]["id"]
+    pending_path = tmp_path / "pending_promotions.json"
+    reanswer, grade = _mocks(calls)
+    assert promote(
+        day, [miss_id], "send to Sonnet", queue_dir=tmp_path / "q", bank_path=bank_path,
+        answer_fn=reanswer, grade_fn=grade, pending_path=pending_path,
+    ) == 1
+    answer_call, grade_call = calls[len(paid_before):]
+    assert answer_call[0] == "answer" and answer_call[1] == queue["candidates"][0]["question"]
+    assert grade_call[0] == "grade" and "DFW cached answer" in grade_call[1] and "sonnet rewrote this" in grade_call[1]
+    assert bank_path.read_text() == before
+    assert [entry.id for entry in AnticipatedBank.load(bank_path, all_statuses=True).entries] == ["q001"]
+    item = json.loads(pending_path.read_text())["items"][miss_id]
+    assert item["status"] == "PENDING"
+    assert item["question"].startswith("Which airline")
+    assert item["old_answer"] == "DFW cached answer"
+    assert item["sonnet_answer"] == "sonnet rewrote this"
+    assert item["grade"]["correct"] is True
+    assert item["grade"]["notes"] == "different figures"
+    shown = format_preview(item)
+    assert "Question:" in shown and "Old answer:" in shown and "Sonnet answer:" in shown and "Grader:" in shown
+    saved = json.loads((tmp_path / "q" / f"{day.isoformat()}.json").read_text())["candidates"][0]
+    assert saved["status"] == "PENDING" and saved["approved"] is False
+    assert saved["preview"]["old_answer"] == "DFW cached answer"
+    assert saved["preview"]["sonnet_answer"] == "sonnet rewrote this"
+    assert saved["answer_given"] == "DFW cached answer"
+    assert saved["what_i_expected"] == "The majors too."
+    assert "Grader:" in saved["for_reviewer"]
+    # A second preview reuses the pending row and does not call Sonnet again.
+    assert promote(
+        day, [miss_id], "send-to-sonnet", queue_dir=tmp_path / "q", bank_path=bank_path,
+        answer_fn=reanswer, grade_fn=grade, pending_path=pending_path,
+    ) == 1
+    assert [name for name, _payload in calls[len(paid_before):]] == ["answer", "grade"]
+    assert bank_path.read_text() == before
+
+
+def test_approve_writes_the_pending_preview_to_the_bank(tmp_path: Path, monkeypatch):
+    monkeypatch.setattr("flight_analyst.daily_review.sonnet_functions", lambda: (_ for _ in ()).throw(AssertionError("paid")))
+    calls = []
+    queue, _before, bank_path = _queue(tmp_path, calls)
+    day = _now().date()
+    miss_id = queue["candidates"][0]["id"]
+    pending_path = tmp_path / "pending_promotions.json"
+    reanswer, grade = _mocks(calls)
+    promote(
+        day, [miss_id], "send-to-sonnet", queue_dir=tmp_path / "q", bank_path=bank_path,
+        answer_fn=reanswer, grade_fn=grade, pending_path=pending_path,
+    )
+    assert approve_pending([miss_id], pending_path=pending_path, bank_path=bank_path, queue_dir=tmp_path / "q") == 1
+    entry = [item for item in AnticipatedBank.load(bank_path, all_statuses=True).entries if item.id == miss_id][0]
     assert entry.status == "APPROVED"
     assert entry.category == "send-to-sonnet"
     assert entry.model == "claude-sonnet-4-5"
     assert entry.answer_text == "sonnet rewrote this"
     assert entry.answer_text != "DFW cached answer"
-    saved = json.loads(queue_path.read_text())["candidates"][0]
+    assert json.loads(pending_path.read_text())["items"][miss_id]["status"] == "APPROVED"
+    saved = json.loads((tmp_path / "q" / f"{day.isoformat()}.json").read_text())["candidates"][0]
     assert saved["status"] == "APPROVED" and saved["approved"] is True
-    assert saved["answer_given"] == "DFW cached answer"
-    assert saved["what_i_expected"] == "The majors too."
-    # A second approval must not call Sonnet again.
-    assert promote(day, [miss_id], "send-to-sonnet", queue_dir=tmp_path / "q", bank_path=bank_path, answer_fn=reanswer) == 1
-    assert calls == paid_before + [("reanswer", queue["candidates"][0]["question"])]
+    with pytest.raises(ValueError, match="not pending"):
+        approve_pending([miss_id], pending_path=pending_path, bank_path=bank_path, queue_dir=tmp_path / "q")
+
+
+def test_reject_does_not_write_the_bank(tmp_path: Path, monkeypatch):
+    monkeypatch.setattr("flight_analyst.daily_review.sonnet_functions", lambda: (_ for _ in ()).throw(AssertionError("paid")))
+    calls = []
+    queue, before, bank_path = _queue(tmp_path, calls)
+    day = _now().date()
+    miss_id = queue["candidates"][0]["id"]
+    pending_path = tmp_path / "pending_promotions.json"
+    reanswer, grade = _mocks(calls)
+    promote(
+        day, [miss_id], "send-to-sonnet", queue_dir=tmp_path / "q", bank_path=bank_path,
+        answer_fn=reanswer, grade_fn=grade, pending_path=pending_path,
+    )
+    assert reject_pending(
+        [miss_id], note="The cached match was the right question.", pending_path=pending_path, queue_dir=tmp_path / "q",
+    ) == 1
+    assert bank_path.read_text() == before
+    item = json.loads(pending_path.read_text())["items"][miss_id]
+    assert item["status"] == "REJECTED"
+    assert item["note"] == "The cached match was the right question."
+    saved = json.loads((tmp_path / "q" / f"{day.isoformat()}.json").read_text())["candidates"][0]
+    assert saved["status"] == "REJECTED" and saved["approved"] is False
+    with pytest.raises(ValueError, match="not pending"):
+        approve_pending([miss_id], pending_path=pending_path, bank_path=bank_path, queue_dir=tmp_path / "q")
+    assert bank_path.read_text() == before
+
+
+def test_approve_and_reject_refuse_unknown_ids(tmp_path: Path, monkeypatch):
+    bank_path = tmp_path / "bank.json"
+    _bank().save(bank_path)
+    before = bank_path.read_text()
+    pending_path = tmp_path / "pending_promotions.json"
+    with pytest.raises(ValueError, match="not pending"):
+        approve_pending(["fb-missing"], pending_path=pending_path, bank_path=bank_path, queue_dir=tmp_path / "q")
+    with pytest.raises(ValueError, match="not pending"):
+        reject_pending(["fb-missing"], note="no", pending_path=pending_path, queue_dir=tmp_path / "q")
+    assert bank_path.read_text() == before
+    assert not pending_path.exists()
+    monkeypatch.setattr("flight_analyst.daily_review.PENDING_PATH", tmp_path / "cli_pending.json")
+    monkeypatch.setattr(
+        "flight_analyst.daily_review.AnticipatedBank.load",
+        lambda *args, **kwargs: (_ for _ in ()).throw(AssertionError("bank loaded")),
+    )
+    with pytest.raises(SystemExit, match="not pending"):
+        main(["review-promote", "--approve", "fb-missing"])
+    assert bank_path.read_text() == before
 
 
 @pytest.mark.parametrize("category", ["fix-cached-answer", "fix the routing or match threshold", "out of scope", "no change"])
@@ -424,5 +537,8 @@ def test_routing_doc_describes_feedback_review():
         "user-reported miss",
         "cached_recheck.json",
         "explicit categorization",
+        "data/pending_promotions.json",
+        "--approve",
+        "--reject",
     ):
         assert phrase in text

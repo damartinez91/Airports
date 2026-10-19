@@ -68,11 +68,22 @@ Nothing is marked approved without Daniel's explicit categorization:
 
 `--category` is required and an empty one is refused. The entry joins the anticipated bank as `APPROVED` with that category. It does **not** enter the graded bank (`questions/bank.json`); that stays a separate, deliberate step.
 
-A user-reported miss uses the same required-category rule, with one of these categories. File misses separately from new-question candidates. Only `send-to-sonnet` re-answers (one Sonnet call at promote time, not during the queue build) and, once that answer exists, promotes the question into the anticipated bank as `APPROVED`. The other categories are recorded on the queue item and do not promote or mark it approved.
+A user-reported miss uses the same required-category rule, with one of these categories. File misses separately from new-question candidates. The other categories are recorded on the queue item and do not promote or mark it approved.
+
+`send-to-sonnet` is a preview, not an approval. It asks Sonnet to re-answer and then grades that answer (the same two-call shape the daily cap estimates). The result is saved as `PENDING` in `data/pending_promotions.json` and on the queue item. The command prints the question, the old answer, Sonnet's new answer, and the grader result. It does not write the anticipated bank. The daily-review spend cap is unchanged: feedback rows still do not spend it, and this preview is a separate explicit command, not part of that run.
+
+After Daniel has read the preview, a second command moves it:
+
+```bash
+python -m flight_analyst review-promote --approve fb-2026-10-17-000
+python -m flight_analyst review-promote --reject fb-2026-10-17-001 --note "Match was fine; the question was out of scope."
+```
+
+`--approve` writes the pending Sonnet answer into the anticipated bank as `APPROVED`. It refuses any id that is not `PENDING` (unknown, rejected, or already approved). `--reject` stores the optional note and does not write the bank. A rejected id is no longer pending, so approve refuses it too.
 
 | Category | What Daniel is deciding | Effect |
 | --- | --- | --- |
-| `send-to-sonnet` | Send to Sonnet | Re-answer and, once approved, promote to the anticipated bank |
+| `send-to-sonnet` | Send to Sonnet | Re-answer, grade, and save a PENDING preview. The bank is not written |
 | `fix-cached-answer` | Fix the cached answer | Recorded. The bank text is not rewritten here |
 | `fix-routing` | Fix the routing or match threshold | Recorded. Thresholds stay as configured; the cached id stays flagged for re-check |
 | `out-of-scope` | Out of scope | Recorded. Not approved |
@@ -80,6 +91,7 @@ A user-reported miss uses the same required-category rule, with one of these cat
 
 ```bash
 python -m flight_analyst review-promote --day 2026-10-17 --id fb-2026-10-17-000 --category send-to-sonnet
+python -m flight_analyst review-promote --approve fb-2026-10-17-000
 python -m flight_analyst review-promote --day 2026-10-17 --id fb-2026-10-17-001 --category fix-routing
 ```
 

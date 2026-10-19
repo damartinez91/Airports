@@ -42,15 +42,19 @@ def main(argv: list[str] | None = None) -> None:
     )
     review.add_argument("--day", default=None, help="YYYY-MM-DD (UTC). Default: yesterday.")
 
-    promote_cmd = sub.add_parser("review-promote", help="Daniel's approval. A category is required.")
-    promote_cmd.add_argument("--day", required=True)
-    promote_cmd.add_argument("--id", action="append", required=True)
-    promote_cmd.add_argument(
+    promote_cmd = sub.add_parser("review-promote", help="Categorize a queued question, or approve or reject a pending preview.")
+    promote_cmd.add_argument("--day", default=None, help="YYYY-MM-DD. Required with --category.")
+    promote_cmd.add_argument("--id", action="append", default=None, help="Queue id. Required with --category. Repeatable.")
+    mode = promote_cmd.add_mutually_exclusive_group(required=True)
+    mode.add_argument(
         "--category",
-        required=True,
-        help="Required. New questions: bank category. Feedback misses: send-to-sonnet, "
-        "fix-cached-answer, fix-routing, out-of-scope, or no-change.",
+        default=None,
+        help="Required for a queue row. New questions: bank category. Feedback misses: send-to-sonnet, "
+        "fix-cached-answer, fix-routing, out-of-scope, or no-change. send-to-sonnet saves a preview and does not write the bank.",
     )
+    mode.add_argument("--approve", default=None, help="Write one PENDING preview into the anticipated bank as APPROVED.")
+    mode.add_argument("--reject", default=None, help="Drop one PENDING preview. Does not write the bank.")
+    promote_cmd.add_argument("--note", default="", help="Optional note stored with --reject.")
 
     feedback_cmd = sub.add_parser("feedback", help="Record that a live answer missed. $0. No model call.")
     feedback_cmd.add_argument("--question", required=True)
@@ -78,8 +82,28 @@ def main(argv: list[str] | None = None) -> None:
         from flight_analyst import daily_review as dr
 
         if args.cmd == "review-promote":
-            n = dr.promote(dt.date.fromisoformat(args.day), args.id, args.category)
-            print(f"categorized={n} category={args.category}")
+            try:
+                if args.approve:
+                    n = dr.approve_pending([args.approve])
+                    print(f"approved={n} id={args.approve}")
+                elif args.reject:
+                    n = dr.reject_pending([args.reject], note=args.note)
+                    print(f"rejected={n} id={args.reject}")
+                else:
+                    if not args.day or not args.id:
+                        raise SystemExit("review-promote --category needs --day and --id.")
+                    n = dr.promote(dt.date.fromisoformat(args.day), args.id, args.category)
+                    if dr.category_is_send_to_sonnet(args.category):
+                        pending = dr.load_pending()
+                        for item_id in args.id:
+                            item = pending.get(item_id)
+                            if item:
+                                print(dr.format_preview(item))
+                        print(f"pending={n} category=send-to-sonnet")
+                    else:
+                        print(f"categorized={n} category={args.category}")
+            except ValueError as exc:
+                raise SystemExit(str(exc)) from exc
             return
         day = dt.date.fromisoformat(args.day) if args.day else dt.datetime.now(dt.timezone.utc).date() - dt.timedelta(days=1)
         # Sonnet is built on the first new question, so a day that is only feedback makes no model call.

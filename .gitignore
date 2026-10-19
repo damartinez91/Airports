@@ -227,7 +227,7 @@ __marimo__/
 
 # Flight-delay downloads and local databases. Do not commit raw or processed data.
 # Anchored at the repo root so site/data/ (the small JSON extracts) stays tracked.
-# /data/ also holds live question logs, data/feedback.jsonl, and data/cached_recheck.json.
+# /data/ also holds live question logs, data/feedback.jsonl, data/cached_recheck.json, and data/pending_promotions.json.
 /data/
 *.duckdb
 *.duckdb.wal
