@@ -207,3 +207,13 @@ def test_gitignore_blocks_data_and_secrets_and_keeps_the_site():
     assert not ignored(".env.example")
     assert not ignored("site/index.html")
     assert not ignored("site/data/explore.json")
+
+
+def test_only_the_sample_fixture_db_is_tracked():
+    import subprocess
+    root = Path(__file__).resolve().parents[1]
+    def ign(p):
+        return subprocess.run(["git", "check-ignore", "-q", p], cwd=root).returncode == 0
+    assert ign("data/flights.duckdb")
+    assert ign("other.duckdb")
+    assert not ign("tests/fixtures/sample_flights.duckdb")

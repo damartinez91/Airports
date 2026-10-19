@@ -230,6 +230,8 @@ __marimo__/
 /data/
 *.duckdb
 *.duckdb.wal
+# Small committed CI fixture (built by scripts/make_sample_db.py). The only DuckDB file allowed in git.
+!/tests/fixtures/sample_flights.duckdb
 *.parquet
 *.csv
 
