@@ -189,7 +189,7 @@ Omit `ANTHROPIC_API_KEY` when you only want the four database tools. `ask_analys
 
 ## Design choices
 
-- DuckDB stays local. The public folder is HTML and two JSON extracts. Publishing is documented and left off.
+- DuckDB stays local. The public folder is HTML and JSON extracts. Pushes to `main` publish the committed `site/` folder. The live process stays off.
 - The metric definitions live in one module and are copied into the briefing and the definitions doc, so the three cannot quietly drift.
 - Reference SQL is visible next to every candidate answer. A reviewer can rerun it.
 - Minimum-sample rules are explicit because an empty airport will win a "worst on time" list if you let it.
@@ -202,7 +202,7 @@ Omit `ANTHROPIC_API_KEY` when you only want the four database tools. `ask_analys
 
 ## Publishing
 
-Two tiers. Neither one is turned on in this repository: GitHub Pages is not enabled, the Pages workflow does not run on push, and the live process refuses to listen unless `LIVE_ASK=1`.
+Two tiers. The static site is the committed `site/` folder, and a push to `main` deploys it. The live process still refuses to listen unless `LIVE_ASK=1`.
 
 ### Static tier, $0 a month
 
@@ -212,21 +212,20 @@ The database on disk is 367,538,176 bytes, about 351 MB, for 7,043,858 flights. 
 
 This build of `site/` is **1,379,501 bytes**. The JSON extracts are **696,678 bytes** (`explore.json`, `report.json`, and `models.json`). `flight_rows_published` is 0. Those figures are also in `site/data/manifest.json`. The explore page includes all 120 questions, with each question's status, the alternative cuts, the minimum-flights rule on rankings, a likely follow-up, and a link to the model comparison. The compare page plots cost per 100 questions against accuracy and switches among saved answers. The saved runs are the stub at $0, Claude Haiku 4.5 r1, and Claude Haiku 4.5 r2. A later Sonnet file shows up as its own label, for example `claude-sonnet-4-5 r1`. OpenAI, xAI, and a local model stay pending until a file for that provider is saved. The scoreboard on the site is the 116-of-120 stub run. A click-test map for that site is `docs/FEATURE-MAP.md`.
 
-Preview locally, still without publishing:
+Preview locally. This command does not deploy:
 
 ```bash
 PYTHONPATH=src python3 -m flight_analyst build-site
 python3 -m http.server 8765 --directory site
 ```
 
-Then open `http://127.0.0.1:8765/`. Links are relative, so the same folder works at a project-site subpath.
+Then open `http://127.0.0.1:8765/`. Links and stylesheets are relative (`assets/site.css`, `explore/`, `../assets/site.css`), so the same folder works at the project-site path `/Airports/` and in that local preview.
 
-**GitHub Pages.** The workflow is `.github/workflows/pages.yml`. It runs only from the Actions tab (`workflow_dispatch`). The `deploy` input defaults to false, so a manual run builds `site/` and uploads a workflow artifact. It does not publish.
+**Live site.** https://damartinez91.github.io/Airports/
 
-1. Leave the repository private until you decide otherwise.
-2. In the repository settings, set Pages → Build and deployment → Source to **GitHub Actions**. This step is what enables Pages. It has not been done.
-3. Actions → pages → Run workflow. Leave **deploy** unchecked to confirm the artifact.
-4. Run it again with **deploy** checked only when you want the site public on Pages. A private repository's Pages site has its own visibility setting; check that before the deploy run.
+**GitHub Pages.** `.github/workflows/pages.yml` runs on every push to `main` (and from the Actions tab). It uploads the committed `site/` directory with `actions/upload-pages-artifact` and publishes it with `actions/deploy-pages`. It does not run `build-site`, so the job does not need the flight database or a model key. `site/` is already built and checked in, including `.nojekyll`.
+
+Before the first deploy, in the repository settings set **Pages → Build and deployment → Source** to **GitHub Actions**. The repository has to be public for that URL to be world-readable. The workflow does not change visibility.
 
 Published GitHub Pages sites are limited to 1 GB and have a soft bandwidth limit of 100 GB a month. This site is far under both. Expected cost: **$0**.
 
@@ -310,4 +309,4 @@ Supabase is the wrong bill for this file. The free plan is $0 and includes a 500
 4. Publish a sensitivity table for the 100, 2,000, and 5,000 flight floors. Call out SFB on the evening list and Hawaiian on the systemwide list as the cases most exposed to those floors and to partial-year coverage.
 5. Confirm the family table against whatever regionals the next BTS month actually contains.
 6. Read a sample of misses and check whether the failure label matches a human reading.
-7. The publishing steps are written and still off. Turn a host on only after the definitions and a model run are both in place.
+7. The static site deploys from the committed `site/` folder on push to `main`. Leave the live host off until you choose to launch it.

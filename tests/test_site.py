@@ -181,14 +181,22 @@ def test_image_recipe_leaves_the_database_and_the_flag_off():
     assert "min_machines_running = 0" in fly
 
 
-def test_pages_workflow_is_manual_and_deploy_is_off_by_default():
+def test_pages_workflow_deploys_the_committed_site_on_main():
     text = (ROOT / ".github" / "workflows" / "pages.yml").read_text()
-    assert "workflow_dispatch:" in text
-    assert "push:" not in text
+    assert "push:" in text
+    assert "branches: [main]" in text
     assert "pull_request:" not in text
-    assert "default: false" in text
+    assert "actions/upload-pages-artifact@v3" in text
+    assert "path: site" in text
     assert "actions/deploy-pages@v4" in text
-    assert "if: ${{ inputs.deploy }}" in text
+    assert "pages: write" in text
+    assert "id-token: write" in text
+    assert "concurrency:" in text
+    assert "group: pages" in text
+    assert "cancel-in-progress: false" in text
+    # The committed site is the artifact. CI must not rebuild it.
+    assert "build-site" not in text
+    assert "pip install" not in text
 
 
 def test_gitignore_blocks_data_and_secrets_and_keeps_the_site():
