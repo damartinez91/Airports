@@ -1,19 +1,16 @@
-# GitHub Pages, manual only.
-# This workflow does not run on push or pull request.
-# A manual run builds the static site and uploads it as a workflow artifact.
-# It publishes only when the deploy input is set to true.
-# Leave that input false until GitHub Pages is turned on deliberately.
-# This repository has not enabled Pages.
+# Publish the committed static site to GitHub Pages.
+# site/ is already built and checked in. This job only uploads that folder.
+# It does not install Python or rebuild the site, so a deploy needs neither
+# the flight database nor a model key.
+# Project Pages serves this folder at /Airports/. Asset links in site/ are
+# relative, so they resolve under that path.
 
 name: pages
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
-    inputs:
-      deploy:
-        description: "Publish the built site to GitHub Pages. Leave false until Pages is enabled on purpose."
-        type: boolean
-        default: false
 
 permissions:
   contents: read
@@ -23,39 +20,24 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - name: Install
-        run: pip install -r requirements.txt
-      - name: Build the static site
-        run: PYTHONPATH=src python3 -m flight_analyst build-site
-      - uses: actions/upload-artifact@v4
-        with:
-          name: site
-          path: site
-          if-no-files-found: error
-      - name: Upload the Pages artifact
-        if: ${{ inputs.deploy }}
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: site
-
   deploy:
-    needs: build
-    if: ${{ inputs.deploy }}
     runs-on: ubuntu-latest
     permissions:
+      contents: read
       pages: write
       id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Upload the committed site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
