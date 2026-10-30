@@ -1,0 +1,6 @@
+{
+  "description": "Stub regrade of results/stub.json against questions/bank.json. No model call. Lowering min_correct or n requires a new BASELINE-EDIT line in docs/bank-edits.md.",
+  "results_file": "results/stub.json",
+  "min_correct": 116,
+  "n": 120
+}

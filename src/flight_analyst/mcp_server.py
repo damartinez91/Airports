@@ -20,7 +20,7 @@ from pathlib import Path
 from mcp.server.mcpserver import MCPServer
 from mcp.types import ToolAnnotations
 
-from flight_analyst.definitions import MIN_AIRLINE_AT_AIRPORT, MIN_AIRLINE_SYSTEMWIDE
+from flight_analyst.definitions import sample_floor
 from flight_analyst.ingest import connect_readonly
 from flight_analyst.live import SpendLedger
 from flight_analyst.paths import DATA_DIR, DB_PATH
@@ -440,19 +440,14 @@ def carrier_ranking(
         if raw_scope.lower() == "systemwide":
             where = "TRUE"
             params: list = []
-            floor = MIN_AIRLINE_SYSTEMWIDE
             scope_label = "systemwide"
+            floor = sample_floor("systemwide", min_flights)
         else:
             airport = _airport(raw_scope)
             where = "origin = ?"
             params = [airport]
-            floor = MIN_AIRLINE_AT_AIRPORT
             scope_label = airport
-        if min_flights is not None:
-            requested = int(min_flights)
-            if requested < 1:
-                raise ValueError("min_flights must be at least 1.")
-            floor = max(floor, requested)
+            floor = sample_floor(airport, min_flights)
     except ValueError as exc:
         return _fail(str(exc))
     direction = _METRIC_ORDER[name]
