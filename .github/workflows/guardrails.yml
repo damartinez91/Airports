@@ -1,0 +1,38 @@
+# Answering-rule checks. No model call, no flight database, no Pages deploy.
+# pages.yml is the site deploy and stays separate from this file.
+
+name: guardrails
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: guardrails-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  guardrails:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    env:
+      ANTHROPIC_API_KEY: ""
+      OPENAI_API_KEY: ""
+      PYTHONPATH: src
+      GUARDRAIL_BASE: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Answering rules, answer key, and accuracy baseline
+        run: python scripts/check_guardrails.py
+      - name: Guardrail tests and schema doc
+        run: pytest -q tests/test_guardrails.py tests/test_docs.py

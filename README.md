@@ -23,6 +23,22 @@ pytest
 
 Raw zips, the DuckDB file, parquet, and downloaded CSVs stay on disk and out of git (see `.gitignore`).
 
+## How agents work in this repo
+
+An agent that opens this repository is supposed to read `AGENTS.md` first. That file is a short map: where the analyst, the grader, and the answer key live, how to run the tests, and which files to leave alone.
+
+The answering rules Daniel approved are in `docs/definitions.md`. That document is the source of truth. The agent is pointed at it instead of keeping a second copy of the rules in the prompt.
+
+Three checks run on every pull request, and again on every push to `main`. They use the committed answer key and the saved stub answers. They do not call a model and they do not need the flight database.
+
+- The grader scores `results/stub.json` against `questions/bank.json`. The score has to stay at or above 116 of 120. A worse answer fails the check. An answer key edited so the stub no longer matches fails the same check.
+- The answer key and the reference SQL (`questions/bank.json`, `questions/anticipated_bank.json`, `src/flight_analyst/questions.py`) stay put unless the same change adds a `BANK-EDIT:` line to `docs/bank-edits.md`. That line is the marker a reviewer can see. Lowering the accuracy floor needs a `BASELINE-EDIT:` line.
+- Carrier brands, ranking floors, both directions on a route, the worst major hub next to the worst airport, and the line that delay codes cannot explain why are checked directly. Asking the ranking tool for a minimum of 1 flight still uses the real floor.
+
+Large data files stay out of git. The workflow is `.github/workflows/guardrails.yml`. The Pages workflow is a separate file and this check does not publish the site.
+
+A green check means those rules held. A change that breaks a brand mapping or drops the stub below 116 of 120 goes red without anyone reading the diff line by line.
+
 ## Data
 
 Source: US DOT Bureau of Transportation Statistics, Reporting Carrier On-Time Performance (1987-present), the prezipped monthly files on transtats.bts.gov. The ingest script walks backward from the current month and loads the 12 newest files BTS has published.

@@ -24,6 +24,24 @@ MIN_CANCELLATIONS = 200
 MIN_HOUR_SYSTEM = 10000
 MIN_BUCKET_EACH = 500
 
+# A major hub in the "worst airport" answer: operated departures, not an FAA passenger share.
+LARGE_HUB_DEPARTURES = 150_000
+
+
+def sample_floor(scope: str, requested: int | None = None) -> int:
+    """Operated-flight floor for a carrier ranking. A caller can only raise it."""
+    if scope.strip().lower() == "systemwide":
+        floor = MIN_AIRLINE_SYSTEMWIDE
+    else:
+        floor = MIN_AIRLINE_AT_AIRPORT
+    if requested is None:
+        return floor
+    requested = int(requested)
+    if requested < 1:
+        raise ValueError("min_flights must be at least 1.")
+    return max(floor, requested)
+
+
 # Scheduled local departure hour, inclusive.
 MORNING_HOURS = (5, 8)  # 05:00-08:59
 MIDDAY_HOURS = (9, 16)  # 09:00-16:59
